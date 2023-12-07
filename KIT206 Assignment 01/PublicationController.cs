@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace KIT206_Assignment_01
 {
-    class PublicationController
-    {
+    class PublicationController {
 
     }
 }

@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace KIT206_Assignment_01
 {
-    internal class ResearchController
-    {
+    class ResearchController {
+        public List<Researcher> researchers = new List<Researcher>();
+
+        private EmploymentLevel employmentFilter;
+        private string nameFilter;
+
 
     }
 }

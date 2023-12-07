@@ -19,6 +19,13 @@
         LECTURER,
         ASSISTANT_PROFESSOR,
         ASSOCIATE_PROFESSOR,
-        PROFESSOR
+        PROFESSOR,
+        STUDENT
+    }
+    public struct Date
+    {
+        int year;
+        int month;
+        int day;
     }
 }

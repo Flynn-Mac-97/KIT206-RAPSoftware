@@ -12,6 +12,19 @@ namespace KIT206_Assignment_01
         public string email;
         public string school;
 
-        public EmploymentLevel employmentLevel;
+        public EmploymentLevel currentPosition;
+
+        public Date commencedPositionDate;
+        public Date commencedInstituteDate;
+
+        //Tenure
+        public int tenure;
+
+        public float Q1percentage;
+
+        //Generate Researcher Details
+        public Researcher() {
+
+        }
     }
 }
