@@ -1,4 +1,5 @@
 ﻿
+//hello this is midori:)
 namespace KIT206_Assignment_01
 {
     class Program
