@@ -5,9 +5,9 @@ namespace KIT206_Assignment_01
 {
     class Staff : Researcher
     {
-        public float threeYearAVG;
-        public int fundingRecieved;
-        public float publicationPerformance;
-        public List<Student> supervisions;
+        public float threeYearAVG { get; set; }
+        public int fundingRecieved { get; set; }
+        public float publicationPerformance { get; set; }
+        public List<Student> supervisions { get; set; }
     }
 }
