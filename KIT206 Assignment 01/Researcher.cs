@@ -12,6 +12,6 @@ namespace KIT206_Assignment_01
         public string email;
         public string school;
 
-        public Enums.EmploymentLevel employmentLevel;
+        public EmploymentLevel employmentLevel;
     }
 }
