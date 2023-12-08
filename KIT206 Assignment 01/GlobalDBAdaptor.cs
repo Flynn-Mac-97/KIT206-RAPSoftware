@@ -49,14 +49,14 @@ namespace KIT206_Assignment_01
 
                 EmploymentLevel currentJobTitle = (EmploymentLevel)rnd.Next(6);
 
-                Date commencedCurrentPosition = new Date(10,10,1999);
-                Date commencedAtInstitute = new Date(10,10,1999);
+                Date commencedCurrentPosition = new Date(rnd.Next(30)+1, rnd.Next(12)+1, 2023);
+                Date commencedAtInstitute = new Date(rnd.Next(30)+1, rnd.Next(12)+1,2023);
 
-                int tenure = 42;
+                int tenure = rnd.Next(12);
 
-                int publications = 43;
+                int publications = rnd.Next(64);
 
-                float Q1Percentage = 3;
+                float Q1Percentage = (float)rnd.NextDouble();
 
                 //for now just make a general researcher
                 Researcher newRandomResearcher = new Researcher(randomFirstName, randomLastName, title, email, school, currentJobTitle, commencedCurrentPosition, commencedAtInstitute, tenure, Q1Percentage);

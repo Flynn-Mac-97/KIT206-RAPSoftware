@@ -11,8 +11,14 @@ namespace KIT206_Assignment_01
             ResearchController researchController = new ResearchController();
             GlobalDBAdaptor database = new GlobalDBAdaptor();
 
-            researchController.FetchDummyResearchers(64, database);
+            researchController.FetchDummyResearchers(16, database);
+
+            Console.WriteLine("All Researchers:\n");
             researchController.PrintAllResearchers();
+
+            Console.WriteLine("Filtered Researchers:\n");
+            researchController.FilterResearchers("", EmploymentLevel.LECTURER);
+            researchController.PrintAllFilteredResearchers();
 
             Console.WriteLine("Finished Generating Researchers");
         }
