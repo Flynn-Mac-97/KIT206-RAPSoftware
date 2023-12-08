@@ -22,10 +22,34 @@
         PROFESSOR,
         STUDENT
     }
+    public enum Title
+    {
+        MR,
+        DR,
+        MS,
+    }
+    public enum Campus
+    {
+        HOBART,
+        LAUNCESTON,
+        CRADLE_COAST
+    }
     public struct Date
     {
         int year;
         int month;
         int day;
+
+        //Constructor which takes DD/MM/YYYY
+        public Date(int day, int month, int year)
+        {
+            this.year = year;
+            this.month = month;
+            this.day = day;
+        }
+        public override string ToString()
+        {
+            return this.day + "/" + this.month + "/" + this.year;
+        }
     }
 }
