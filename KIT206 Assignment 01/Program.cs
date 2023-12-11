@@ -17,7 +17,7 @@ namespace KIT206_Assignment_01
             researchController.PrintAllResearchers();
 
             Console.WriteLine("Filtered Researchers:\n");
-            researchController.FilterResearchers("", EmploymentLevel.LECTURER);
+            researchController.FilterResearcher("", EmploymentLevel.LECTURER);
             researchController.PrintAllFilteredResearchers();
 
             Console.WriteLine("Finished Generating Researchers");
