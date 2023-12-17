@@ -4,10 +4,10 @@ namespace KIT206_Assignment_01
 {
     public enum ResearcherPerformance
     {
-        POOR,
-        BELOW_EXPECTATIONS,
-        MEETING_MINIMUM,
-        STAR_PERFORMER
+        POOR, //at or below 70%
+        BELOW_EXPECTATIONS, // above 70% and below 110%
+        MEETING_MINIMUM, // at or above 110%
+        STAR_PERFORMER // at or above 220%
     }
     public enum PublicationType
     {
@@ -17,11 +17,11 @@ namespace KIT206_Assignment_01
     }
     public enum EmploymentLevel
     {
-        RESEARCH_ASSOCIATE,
-        LECTURER,
-        ASSISTANT_PROFESSOR,
-        ASSOCIATE_PROFESSOR,
-        PROFESSOR,
+        RESEARCH_ASSOCIATE,  //level A
+        LECTURER,            //level B
+        ASSISTANT_PROFESSOR, //level C
+        ASSOCIATE_PROFESSOR, //level D
+        PROFESSOR,           //level E
         STUDENT
     }
     public enum Title

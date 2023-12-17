@@ -108,16 +108,14 @@ namespace KIT206_Assignment_01 {
             switch (s) {
                 // Matching string representation with the corresponding EmploymentLevel enum value
                 case "A":
-                    return EmploymentLevel.STUDENT;
-                case "B":
                     return EmploymentLevel.RESEARCH_ASSOCIATE;
-                case "C":
+                case "B":
                     return EmploymentLevel.LECTURER;
-                case "D":
+                case "C":
                     return EmploymentLevel.ASSISTANT_PROFESSOR;
-                case "E":
+                case "D":
                     return EmploymentLevel.ASSOCIATE_PROFESSOR;
-                case "F":
+                case "E":
                     return EmploymentLevel.PROFESSOR;
                 default:
                     return EmploymentLevel.STUDENT; // Default value
