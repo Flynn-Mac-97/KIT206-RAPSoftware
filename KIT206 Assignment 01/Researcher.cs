@@ -14,40 +14,54 @@ namespace KIT206_Assignment_01
         public string campus { get; set; }
         public DateTime utasStart { get; set; }
         public DateTime positionStart { get; set; }
-        public int tenure { get; set; }
+        public float tenure { get; set; }
         public int publications { get; set; }
-        public int Q1publications { get; set; }
-        public float Q1percentage { get; set; }
+        public int q1publications { get; set; }
+        public float q1percentage { get; set; }
         public string imageURL { get; set; }
 
         public Position 
 
         public Researcher()
         {
-            
-
+            publications = 0;
         }
-
+        
         // get a current job details from position
       
-        // to cacluate Q1 percentage
-        public float CalculateQ1percentage()
+        // returns Q1 percentage
+        public float Q1percentage()
         {
-            Q1percentage = (float)Q1publications / publications * 100;
+            if (publications == 0)
+            {
+                return 0;
+            }
+
+            q1percentage = (float) q1publications / publications * 100;
             
-            return Q1percentage;
+            return q1percentage;
 
         }
 
-        // to return the total publications
-        public int publicationscount()
+        // returns the total publications
+        public int PublicationsCount()
         {
+            publications++;
             return publications;
+
         }
 
-        // to calculate tenure
-        public int 
-    
+        // returns tenure
+        public float Tenure()
+        {
+            DateTime currentDate = DateTime.Now;
+            TimeSpan tenureSpan = currentDate - utasStart;
+
+            tenure = (float)tenureSpan.TotalDays / 365;
+
+            return tenure;
+
+        }
 
         //an override for researcher object to string;
         public override string ToString()
@@ -61,7 +75,7 @@ namespace KIT206_Assignment_01
                 $" Commenced at Position: {this.positionStart.Date.ToString()}\n" +
                 $" Commenced at Institute: {this.utasStart.Date.ToString()}\n" +
                 $" Tenure: {this.tenure}," +
-                $" Q1: {this.Q1percentage}"
+                $" Q1: {this.q1percentage}"
                 );
         }
     }

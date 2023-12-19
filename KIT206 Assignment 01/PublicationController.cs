@@ -8,5 +8,12 @@ namespace KIT206_Assignment_01
 {
     class PublicationController {
 
+        // List of all publications
+        public List<Publication> publications = new List<Publication>();
+
+        // List of filtered publications based on specific criteria
+        public List<Publication> filteredResearchers = new List<Publication>();
+
+
     }
 }
