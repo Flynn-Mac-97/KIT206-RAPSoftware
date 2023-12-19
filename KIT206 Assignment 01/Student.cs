@@ -9,6 +9,16 @@ namespace KIT206_Assignment_01
 
         public Student() {
 
+
+
         }
+
+
+        /** an override for student object to string */
+        public override string ToString()
+        {
+            return degree + ' ' + supervisor;
+        }
+
     }
 }
