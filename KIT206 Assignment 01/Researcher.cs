@@ -47,6 +47,7 @@ namespace KIT206_Assignment_01
         public int PublicationsCount()
         {
             publications++;
+
             return publications;
 
         }

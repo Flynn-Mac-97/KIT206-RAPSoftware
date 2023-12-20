@@ -15,7 +15,11 @@ namespace KIT206_Assignment_01
         /** an override for student object to string */
         public override string ToString()
         {
-            return degree + ' ' + supervisor;
+            return (
+                $" {this.degree}\n" +
+                $" Email: {this.supervisor}"
+                );
+
         }
 
     }
