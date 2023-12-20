@@ -36,7 +36,16 @@ namespace KIT206_Assignment_01
         LAUNCESTON,
         CRADLE_COAST
     }
-    //struct for employment level and a start and end date for position
+
+    public enum Ranking 
+    { 
+        Q1,
+        Q2,
+        Q3,
+        Q4
+    }
+
+        //struct for employment level and a start and end date for position
     public struct Position {
         public EmploymentLevel level { get; set; }
         public DateTime startDate { get; set; }
