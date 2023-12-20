@@ -26,6 +26,8 @@ namespace KIT206_Assignment_01
         }
 
 
+
+
         
 
         public static void GeneratePublicationDetail()

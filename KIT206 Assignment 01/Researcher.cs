@@ -4,11 +4,12 @@ using System.Collections.Generic;
 namespace KIT206_Assignment_01
 {
     public class Researcher
-    {
+    { 
         public int id { get; set; } 
         public string familyName { get; set; }
         public string givenName { get; set; }
         public Title title { get; set; }
+        public EmploymentLevel level { get; set; }
         public string email { get; set; }
         public string school { get; set; }
         public string campus { get; set; }
@@ -20,7 +21,8 @@ namespace KIT206_Assignment_01
         public float q1percentage { get; set; }
         public string imageURL { get; set; }
 
-        public Position 
+
+
 
         public Researcher()
         {

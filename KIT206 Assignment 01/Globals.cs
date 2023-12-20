@@ -15,7 +15,7 @@ namespace KIT206_Assignment_01
         CONFERENCE,
         OTHER
     }
-    public enum EmploymentLevel
+    public enum EmploymentLevel 
     {
         RESEARCH_ASSOCIATE,  //level A
         LECTURER,            //level B
