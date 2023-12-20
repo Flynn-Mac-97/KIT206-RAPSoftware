@@ -51,7 +51,7 @@ namespace KIT206_Assignment_01
     }
 
         //struct for employment level and a start and end date for position
-    public struct Position {
+    /*public struct Position {
         public EmploymentLevel level { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }

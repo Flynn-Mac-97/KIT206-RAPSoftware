@@ -15,13 +15,11 @@ namespace KIT206_Assignment_01
         public string campus { get; set; }
         public DateTime utasStart { get; set; }
         public DateTime positionStart { get; set; }
-        public float tenure { get; set; }
-        public float q1percentage { get; set; }
         public string imageURL { get; set; }
         public List<Publication> publications { get; set; }
 
-        public List<Position> PositionHistory { get; set; }
-
+        public List<Position> positionHistory { get; set; }
+        public Position position { get; set; }
 
 
 
@@ -31,7 +29,7 @@ namespace KIT206_Assignment_01
         }
 
         // returns the total publications
-        public int publicationsCount
+        public int PublicationsCount
         {
 
             get { return publications.Count; }
@@ -46,9 +44,7 @@ namespace KIT206_Assignment_01
                 DateTime currentDate = DateTime.Now;
                 TimeSpan tenureSpan = currentDate - utasStart;
 
-                tenure = (float)tenureSpan.TotalDays / 365;
-
-                return tenure;
+                return (float) tenureSpan.TotalDays / 365;
 
             }
         }
@@ -69,13 +65,81 @@ namespace KIT206_Assignment_01
                     
                 }
 
-                return (float) count / publicationsCount * 100;
+                return (float) count / PublicationsCount * 100;
 
             }
 
         }
 
-       
+        // gets current job details 
+        public Position GetCurrentJob()
+        {
+            DateTime currentDate = DateTime.Now;
+
+            foreach (Position p in positionHistory)
+            {
+                if (p.startDate <= currentDate && p.endDate > currentDate)
+                {
+                    return position;
+                }
+            }
+
+            return null;
+        }
+
+        // returns current job title
+        public string currentJobTitle
+        {
+            get {
+
+                Position currentJob = GetCurrentJob();
+
+                return currentJob.Title();
+ 
+            }
+        }
+
+        // returns current job start date
+        public DateTime CurrentJobStart
+        {
+            get
+            {
+                Position currentJob = GetCurrentJob();
+
+                return currentJob.startDate;
+            }
+
+        }
+
+        // gets earliest job details 
+        public Position GetEarliestJob()
+        {
+            DateTime currentDate = DateTime.Now;
+
+            foreach (Position p in positionHistory)
+            {
+                if (p.startDate < currentDate && p.endDate < currentDate)
+                {
+                    return position;
+                }
+            }
+
+            return null;
+        }
+
+        // returns earliest job start date
+        public DateTime EarliestJobStart
+        {
+            get
+            {
+                Position earliestJob = GetEarliestJob();
+
+                return earliestJob.startDate;
+            }
+
+        }
+
+
 
         //an override for researcher object to string;
         public override string ToString()
@@ -88,8 +152,8 @@ namespace KIT206_Assignment_01
                 $" School: {this.school}\n" +
                 $" Commenced at Position: {this.positionStart.Date.ToString()}\n" +
                 $" Commenced at Institute: {this.utasStart.Date.ToString()}\n" +
-                $" Tenure: {this.tenure}," +
-                $" Q1: {this.q1percentage}"
+                $" Tenure: {this.Tenure}," +
+                $" Q1: {this.Q1percentage}"
                 );
         }
     }
