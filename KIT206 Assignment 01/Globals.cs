@@ -2,6 +2,11 @@
 
 namespace KIT206_Assignment_01
 {
+    public enum ResearcherType
+    {
+        STAFF,
+        STUDENT
+    }
     public enum ResearcherPerformance
     {
         POOR, //at or below 70%
@@ -51,6 +56,7 @@ namespace KIT206_Assignment_01
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
     }
+    /* WE DONT NEED THIS 
     public struct Date
     {
         int year;
@@ -79,4 +85,5 @@ namespace KIT206_Assignment_01
             return this.day + "/" + this.month + "/" + this.year;
         }
     }
+    */
 }

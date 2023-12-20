@@ -20,6 +20,8 @@ namespace KIT206_Assignment_01
         public string imageURL { get; set; }
         public List<Publication> publications { get; set; }
 
+        public List<Position> PositionHistory { get; set; }
+
 
 
 
