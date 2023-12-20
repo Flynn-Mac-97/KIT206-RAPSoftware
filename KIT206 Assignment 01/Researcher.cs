@@ -16,7 +16,6 @@ namespace KIT206_Assignment_01
         public DateTime utasStart { get; set; }
         public DateTime positionStart { get; set; }
         public float tenure { get; set; }
-        public int q1publications { get; set; }
         public float q1percentage { get; set; }
         public string imageURL { get; set; }
         public List<Publication> publications { get; set; }
@@ -30,13 +29,14 @@ namespace KIT206_Assignment_01
         }
 
         // returns the total publications
-        public int PublicationsCount
+        public int publicationsCount
         {
 
             get { return publications.Count; }
 
         }
 
+        // returns the tenure years
         public float Tenure
         {
             get
@@ -51,19 +51,25 @@ namespace KIT206_Assignment_01
             }
         }
 
-        // returns Q1 percentage
-        public float Q1percentage
-        {
-            get { }
-            
-            if (publications == 0)
-            {
-                return 0;
-            }
 
-            q1percentage = (float) q1publications / publications * 100;
-            
-            return q1percentage;
+        // returns Q1 percentage
+        public float Q1percentage 
+        { 
+            get {
+
+                float count = 0;
+                foreach (Publication p in publications)
+                {
+                    if ( p.ranking == Ranking.Q1 )
+                    {
+                        count++;
+                    }
+                    
+                }
+
+                return (float) count / publicationsCount * 100;
+
+            }
 
         }
 
