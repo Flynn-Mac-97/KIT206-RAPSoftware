@@ -24,6 +24,9 @@ namespace KIT206_Assignment_01 {
 
         // Fetches a list of researchers from the database
         public List<Researcher> FetchResearcherListFromDB() {
+            // TO DO: just names, id, title , type, level 
+
+
             // Initialize an empty list of researchers
             List<Researcher> researchers = new List<Researcher>();
             try {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace KIT206_Assignment_01
@@ -9,52 +10,61 @@ namespace KIT206_Assignment_01
     {
         public int FundingRecieved { get; set; }
         public List<Student> Supervisions { get; set; }
+        public int SupervisionCount; 
 
         //list of positions for this staff member
         public List<Position> positionHistory { get; set; }
 
         public Staff()
         {
-            
+            SupervisionCount = SupervisionsCount();
+
 
         }
 
+        // count the total number of student that the staff is supervising
+        public int SupervisionsCount() 
+        {
+            int count = 0;
+            foreach (Student s in Supervisions)
+            {
+                count++;
+            }
+            return count; 
+        }
+
         //calculates the total number of publications in the previous three whole calendar years and divided by three.
-        public float ThreeYearAVG()
+        public float ThreeYearAVG(List<Publication> plist)
         {
             float avg = 0;
+            int count = 0;
+            DateTime today = DateTime.Today;
+            int year = today.Year;
+            int three_years_ago = year - 3;
+
+            foreach (Publication p in plist) 
+            {
+                if (three_years_ago >= p.yearPublished || p.yearPublished != year) 
+                {
+                    count++;
+                }
+            }
+
+            avg = count / 3; 
             return avg;
         }
 
         //the metric of three years average 
-        public float PublicationPerformance()
+        public float PublicationPerformance(List<Publication> list)
         {
             float performance = 0;
+            DateTime today = DateTime.Today;
+
+
             return performance;
         }
 
-        //returns the expected number of publications per years for corresponding level of employments.
-        public float ExpectedPublications(EmploymentLevel e)
-        {
-            float expected = 0;
-
-            switch (e)
-            {
-                case EmploymentLevel.RESEARCH_ASSOCIATE:
-                    expected = 0.5f; break;
-                case EmploymentLevel.LECTURER:
-                    expected = 1; break;
-                case EmploymentLevel.ASSISTANT_PROFESSOR:
-                    expected = 2; break;
-                case EmploymentLevel.ASSOCIATE_PROFESSOR:
-                    expected = 3; break;
-                case EmploymentLevel.PROFESSOR:
-                    expected = 3.2f; break; 
-            }
-
-            return expected;
-        }
-
+      
         public override string ToString()
         {
             return (
