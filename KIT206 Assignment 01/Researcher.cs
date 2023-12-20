@@ -16,24 +16,46 @@ namespace KIT206_Assignment_01
         public DateTime utasStart { get; set; }
         public DateTime positionStart { get; set; }
         public float tenure { get; set; }
-        public int publications { get; set; }
         public int q1publications { get; set; }
         public float q1percentage { get; set; }
         public string imageURL { get; set; }
+        public List<Publication> publications { get; set; }
 
 
 
 
         public Researcher()
         {
-            publications = 0;
+
         }
-        
-        // get a current job details from position
-      
-        // returns Q1 percentage
-        public float Q1percentage()
+
+        // returns the total publications
+        public int PublicationsCount
         {
+
+            get { return publications.Count; }
+
+        }
+
+        public float Tenure
+        {
+            get
+            {
+                DateTime currentDate = DateTime.Now;
+                TimeSpan tenureSpan = currentDate - utasStart;
+
+                tenure = (float)tenureSpan.TotalDays / 365;
+
+                return tenure;
+
+            }
+        }
+
+        // returns Q1 percentage
+        public float Q1percentage
+        {
+            get { }
+            
             if (publications == 0)
             {
                 return 0;
@@ -45,26 +67,7 @@ namespace KIT206_Assignment_01
 
         }
 
-        // returns the total publications
-        public int PublicationsCount()
-        {
-            publications++;
-
-            return publications;
-
-        }
-
-        // returns tenure
-        public float Tenure()
-        {
-            DateTime currentDate = DateTime.Now;
-            TimeSpan tenureSpan = currentDate - utasStart;
-
-            tenure = (float)tenureSpan.TotalDays / 365;
-
-            return tenure;
-
-        }
+       
 
         //an override for researcher object to string;
         public override string ToString()
