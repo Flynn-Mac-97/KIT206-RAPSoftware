@@ -59,7 +59,7 @@ namespace KIT206_Assignment_01
                 Researcher r = new Researcher();
 
                 float tenure = r.Tenure;
-                int pubCount = r.PublicationsCount;
+                int pubCount = r.publicationsCount;
 
                 performance = pubCount / tenure ;
 
