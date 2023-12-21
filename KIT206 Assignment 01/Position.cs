@@ -44,10 +44,8 @@ namespace KIT206_Assignment_01
                     return "Associate Professor";
                 case EmploymentLevel.PROFESSOR:
                     return "Professor";
-                case EmploymentLevel.STUDENT:
-                    return "Student";
                 default:
-                    return "No Results";
+                    return "Student";
 
             }
 
@@ -67,10 +65,8 @@ namespace KIT206_Assignment_01
                     return "Associate Professor";
                 case EmploymentLevel.PROFESSOR:
                     return "Professor";
-                case EmploymentLevel.STUDENT:
-                    return "Student";
                 default:
-                    return "No Results";
+                    return "Student";
 
             }
         }
