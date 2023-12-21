@@ -9,7 +9,7 @@ namespace KIT206_Assignment_01
     class Staff : Researcher
     {
         public int FundingRecieved { get; set; }
-        public List<Student> Supervisions { get; set; }
+        
 
         public Staff()
         {
@@ -22,6 +22,15 @@ namespace KIT206_Assignment_01
             { 
                 return Supervisions.Count; 
             }
+        }
+        
+        //TO DO
+        public List<Student> Supervisions 
+        { 
+            get 
+            {
+
+            } 
         }
 
         //calculates the total number of publications in the previous three whole calendar years and divided by three.

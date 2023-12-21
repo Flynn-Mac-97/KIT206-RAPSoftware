@@ -17,24 +17,21 @@ namespace KIT206_Assignment_01
         public PublicationType type { get; set; }
         public string citeLink { get; set; }
         public DateTime availability { get; set; }
-        public int age { get; set; }
+        
 
 
         public Publication() 
         {
-            author = new List<Researcher>();
         }
+
+        //TO DO
+        public int age { get; set; }
 
 
 
 
         
 
-        public static void GeneratePublicationDetail()
-        {
-            
-
-        }
 
         //an override for publication object to string;
         public override string ToString()
