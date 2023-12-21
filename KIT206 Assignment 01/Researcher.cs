@@ -11,10 +11,10 @@ namespace KIT206_Assignment_01
         public ResearcherType type { get; set; }
         public Title title { get; set; }
         public string email { get; set; }
-        public string school { get; set; }
+        public string unit { get; set; }
         public string campus { get; set; }
         public DateTime utasStart { get; set; }
-        public string imageURL { get; set; }
+        public string photo { get; set; }
         public List<Publication> publications { get; set; }
         public List<Position> positionHistory { get; set; }
 
