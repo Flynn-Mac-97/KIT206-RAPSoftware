@@ -8,6 +8,7 @@ namespace KIT206_Assignment_01
         public int id { get; set; } 
         public string familyName { get; set; }
         public string givenName { get; set; }
+        public ResearcherType type { get; set; }
         public Title title { get; set; }
         public string email { get; set; }
         public string school { get; set; }
@@ -15,7 +16,6 @@ namespace KIT206_Assignment_01
         public DateTime utasStart { get; set; }
         public string imageURL { get; set; }
         public List<Publication> publications { get; set; }
-
         public List<Position> positionHistory { get; set; }
 
 
