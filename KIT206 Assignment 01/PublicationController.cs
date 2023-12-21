@@ -13,7 +13,7 @@ namespace KIT206_Assignment_01
 
         // List of filtered publications based on specific criteria
         public List<Publication> filteredResearchers = new List<Publication>();
-        private employmentFilter;
+        //private employmentFilter;
         private string yearFilter;
 
     }

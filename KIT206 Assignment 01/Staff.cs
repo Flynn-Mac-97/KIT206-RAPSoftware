@@ -29,7 +29,7 @@ namespace KIT206_Assignment_01
         { 
             get 
             {
-
+                return this.Supervisions;
             } 
         }
 
@@ -68,7 +68,7 @@ namespace KIT206_Assignment_01
                 Researcher r = new Researcher();
 
                 float tenure = r.Tenure;
-                int pubCount = r.publicationsCount;
+                int pubCount = r.PublicationsCount;
 
                 performance = pubCount / tenure ;
 

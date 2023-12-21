@@ -10,13 +10,13 @@ namespace KIT206_Assignment_01
         public string givenName { get; set; }
         public string familyName { get; set; }
         public Title title { get; set; }
-        public string unit { get; set; }
+        public string school { get; set; }
         public string campus { get; set; }
         public string email { get; set; }
-        public string photo { get; set; }
+        public string imageURL { get; set; }
         public EmploymentLevel level { get; set; }
         public DateTime utasStart { get; set; }
-        public DateTime currentStart { get; set; }
+        public DateTime positionStart { get; set; }
         
         public List<Publication> publications { get; set; }
         public List<Position> positionHistory { get; set; }

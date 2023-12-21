@@ -27,6 +27,7 @@ namespace KIT206_Assignment_01
         ASSISTANT_PROFESSOR, //level C
         ASSOCIATE_PROFESSOR, //level D
         PROFESSOR,           //level E
+        STUDENT
     }
     public enum Title
     {
