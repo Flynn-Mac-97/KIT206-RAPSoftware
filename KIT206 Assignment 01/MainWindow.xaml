@@ -1,0 +1,99 @@
+﻿<Window x:Class="WPF_Application.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KIT206_Assignment_01" xmlns:local1="clr-namespace:KIT206_Assignment_01"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="720" Width="1280">
+
+    <Grid>
+        <TabControl>
+            <!-- Researchers Tab -->
+            <TabItem Header="Researchers">
+                <Grid>
+                    <!-- Top Bar for Filter and Search -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Filter and Search Bar -->
+                    <StackPanel Orientation="Horizontal" Grid.Row="0">
+                        <!-- Dropdown Filter -->
+                        <ComboBox Width="150" Margin="5" SelectedIndex="0">
+                            <ComboBoxItem Content="ALL"/>
+                            <ComboBoxItem Content="A - Research Associate"/>
+                            <ComboBoxItem Content="B - Lecturer"/>
+                            <ComboBoxItem Content="C - Assistant Professor"/>
+                            <ComboBoxItem Content="D - Associate Professor"/>
+                            <ComboBoxItem Content="E - Professor"/>
+                            <ComboBoxItem Content="F - Student"/>
+                        </ComboBox>
+                        <!-- Search Bar -->
+                        <TextBox Width="200" Margin="5" Text="Search..."/>
+                    </StackPanel>
+
+                    <ListView Grid.Row="1" Margin="5">
+                        <!-- Define the ItemTemplate for the ListView -->
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{Binding GivenName}" Grid.Column="0" Margin="5"/>
+                                    <TextBlock Text="{Binding FamilyName}" Grid.Column="1" Margin="5"/>
+                                    <TextBlock Text="{Binding Title}" Grid.Column="2" Margin="5"/>
+                                    <TextBlock Text="{Binding Level}" Grid.Column="3" Margin="5"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                        <!-- Manual Items for Demonstration -->
+                        <ListViewItem>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Alice" Grid.Column="0" Margin="5"/>
+                                <TextBlock Text="Johnson" Grid.Column="1" Margin="5"/>
+                                <TextBlock Text="Dr." Grid.Column="2" Margin="5"/>
+                                <TextBlock Text="Assistant Professor" Grid.Column="3" Margin="5"/>
+                            </Grid>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Bob" Grid.Column="0" Margin="5"/>
+                                <TextBlock Text="Smith" Grid.Column="1" Margin="5"/>
+                                <TextBlock Text="Mr." Grid.Column="2" Margin="5"/>
+                                <TextBlock Text="Professor" Grid.Column="3" Margin="5"/>
+                            </Grid>
+                        </ListViewItem>
+                        <!-- Add more items as needed -->
+                    </ListView>
+                </Grid>
+            </TabItem>
+
+            <!-- Publications Tab -->
+            <TabItem Header="Reports">
+                <!-- Content for Reports tab here -->
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
