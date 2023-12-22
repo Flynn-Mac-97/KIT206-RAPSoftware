@@ -50,6 +50,7 @@ namespace KIT206_Assignment_01
         Q4
     }
 
+
         //struct for employment level and a start and end date for position
     /*public struct Position {
         public EmploymentLevel level { get; set; }
