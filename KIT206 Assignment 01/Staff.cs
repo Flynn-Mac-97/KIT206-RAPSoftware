@@ -24,12 +24,22 @@ namespace KIT206_Assignment_01
             }
         }
         
-        //TO DO
+        //list of student that a staff is supervising
         public List<Student> Supervisions 
         { 
             get 
             {
-                return this.Supervisions;
+                List<Researcher> rlist = new List<Researcher>();
+                foreach( Researcher r in rlist)
+                {
+                    if (r.type  == ResearcherType.STUDENT)
+                    {
+
+                    }
+                }
+
+
+
             } 
         }
 
@@ -42,7 +52,6 @@ namespace KIT206_Assignment_01
                 DateTime today = DateTime.Today;
                 int year = today.Year;
                 int three_years_ago = year - 3;
-
                 Researcher r = new Researcher();
                 List<Publication> plist = r.publications;
 
@@ -86,7 +95,7 @@ namespace KIT206_Assignment_01
 
                 float tenure = r.Tenure;
 
-                performance = FundingPerformance / tenure; 
+                performance = FundingRecieved / tenure; 
 
                 return (int)performance;
             }

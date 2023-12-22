@@ -45,27 +45,29 @@ namespace KIT206_Assignment_01
             }
 
         }
-        
-        
-        // calculates performance level
-        public float CalculatePerformance()
+
+
+        // calculates performance measure
+        public float CalculatePerformance
         {
-            Staff staff = new Staff();
-            float performanceLevel;
+            get
+            {
+                Staff staff = new Staff();
 
-            performanceLevel = staff.ThreeYearAVG / ExpectedPublications * 100;
+                float performance = staff.ThreeYearAVG / ExpectedPublications * 100;
 
-            return performanceLevel;  
+                return performance;
+            }
 
         }
 
-        // filters performance level
-        public ResearcherPerformance FilterReports
+        // returns performance level based on the performance measure value
+        public ResearcherPerformance PerformanceLevel
         {
 
             get
             {
-                float total = CalculatePerformance();
+                float total = CalculatePerformance;
 
                 if (total <= 70)
                     return ResearcherPerformance.POOR;
@@ -77,8 +79,20 @@ namespace KIT206_Assignment_01
                     return ResearcherPerformance.STAR_PERFORMER;
 
             }
-               
+
         }
+
+        // filter a list of researcher by their performance level
+        public List<Researcher> FilterbyPerformance(ResearcherPerformance p)
+        {
+            
+
+        }
+
+
+        // returns a list of researchers filterd by their performance level 
+        public string[] PopulateList()
+        {}
        
 
 

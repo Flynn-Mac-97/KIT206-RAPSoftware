@@ -78,7 +78,7 @@ namespace KIT206_Assignment_01
 
             foreach (Position p in positionHistory)
             {
-                if (p.startDate <= currentDate && (p.endDate == null || p.endDate > currentDate))
+                if (p.startDate <= currentDate && p.endDate > currentDate)
                 {
                     return p;
                 }
@@ -112,7 +112,7 @@ namespace KIT206_Assignment_01
         }
 
         // gets earliest job details 
-        /*public Position GetEarliestJob()
+        public Position GetEarliestJob()
         {
             DateTime currentDate = DateTime.Now;
 
@@ -137,7 +137,7 @@ namespace KIT206_Assignment_01
                 return earliestJob.startDate;
             }
 
-        }*/
+        }
 
 
 
@@ -150,7 +150,7 @@ namespace KIT206_Assignment_01
                 $" {this.title}\n" +
                 $" Email: {this.email}\n" +
                 $" School: {this.unit}\n" +
-                $" Commenced at Position: {this.currentStart.Date.ToString()}\n" +
+                $" Commenced at Position: {this.positionStart.Date.ToString()}\n" +
                 $" Commenced at Institute: {this.utasStart.Date.ToString()}\n" +
                 $" Tenure: {this.Tenure}," +
                 $" Q1: {this.Q1percentage}"
