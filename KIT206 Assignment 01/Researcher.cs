@@ -11,7 +11,7 @@ namespace KIT206_Assignment_01
         public string familyName { get; set; }
         public Title title { get; set; }
         public string unit { get; set; }
-        public string campus { get; set; }
+        public Campus campus { get; set; }
         public string email { get; set; }
         public string photo { get; set; }
         public EmploymentLevel level { get; set; }
@@ -25,7 +25,6 @@ namespace KIT206_Assignment_01
 
         public Researcher()
         {
-
         }
 
         // returns the total publications
@@ -150,7 +149,7 @@ namespace KIT206_Assignment_01
                 $" {this.title}\n" +
                 $" Email: {this.email}\n" +
                 $" School: {this.unit}\n" +
-                $" Commenced at Position: {this.positionStart.Date.ToString()}\n" +
+                $" Commenced at Position: {this.currentStart.Date.ToString()}\n" +
                 $" Commenced at Institute: {this.utasStart.Date.ToString()}\n" +
                 $" Tenure: {this.Tenure}," +
                 $" Q1: {this.Q1percentage}"

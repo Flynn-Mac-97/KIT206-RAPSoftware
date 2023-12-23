@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,13 +25,17 @@ namespace KIT206_Assignment_01
         {
         }
 
-        //TO DO
-        public int age { get; set; }
+        //returns the days elapsed since the publication became available; this can be negative if the availability date is in the future
+        public int Age 
+        { 
+            get 
+            {
+                DateTime curr = DateTime.Today;
+                int Days = (curr - availability).Days;
 
-
-
-
-        
+                return Days;
+            } 
+        }
 
 
         //an override for publication object to string;
@@ -45,7 +50,7 @@ namespace KIT206_Assignment_01
                 "\n Publication Type: " + this.type +
                 "\n Cite Link: " + this.citeLink +
                 "\n Availability: " + this.availability.Date.ToString() +
-                "\n Age: " + this.age 
+                "\n Age: " + this.Age 
                 );
         }
 

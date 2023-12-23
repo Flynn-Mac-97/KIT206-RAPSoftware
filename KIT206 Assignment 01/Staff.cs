@@ -15,32 +15,55 @@ namespace KIT206_Assignment_01
         {
         }
 
-        // count the total number of student that the staff is supervising
-        public int SupervisionsCount
+        public Staff(Researcher r)
         {
-            get 
-            { 
-                return Supervisions.Count; 
-            }
+            this.id = r.id;
+            this.type = r.type;
+            this.givenName = r.givenName;
+            this.familyName = r.familyName;
+            this.title = r.title;
+            this.unit = r.unit;
+            this.campus = r.campus;
+            this.email = r.email;
+            this.photo = r.photo;
+            this.level = r.level;
+            this.utasStart = r.utasStart;
+            this.currentStart = r.currentStart;
+            this.publications = r.publications;
+            this.positionHistory = r.positionHistory;
         }
+
+        
         
         //list of student that a staff is supervising
         public List<Student> Supervisions 
         { 
             get 
             {
+                List<Student> slist = new List<Student>();
                 List<Researcher> rlist = new List<Researcher>();
-                foreach( Researcher r in rlist)
+                foreach(Researcher  r in rlist)
                 {
                     if (r.type  == ResearcherType.STUDENT)
                     {
-
+                        Student s = new Student(r);
+                        if(s.supervisorID == this.id)
+                        {
+                            slist.Add(s);
+                        }
                     }
                 }
-
-
-
+                return slist;
             } 
+        }
+        
+        // count the total number of student that the staff is supervising
+        public int SupervisionCount
+        {
+            get 
+            { 
+                return Supervisions.Count; 
+            }
         }
 
         //calculates the total number of publications in the previous three whole calendar years and divided by three.
@@ -98,15 +121,6 @@ namespace KIT206_Assignment_01
                 performance = FundingRecieved / tenure; 
 
                 return (int)performance;
-            }
-        }
-
-        //Counts the total number of students that a staff supervised
-        public int SupervisionCount
-        {
-            get
-            {
-                return Supervisions.Count;
             }
         }
 
