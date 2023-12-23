@@ -42,7 +42,7 @@ namespace KIT206_Assignment_01
             {
                 List<Student> slist = new List<Student>();
                 List<Researcher> rlist = new List<Researcher>();
-                foreach(Researcher  r in rlist)
+                foreach(Researcher r in rlist)
                 {
                     if (r.type  == ResearcherType.STUDENT)
                     {
