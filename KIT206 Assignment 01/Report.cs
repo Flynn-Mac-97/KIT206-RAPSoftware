@@ -10,7 +10,7 @@ namespace KIT206_Assignment_01
     {
         public ResearcherPerformance performance { get; set; }
         public EmploymentLevel level { get; set; }
-        private List<Researcher> r { get; set; }
+        private List<Researcher> researchers { get; set; }
         private ResearchController researchController;
 
 
@@ -61,56 +61,48 @@ namespace KIT206_Assignment_01
 
         }
 
+
         // returns performance level based on the performance measure value
-        public ResearcherPerformance PerformanceLevel
+        public ResearcherPerformance PerformanceLevel()
         {
 
-            get
-            {
-                float total = CalculatePerformance;
+            float total = CalculatePerformance;
 
-                if (total <= 70)
-                    return ResearcherPerformance.POOR;
-                else if (total > 70 && total < 110)
-                    return ResearcherPerformance.BELOW_EXPECTATIONS;
-                else if (total >= 110 && total < 200)
-                    return ResearcherPerformance.MEETING_MINIMUM;
-                else
-                    return ResearcherPerformance.STAR_PERFORMER;
-
-            }
+            if (total <= 70)
+                return ResearcherPerformance.POOR;
+            else if (total > 70 && total < 110)
+                return ResearcherPerformance.BELOW_EXPECTATIONS;
+            else if (total >= 110 && total < 200)
+                return ResearcherPerformance.MEETING_MINIMUM;
+            else
+                return ResearcherPerformance.STAR_PERFORMER;
 
         }
 
-        // filter a list of researcher by their performance level
+
+        // filters a list of researcher by their performance level
         public List<Researcher> FilterbyPerformance(ResearcherPerformance p)
         {
-            
+            List<Researcher> filteredResearchers = new List<Researcher>();
 
-        }
-
-
-        // returns a list of researchers filterd by their performance level 
-        public string[] PopulateList()
-        {}
-       
-
-
-
-        // copies email addresses to clipboard
-        public string[] copyEmailAddresses
-        {
-            get
+            foreach (Researcher r in researchers)
             {
-                return researchController.FetchResearcherEmails(r);
+                ResearcherPerformance performanceLevel = PerformanceLevel();
+
+                if (performanceLevel == p)
+                    filteredResearchers.Add(r);
             }
+
+            return filteredResearchers;
+
         }
+        
+
+    }
+    
+
+}
+
 
 
      
-
-        
-
-
-    }
-}
