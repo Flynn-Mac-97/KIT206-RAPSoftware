@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 
 namespace KIT206_Assignment_01 {
@@ -42,7 +43,7 @@ namespace KIT206_Assignment_01 {
                     Researcher r = null; // Default value in case of failure
                     string type = row["type"].ToString();
                     // If the researcher is a staff member
-                    if(type == "Staff") {
+                    if (type == "Staff") {
                         // Creating a new Researcher object and initializing it with data from the row
                         r = new Researcher {
                             id = (int)row["id"],
@@ -59,7 +60,7 @@ namespace KIT206_Assignment_01 {
                     }
 
                     //if the researcher is a student
-                    if(type == "Student") {
+                    if (type == "Student") {
                         // Creating a new Researcher object and initializing it with data from the row
                         r = new Researcher {
                             id = (int)row["id"],
@@ -144,7 +145,96 @@ namespace KIT206_Assignment_01 {
             }
             return count;
         }
+
+        public List<Publication> FetchPublicationListFromDB()
+        {
+
+            // Initialize an empty list of researchers
+            List<Publication> publications = new List<Publication>();
+            try
+            {
+                // DataSet to hold the data fetched from the database
+                var publicationDataSet = new DataSet();
+                // Data adapter to manage data retrieval from the database
+                var publicationAdapter = new MySqlDataAdapter("select doi, title, year, authors from publication", conn);
+                // Filling the DataSet with data from the 'publication' table
+                publicationAdapter.Fill(publicationDataSet, "publication");
+
+                // Iterating through each row in the 'publication' table
+                foreach (DataRow row in publicationDataSet.Tables["publication"].Rows)
+                {
+                    Publication p = null; // Default value in case of failure
+
+                    p = new Publication
+                    {
+                        DOI = row["doi"].ToString(),
+                        title = row["title"].ToString(),
+                        author = row["authors"].ToString(),
+                        yearPublished = (int)row["year"]
+                    };
+
+                    publications.Add(p);
+                }
+            }
+            finally
+            {
+                // Ensuring the database connection is closed after data retrieval
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+            return publications;
+        }
+
+        public List<Publication> FetchPublicationDetailsFromDB()
+        {
+
+            // Initialize an empty list of researchers
+            List<Publication> publications = new List<Publication>();
+            try
+            {
+                // DataSet to hold the data fetched from the database
+                var publicationDetailsDataSet = new DataSet();
+                // Data adapter to manage data retrieval from the database
+                var publicationDetailsAdapter = new MySqlDataAdapter("select * from publication", conn);
+                // Filling the DataSet with data from the 'publication' table
+                publicationDetailsAdapter.Fill(publicationDetailsDataSet, "publication");
+
+                // Iterating through each row in the 'publication' table
+                foreach (DataRow row in publicationDetailsDataSet.Tables["publication"].Rows)
+                {
+                    Publication p = null; // Default value in case of failure
+
+                    p = new Publication
+                    {
+                        DOI = row["doi"].ToString(),
+                        title = row["title"].ToString(),
+                        author = row["authors"].ToString(),
+                        ranking = (Ranking)row["ranking"],
+                        yearPublished = (int)row["year"],
+                        type = (PublicationType)row["type"],
+                        citeLink = row["cite_as"].ToString(),
+                        availability = (DateTime)row["availablie"]
+                    };
+                    
+                    publications.Add(p);
+                }
+            }
+            finally
+            {
+                // Ensuring the database connection is closed after data retrieval
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+            return publications;
+        } 
     }
+
+
 }
+
 
 

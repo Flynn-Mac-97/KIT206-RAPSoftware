@@ -12,7 +12,7 @@ namespace KIT206_Assignment_01
     {
         public string title { get; set; }
         public int yearPublished { get; set; }
-        public List<Researcher> author { get; set; }
+        public string author { get; set; }
         public string DOI { get; set; }
         public Ranking ranking { get; set; }
         public PublicationType type { get; set; }
