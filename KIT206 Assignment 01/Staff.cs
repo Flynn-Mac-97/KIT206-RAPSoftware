@@ -9,10 +9,13 @@ namespace KIT206_Assignment_01
     class Staff : Researcher
     {
         public int FundingRecieved { get; set; }
-        
+        //The list of students this staff supervises, can be empty.
+        //Each researcher has an id remember, just store their ids, and find them in the list of all researchers when getting this list.
+
 
         public Staff()
         {
+
         }
 
         public Staff(Researcher r)
@@ -33,9 +36,8 @@ namespace KIT206_Assignment_01
             this.positionHistory = r.positionHistory;
         }
 
-        
-        
         //list of student that a staff is supervising
+        //go through the list of all researchers, find the students that have the same supervisorID as the staff
         public List<Student> Supervisions 
         { 
             get 
