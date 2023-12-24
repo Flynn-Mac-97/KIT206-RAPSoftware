@@ -32,8 +32,66 @@ namespace KIT206_Assignment_01 {
                 // Adjust column widths
                 ListViewColumn.Width = new GridLength(1, GridUnitType.Star);
                 DetailsViewColumn.Width = new GridLength(2, GridUnitType.Star);
+
+                // Set the details view to the selected researcher
+                SetDetailsViewToResearcher(selectedResearcher);
             }
         }
 
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (ResearchersListView.SelectedItem is Researcher selectedResearcher) {
+                
+            }
+        }
+        //Refresh ResearcherDetail
+        private void SetDetailsViewToResearcher(Researcher selectedResearcher) {
+            ResearcherImage.Source = new BitmapImage(new System.Uri(selectedResearcher.photo));
+            //remove children on SelectedResearcherDetails
+            SelectedResearcherDetails.Children.Clear();
+
+            //Remove the staff or student specific text blocks.
+            SelectedResearcherSpecificDetails.Children.Clear();
+
+            AddTextBlockToStackPanel(SelectedResearcherDetails, selectedResearcher.givenName + " " + selectedResearcher.familyName, 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(SelectedResearcherDetails, selectedResearcher.title.ToString().ToLower(), 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(SelectedResearcherDetails, selectedResearcher.unit, 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(SelectedResearcherDetails, selectedResearcher.campus.ToString().ToLower(), 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(SelectedResearcherDetails, selectedResearcher.email, 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(SelectedResearcherDetails, selectedResearcher.level.ToString().ToLower(), 14, FontWeights.Normal);
+
+            //Specific details
+            AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Commenced date:" + selectedResearcher.utasStart.Date, 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Position Commenced: " + selectedResearcher.currentStart.Date, 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Tenure: " + selectedResearcher.Tenure, 14, FontWeights.Normal);
+            //AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Total Publications: " + selectedResearcher.PublicationsCount, 14, FontWeights.Normal);
+            //AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Q1 Percentage: " + selectedResearcher.Q1percentage, 14, FontWeights.Normal);
+
+            //If they are a student, add the text to the Researcher specific values.
+            if (selectedResearcher.type == ResearcherType.STUDENT) {
+                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Degree: ", 14, FontWeights.Normal);
+                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Supervisor: ", 14, FontWeights.Normal);
+            }
+            else {
+                //add blocks for staff
+                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "3 year avg:", 14, FontWeights.Normal);
+                //funding
+                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Funding Recieved: ", 14, FontWeights.Normal);
+                //publication performance
+                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Publication Performance", 14, FontWeights.Normal);
+                //funding performance
+                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Funding Performance", 14, FontWeights.Normal);
+                //supervisions
+                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Supervisions", 14, FontWeights.Normal);
+            }
+        }
+
+        //Helper function to add a textblock to a stackpanel with given font size, text etc
+        private void AddTextBlockToStackPanel(StackPanel sP, string text, int fontSize, FontWeight fontWeight) {
+            TextBlock tb = new TextBlock();
+            tb.Text = text;
+            tb.FontSize = fontSize;
+            tb.FontWeight = fontWeight;
+            sP.Children.Add(tb);
+        }
     }
 }

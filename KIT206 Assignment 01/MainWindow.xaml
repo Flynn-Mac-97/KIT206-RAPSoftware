@@ -42,7 +42,7 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- ListView -->
-                        <ListView x:Name="ResearchersListView" Grid.Column="0" Margin="5,5,5,5" SelectionChanged="ListViewItem_Selected">
+                        <ListView x:Name="ResearchersListView" Grid.Column="0" Margin="5,5,5,5" SelectionChanged="ListViewItem_Selected" d:ItemsSource="{d:SampleData ItemCount=5}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="5">
@@ -70,25 +70,52 @@
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="190*"/>
+                                    <ColumnDefinition Width="102*"/>
+                                    <ColumnDefinition Width="236*"/>
+                                    <ColumnDefinition Width="231*"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Source="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Generic-person.svg/1024px-Generic-person.svg.png" Height="100"/>
-                                <ListView Grid.Column="1" Margin="5,5,5,5" IsEnabled="False" FontWeight="Bold">
-                                    <ListViewItem Content="Unit Code:" FontSize="18" Selected="ListViewItem_Selected_1"/>
-                                    <ListViewItem Content="Unit Name:" FontSize="18"/>
-                                    <ListViewItem Content="Campus:" FontSize="18"/>
-                                    <ListViewItem Content="Semester:" FontSize="18"/>
-                                    <ListViewItem Content="Year:" FontSize="18"/>
+                                <Image Source="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Generic-person.svg/1024px-Generic-person.svg.png" Margin="5,5,5,5" Name="ResearcherImage" VerticalAlignment="Top"/>
+                                <StackPanel Grid.Column="1" Margin="5,5,5,5" IsEnabled="False">
+                                    <TextBlock Text="Name:" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="Title:" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="School" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="Campus:" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="Email:" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="Position:" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Margin="5,5,5,5" IsEnabled="False" Name="SelectedResearcherDetails">
+                                    <TextBlock Text="Albert Einstein" FontSize="14"/>
+                                    <TextBlock Text="Mr" FontSize="14"/>
+                                    <TextBlock Text="Engineering" FontSize="14"/>
+                                    <TextBlock Text="Hobart" FontSize="14"/>
+                                    <TextBlock Text="Test@utas.edu.au" FontSize="14"/>
+                                    <TextBlock Text="Professor" FontSize="14"/>
+                                </StackPanel>
+                                <ListView Grid.Column="3" IsEnabled="False" Margin="4,5,5,5">
+                                    <ListViewItem Content="Yearly Publications" FontSize="14" FontWeight="Bold" VerticalAlignment="Top"/>
+                                    <ListViewItem Content="2 : 2020" FontSize="14" VerticalAlignment="Top"/>
+                                    <ListViewItem Content="3 : 2021" FontSize="14" VerticalAlignment="Top"/>
+                                    <ListViewItem Content="4 : 2022" FontSize="14" VerticalAlignment="Top"/>
+                                    <ListViewItem Content="5 : 2023" FontSize="14" VerticalAlignment="Top"/>
                                 </ListView>
-                                <ListView Grid.Column="2" Margin="5,5,5,5" IsEnabled="False" FontSize="16">
-                                    <ListViewItem Content="KIT206" HorizontalAlignment="Center"/>
-                                    <ListViewItem Content="Application Development" HorizontalAlignment="Center"/>
-                                    <ListViewItem Content="Hobart" HorizontalAlignment="Center"/>
-                                    <ListViewItem Content="Semester 1" HorizontalAlignment="Center"/>
-                                    <ListViewItem Content="2021" HorizontalAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0" Margin="5,5,5,5" IsEnabled="False" Name="SelectedResearcherSpecificDetails">
+                                    <TextBlock Text="Researcher Specific Data 1" FontSize="14"/>
+                                </StackPanel>
+                                <TextBlock Grid.Row="1" Text="Publications" FontWeight="Bold" FontSize="16" Margin="5,0,5,0" HorizontalAlignment="Left"/>
+                                <ListView Grid.Row="2" Margin="5,5,5,5" FontSize="16">
+                                    <ListViewItem Content="Article 1" HorizontalAlignment="Left" FontSize="14"/>
+                                    <ListViewItem Content="Article 2" HorizontalAlignment="Left" FontSize="14"/>
+                                    <ListViewItem Content="Article 3" HorizontalAlignment="Left" FontSize="14"/>
+                                    <ListViewItem Content="Article 4" HorizontalAlignment="Left" FontSize="14"/>
+                                    <ListViewItem Content="Article 5" HorizontalAlignment="Left" FontSize="14"/>
                                 </ListView>
                             </Grid>
                         </Grid>
