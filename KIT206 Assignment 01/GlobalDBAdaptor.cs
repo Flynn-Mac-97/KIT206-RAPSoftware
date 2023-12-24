@@ -243,6 +243,45 @@ namespace KIT206_Assignment_01 {
             return count;
         }
 
+        // Converts a string representation of a ranking to the Ranking enum
+        public Ranking CastStringAsRanking(string s) {
+            Ranking r = Ranking.Q1; // Default title
+            switch (r) {
+                // Matching string representation with the corresponding Title enum value
+                case "Q1":
+                    r = Ranking.Q1;
+                    break;
+                case "Q2":
+                    r = Ranking.Q2;
+                    break;
+                case "Q3":
+                    r = Ranking.Q3;
+                    break;
+                case "Q4":
+                    r = Ranking.Q4;
+                    break;
+            }
+            return r;
+        }
+
+        // Converts a string representation of a ranking to the Ranking enum
+        public PublicationType CastStringAsPublicationType(string s) {
+            PublicationType type = PublicationType.JOURNAL// Default title
+            switch (type) {
+                // Matching string representation with the corresponding Title enum value
+                case "Journal":
+                    type = PublicationType.JOURNAL;
+                    break;
+                case "Conference":
+                    type = PublicationType.CONFERENCE;
+                    break;
+                case "Other":
+                    type = PublicationType.OTHER
+                    break;
+            }
+            return type;
+        }
+
 
         //fecthes publication list for a researcher
         public List<Publication> FetchPublicationListFromDB(int ID)
@@ -326,9 +365,9 @@ namespace KIT206_Assignment_01 {
                             DOI = row["doi"].ToString(),
                             title = row["title"].ToString(),
                             author = row["authors"].ToString(),
-                            ranking = (Ranking)row["ranking"],
+                            ranking = CastStringAsRanking(row["ranking"].ToString()),
                             yearPublished = (int)row["year"],
-                            type = (PublicationType)row["type"],
+                            type = CastStringAsPublicationType(row["type"].ToString()),
                             citeLink = row["cite_as"].ToString(),
                             availability = (DateTime)row["availablie"]
                         };
@@ -348,10 +387,48 @@ namespace KIT206_Assignment_01 {
         }
 
 
-        /*public List<Position> FetchPositionListfromDB()
+        // fetch position history of a researcher from database
+        public List<Position> FetchPositionHistoryfromDB(int ID)
         {
+             // Initialize an empty position list
+            List<Position> positions = new List<Position>();
+            try
+            {
+                // DataSet to hold the data fetched from the database
+                var positionDataSet = new DataSet();
+                // Data adapter to manage data retrieval from the database
+                var positionAdapter = new MySqlDataAdapter("select * from position", conn);
+                // Filling the DataSet with data from the 'position' table
+                positionAdapter.Fill(positionDataSet, "position");
 
-        }*/
+                // Iterating through each row in the 'position' table
+                foreach (DataRow row in positionDataSet.Tables["position"].Rows)
+                {
+                    Position pos = null; // Default value in case of failure
+                    int id = (int)row["id"].ToString();
+
+                    if (id == ID) 
+                    {
+                        pos = new Position
+                        {
+                            level = CastEmploymentAsEnumType(row["level"].ToString()),
+                            startDate = (DateTime)row["start"],
+                            endDate = (DateTime)row["end"]
+                        };
+                        positions.Add(pos);
+                    }
+                }
+            }
+            finally
+            {
+                // Ensuring the database connection is closed after data retrieval
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+            return positions;
+        }
 
 
 

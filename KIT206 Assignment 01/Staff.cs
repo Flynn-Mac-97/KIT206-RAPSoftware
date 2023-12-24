@@ -12,6 +12,9 @@ namespace KIT206_Assignment_01
         //The list of students this staff supervises, can be empty.
         //Each researcher has an id remember, just store their ids, and find them in the list of all researchers when getting this list.
 
+        // empty list of students to store the list of students that this staff is supervising. 
+        public List<Student> supervisions = new List<Student>();
+
 
         public Staff()
         {
@@ -38,12 +41,8 @@ namespace KIT206_Assignment_01
 
         //list of student that a staff is supervising
         //go through the list of all researchers, find the students that have the same supervisorID as the staff
-        public List<Student> Supervisions 
+        public List<Student> Supervisions(List<Researcher> rlist)
         { 
-            get 
-            {
-                List<Student> slist = new List<Student>();
-                List<Researcher> rlist = new List<Researcher>();
                 foreach(Researcher r in rlist)
                 {
                     if (r.type  == ResearcherType.STUDENT)
@@ -51,11 +50,11 @@ namespace KIT206_Assignment_01
                         Student s = new Student(r);
                         if(s.supervisorID == this.id)
                         {
-                            slist.Add(s);
+                            this.slist.Add(s);
                         }
                     }
                 }
-                return slist;
+                return this.slist;
             } 
         }
         
