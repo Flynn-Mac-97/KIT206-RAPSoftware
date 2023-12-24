@@ -53,11 +53,11 @@ namespace KIT206_Assignment_01 {
                             familyName = row["family_name"].ToString(),
                             title = CastStringAsTitle(row["title"].ToString()),
                             email = row["email"].ToString(),
-                            school = row["unit"].ToString(),
-                            imageURL = row["photo"].ToString(),
-                            campus = row["campus"].ToString(),
+                            unit = row["unit"].ToString(),
+                            photo = row["photo"].ToString(),
+                            campus = CastStringToCampus(row["campus"].ToString()),
                             utasStart = (DateTime)row["utas_start"],
-                            positionStart = (DateTime)row["current_start"]
+                            currentStart = (DateTime)row["current_start"]
                         };
                     }
 
@@ -70,11 +70,11 @@ namespace KIT206_Assignment_01 {
                             familyName = row["family_name"].ToString(),
                             title = CastStringAsTitle(row["title"].ToString()),
                             email = row["email"].ToString(),
-                            school = row["unit"].ToString(),
-                            imageURL = row["photo"].ToString(),
-                            campus = row["campus"].ToString(),
+                            unit = row["unit"].ToString(),
+                            photo = row["photo"].ToString(),
+                            campus = CastStringToCampus(row["campus"].ToString()),
                             utasStart = (DateTime)row["utas_start"],
-                            positionStart = (DateTime)row["current_start"]
+                            currentStart = (DateTime)row["current_start"]
                         };
                     }
 
@@ -91,8 +91,22 @@ namespace KIT206_Assignment_01 {
             return researchers;
         }
 
+        //Cast string to campus enum value.
+        public Campus CastStringToCampus(string s) {
+            switch (s) {
+                // Matching string representation with the corresponding Campus enum value
+                case "Hobart":
+                    return Campus.HOBART;
+                case "Launceston":
+                    return Campus.LAUNCESTON;
+                case "Cradle Coast":
+                    return Campus.CRADLE_COAST;
+                default:
+                    return Campus.HOBART; // Default value
+            }
+        }
 
-        // fetches researcher details for a researcher
+        /*// fetches researcher details for a researcher
         public Researcher FetchResearcherDetailsfromDB(int ID)
         {
             // Initialize an empty researcher class
@@ -170,7 +184,7 @@ namespace KIT206_Assignment_01 {
             return researcher;
 
         }
-
+*/
         // Converts a string representation of a title to the Title enum
         public Title CastStringAsTitle(string s) {
             Title t = Title.MR; // Default title
@@ -257,7 +271,7 @@ namespace KIT206_Assignment_01 {
                     if (ID == id)
                     {
                         // Iterating through each row in the 'publication' table
-                        foreach (DataRow row in publicationDataSet.Tables["publication"].Rows)
+                        foreach (DataRow row1 in publicationDataSet.Tables["publication"].Rows)
                         {
                             Publication p = null; // Default value in case of failure
 
@@ -289,7 +303,7 @@ namespace KIT206_Assignment_01 {
         public Publication FetchPublicationDetailsFromDB(string doi)
         {
             // Initialize an empty publication class
-            Publication publication = new Publication;
+            Publication publication = new Publication();
             try
             {
                 // DataSet to hold the data fetched from the database
@@ -334,10 +348,10 @@ namespace KIT206_Assignment_01 {
         }
 
 
-        public List<Position> FetchPositionListfromDB()
+        /*public List<Position> FetchPositionListfromDB()
         {
 
-        }
+        }*/
 
 
 

@@ -5,12 +5,33 @@ using System.Linq;
 namespace KIT206_Assignment_01 {
     // Defines the ResearchController class
     class ResearchController {
+        private static ResearchController _instance;
+
         // List of all researchers
         public List<Researcher> researchers = new List<Researcher>();
         // List of filtered researchers based on specific criteria
         public List<Researcher> filteredResearchers = new List<Researcher>();
         private EmploymentLevel employmentFilter;
         private string nameFilter;
+
+        private GlobalDBAdaptor db;
+
+        // Private constructor to prevent external instantiation
+        private ResearchController() {
+            db = new GlobalDBAdaptor();
+            //on initialisation, fetch the researcher data from DB
+            FetchResearcherList(db);
+        }
+
+        // Public static property to access the instance
+        public static ResearchController Instance {
+            get {
+                if (_instance == null) {
+                    _instance = new ResearchController();
+                }
+                return _instance;
+            }
+        }
 
         // Unused method intended to fetch a specified number of dummy researchers for testing
         public void FetchDummyResearchers(int amount, GlobalDBAdaptor db) {

@@ -138,8 +138,6 @@ namespace KIT206_Assignment_01
 
         }
 
-
-
         //an override for researcher object to string;
         public override string ToString()
         {

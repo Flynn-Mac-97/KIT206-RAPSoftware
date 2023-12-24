@@ -20,7 +20,7 @@ namespace KIT206_Assignment_01
         // fetches and stores a list of publications from the database
         public void FetchPublicationList(GlobalDBAdaptor db)
         {
-            this.publications = db.FetchPublicationListFromDB();
+            //this.publications = db.FetchPublicationListFromDB();
             //TO DO: needs to be sorted by desecning order of years and alphabetical order of doi 
         }
 
