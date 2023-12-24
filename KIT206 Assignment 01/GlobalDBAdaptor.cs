@@ -246,7 +246,7 @@ namespace KIT206_Assignment_01 {
         // Converts a string representation of a ranking to the Ranking enum
         public Ranking CastStringAsRanking(string s) {
             Ranking r = Ranking.Q1; // Default title
-            switch (r) {
+            switch (s) {
                 // Matching string representation with the corresponding Title enum value
                 case "Q1":
                     r = Ranking.Q1;
@@ -266,8 +266,8 @@ namespace KIT206_Assignment_01 {
 
         // Converts a string representation of a ranking to the Ranking enum
         public PublicationType CastStringAsPublicationType(string s) {
-            PublicationType type = PublicationType.JOURNAL// Default title
-            switch (type) {
+            PublicationType type = PublicationType.JOURNAL;// Default title
+            switch (s) {
                 // Matching string representation with the corresponding Title enum value
                 case "Journal":
                     type = PublicationType.JOURNAL;
@@ -276,7 +276,7 @@ namespace KIT206_Assignment_01 {
                     type = PublicationType.CONFERENCE;
                     break;
                 case "Other":
-                    type = PublicationType.OTHER
+                    type = PublicationType.OTHER;
                     break;
             }
             return type;
@@ -405,7 +405,7 @@ namespace KIT206_Assignment_01 {
                 foreach (DataRow row in positionDataSet.Tables["position"].Rows)
                 {
                     Position pos = null; // Default value in case of failure
-                    int id = (int)row["id"].ToString();
+                    int id = (int)row["id"];
 
                     if (id == ID) 
                     {
