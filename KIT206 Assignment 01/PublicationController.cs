@@ -12,7 +12,7 @@ namespace KIT206_Assignment_01
         public List<Publication> publications = new List<Publication>();
 
         // List of filtered publications based on specific criteria
-        public List<Publication> filteredResearchers = new List<Publication>();
+        public List<Publication> filteredPublications = new List<Publication>();
         //private employmentFilter;
         private string yearFilter;
 
@@ -21,9 +21,10 @@ namespace KIT206_Assignment_01
         public void FetchPublicationList(GlobalDBAdaptor db)
         {
             this.publications = db.FetchPublicationListFromDB();
+            //TO DO: needs to be sorted by desecning order of years and alphabetical order of doi 
         }
 
-
+        /*
         // filters publications by publication year and availdability date
         public void FilterByYear(int year, int month)
         {
@@ -33,11 +34,22 @@ namespace KIT206_Assignment_01
                 && (p.availability.Month == month)).ToList();
 
         }
+        */
+
+        // filters publications by a selected range of publication year
+        public void FilterByYearRange(int year1, int year2)
+        {
+            filteredPublications = publications
+                .Where(p => (p.yearPublished >= year1 && p.yearPublished <= year2))
+                .ToList();
+
+        }
 
         // sorts publications in ascending order by publication year 
         public void SortByAscendingOrder()
         {
-            filteredResearchers.Sort((p1, p2) => p1.yearPublished.CompareTo(p2.yearPublished));
+            publications.Sort((p1, p2) => p1.yearPublished.CompareTo(p2.yearPublished));
+            //TO DO: also needs to be sorted in alphabetical order of doi. 
 
         }
 
