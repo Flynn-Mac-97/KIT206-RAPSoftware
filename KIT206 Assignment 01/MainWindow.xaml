@@ -122,6 +122,43 @@
             <!-- Publications Tab -->
             <TabItem Header="Reports">
                 <!-- Content for Reports tab here -->
+              <Grid>
+                
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"/>
+                  <RowDefinition Height="*"/>
+                  <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Copy Email button-->
+                <StackPanel Grid.Row ="0">
+                  <Button HorizontalAlignment="Right" Content = "Copy Email"  Height = "30" Width = "150"/>
+                  </StackPanel>
+
+                <!--Buttons for selecting the performance levels-->>
+                <StackPanel Grid.Row ="1">
+                <TextBlock Text = "Performance Level" FontSize="14" FontWeight="Bold" Height = "20" Width = "200" Margin = "5"/>
+                <StackPanel Orientation =" Horizontal" HorizontalAlignment="Center">
+                  <Button Content = "Poor" Click ="Poor" Height = "30" Width = "150"/>
+                  <Button Content = "Below Expectation"  Height = "30" Width = "150"/>
+                  <Button Content = "Meeting Minimum"  Height = "30" Width = "150"/>
+                  <Button Content = "Star Performer"  Height = "30" Width = "150"/>   
+                  </StackPanel>
+                </StackPanel>
+
+                <TextBlock x:Name="test" Margin="5,8,0,0" />
+                
+                <ListView/>
+                
+                
+
+                
+                
+                
+                
+                </Grid>
+
+              
             </TabItem>
         </TabControl>
     </Grid>

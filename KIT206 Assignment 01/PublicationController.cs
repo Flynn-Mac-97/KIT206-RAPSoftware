@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Deployment.Internal;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,24 +17,18 @@ namespace KIT206_Assignment_01
         //private employmentFilter;
         private string yearFilter;
 
+        private PublicationController()
+        {
+        }
+
+
+
         // fetches and stores a list of publications from the database
-        public void FetchPublicationList(GlobalDBAdaptor db)
+        public void FetchPublicationList(GlobalDBAdaptor db, int id)
         {
-            //this.publications = db.FetchPublicationListFromDB();
-            //TO DO: needs to be sorted by desecning order of years and alphabetical order of doi 
+            this.publications = db.FetchPublicationListFromDB(id);
         }
 
-        /*
-        // filters publications by publication year and availdability date
-        public void FilterByYear(int year, int month)
-        {
-
-            filteredResearchers = publications
-                .Where(p => (p.yearPublished == year || p.availability.Year == year)
-                && (p.availability.Month == month)).ToList();
-
-        }
-        */
 
         // filters publications by a selected range of publication year
         public void FilterByYearRange(int year1, int year2)

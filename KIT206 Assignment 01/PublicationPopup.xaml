@@ -8,5 +8,17 @@
         Title="PublicationPopup" Height="450" Width="450">
     <Grid>
         <Rectangle Fill="White" HorizontalAlignment="Left" Height="450" Stroke="Black" VerticalAlignment="Top" Width="450"/>
-    </Grid>
+    
+  
+  <StackPanel>
+    <TextBlock Text = "Publication Details" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Height = "20" Width = "200" Margin = "5"/>
+    
+    
+    
+    </StackPanel>
+
+</Grid>
+  
+  
+  
 </Window>
