@@ -19,6 +19,7 @@ namespace KIT206_Assignment_01 {
     public partial class PublicationPopup : Window {
         public PublicationPopup(Publication p) {
             InitializeComponent();
+
         }
     }
 }

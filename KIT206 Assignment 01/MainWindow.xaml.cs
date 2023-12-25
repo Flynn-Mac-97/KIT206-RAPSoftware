@@ -130,20 +130,6 @@ namespace KIT206_Assignment_01 {
             sP.Children.Add(tb);
         }
 
-        private void Poor(object sender, RoutedEventArgs e)
-        {
-            test.Text = "Researchers with Poor Performace";
-
-        }
-
-
-
-
-        /*
-        private void CopyEmail(object sender, RoutedEventArgs e)
-        {
-            //copy email addresses
-        }
-        */
+      
     }
 }
