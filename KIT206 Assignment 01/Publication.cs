@@ -18,8 +18,6 @@ namespace KIT206_Assignment_01
         public PublicationType type { get; set; }
         public string citeLink { get; set; }
         public DateTime availability { get; set; }
-        
-
 
         public Publication() 
         {
@@ -53,6 +51,8 @@ namespace KIT206_Assignment_01
                 "\n Age: " + this.Age 
                 );
         }
-
+        public string ToSummaryString() {
+            return this.title + "\n" + this.yearPublished + "\n" + this.author + "\n";
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using KIT206_Assignment_01;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Relational;
 
 namespace KIT206_Assignment_01 {
     class GlobalDBAdaptor {
@@ -24,12 +25,48 @@ namespace KIT206_Assignment_01 {
             conn = new MySqlConnection(connectionString);
         }
 
+        //Fetch specific researcher from database
+        //uses Dataset
+        public Researcher FetchResearcherFromDB(int ID) {
+            if(ID == 0)return null; 
+            Researcher r = null; // Default value in case of failure
+            try {
+                // DataSet to hold the data fetched from the database
+                var researcherDataSet = new DataSet();
+                // Data adapter to manage data retrieval from the database
+                var researcherAdapter = new MySqlDataAdapter("select * from researcher where id = " + ID, conn);
+                // Filling the DataSet with data from the 'researcher' table
+                researcherAdapter.Fill(researcherDataSet, "researcher");
+                // If the query returned a row
+                if (researcherDataSet.Tables["researcher"].Rows.Count != 0) {
+                    DataRow row = researcherDataSet.Tables["researcher"].Rows[0];
+                    //Get the type of this researcher
+                    string type = row["type"].ToString();
+                    // If the researcher is a staff member
+                    if (type == "Staff") {
+                        // Creating a new Researcher object and initializing it with data from the row
+                        r = NewStaffFromDataRow(row);
+                    }
+
+                    //if the researcher is a student
+                    if (type == "Student") {
+                        // Creating a new Researcher object and initializing it with data from the row
+                        r = NewStudentFromDataRow(row);
+                    }
+                }
+            }
+            finally {
+                // Ensuring the database connection is closed after data retrieval
+                if (conn != null) {
+                    conn.Close();
+                }
+            }
+            return r;
+        }
 
         // Fetches a list of researchers from the database
-        public List<Researcher> FetchResearcherListFromDB() {
-            // TO DO: just names, id, title , type, level for the list 
-
-
+        //creates a comprehensive list of researchers
+        public List<Researcher> FetchCompleteListFromDB() {
             // Initialize an empty list of researchers
             List<Researcher> researchers = new List<Researcher>();
             try {
@@ -47,35 +84,13 @@ namespace KIT206_Assignment_01 {
                     // If the researcher is a staff member
                     if (type == "Staff") {
                         // Creating a new Researcher object and initializing it with data from the row
-                        r = new Researcher {
-                            id = (int)row["id"],
-                            givenName = row["given_name"].ToString(),
-                            familyName = row["family_name"].ToString(),
-                            title = CastStringAsTitle(row["title"].ToString()),
-                            email = row["email"].ToString(),
-                            unit = row["unit"].ToString(),
-                            photo = row["photo"].ToString(),
-                            campus = CastStringToCampus(row["campus"].ToString()),
-                            utasStart = (DateTime)row["utas_start"],
-                            currentStart = (DateTime)row["current_start"]
-                        };
+                        r = NewStaffFromDataRow(row);
                     }
 
                     //if the researcher is a student
                     if (type == "Student") {
                         // Creating a new Researcher object and initializing it with data from the row
-                        r = new Researcher {
-                            id = (int)row["id"],
-                            givenName = row["given_name"].ToString(),
-                            familyName = row["family_name"].ToString(),
-                            title = CastStringAsTitle(row["title"].ToString()),
-                            email = row["email"].ToString(),
-                            unit = row["unit"].ToString(),
-                            photo = row["photo"].ToString(),
-                            campus = CastStringToCampus(row["campus"].ToString()),
-                            utasStart = (DateTime)row["utas_start"],
-                            currentStart = (DateTime)row["current_start"]
-                        };
+                        r = NewStudentFromDataRow(row);
                     }
 
                     // Adding the new researcher to the list
@@ -90,6 +105,79 @@ namespace KIT206_Assignment_01 {
             }
             return researchers;
         }
+
+        //Creates a student researcher from a data row
+        private Researcher NewStudentFromDataRow(DataRow row) {
+            return new Student {
+                id = (int)row["id"],
+                type = ResearcherType.STUDENT,
+                level = CastEmploymentAsEnumType(row["level"].ToString()),
+                givenName = row["given_name"].ToString(),
+                familyName = row["family_name"].ToString(),
+                title = CastStringAsTitle(row["title"].ToString()),
+                email = row["email"].ToString(),
+                unit = row["unit"].ToString(),
+                photo = row["photo"].ToString(),
+                campus = CastStringToCampus(row["campus"].ToString()),
+                utasStart = (DateTime)row["utas_start"],
+                currentStart = (DateTime)row["current_start"],
+                publications = FetchPublicationListFromDB((int)row["id"]),
+
+                //student specific
+                degree = row["degree"].ToString(),
+                supervisor = (Staff)FetchResearcherFromDB(row["supervisor_id"] != DBNull.Value ? Convert.ToInt32(row["supervisor_id"]) : 0),
+            };
+        }
+        //Creates a staff researcher from a data row
+        private Researcher NewStaffFromDataRow(DataRow row) {
+            return new Staff {
+                id = (int)row["id"],
+                type = ResearcherType.STAFF,
+                level = CastEmploymentAsEnumType(row["level"].ToString()),
+                givenName = row["given_name"].ToString(),
+                familyName = row["family_name"].ToString(),
+                title = CastStringAsTitle(row["title"].ToString()),
+                email = row["email"].ToString(),
+                unit = row["unit"].ToString(),
+                photo = row["photo"].ToString(),
+                campus = CastStringToCampus(row["campus"].ToString()),
+                utasStart = (DateTime)row["utas_start"],
+                currentStart = (DateTime)row["current_start"],
+                publications = FetchPublicationListFromDB((int)row["id"]),
+                positionHistory = FetchPositionHistoryfromDB((int)row["id"]),
+                //staff specific
+                supervisions = new List<Student>(),
+            };
+        }
+
+        //fetch list of students that a supervisor is supervising
+        public List<Student> FetchSupervisionsFromDB(int ID) {
+            // Initialize an empty list of students
+            List<Student> students = new List<Student>();
+            try {
+                // DataSet to hold the data fetched from the database
+                var studentDataSet = new DataSet();
+                // Data adapter to manage data retrieval from the database
+                var studentAdapter = new MySqlDataAdapter("select * from researcher where supervisor_id = " + ID, conn);
+                // Filling the DataSet with data from the 'researcher' table
+                studentAdapter.Fill(studentDataSet, "researcher");
+
+                // Iterating through each row in the 'researcher' table
+                foreach (DataRow row in studentDataSet.Tables["researcher"].Rows) {
+                    // Creating a new Researcher object and initializing it with data from the row
+                    Student s = (Student)NewStudentFromDataRow(row);
+                    // Adding the new researcher to the list
+                    students.Add(s);
+                }
+            }
+            finally {
+                // Ensuring the database connection is closed after data retrieval
+                if (conn != null) {
+                    conn.Close();
+                }
+            }
+            return students;
+        }   
 
         //Cast string to campus enum value.
         public Campus CastStringToCampus(string s) {
@@ -106,85 +194,6 @@ namespace KIT206_Assignment_01 {
             }
         }
 
-        /*// fetches researcher details for a researcher
-        public Researcher FetchResearcherDetailsfromDB(int ID)
-        {
-            // Initialize an empty researcher class
-            Researcher researcher = new Researcher;
-            try
-            {
-                // DataSet to hold the data fetched from the database
-                var researcherDetailsDataSet = new DataSet();
-                // Data adapter to manage data retrieval from the database
-                var researcherDetailsAdapter = new MySqlDataAdapter("select * from researcher", conn);
-                // Filling the DataSet with data from the 'publication' table
-                researcherDetailsAdapter.Fill(researcherDetailsDataSet, "researcher");
-
-                // Iterating through each row in the 'publication' table
-                foreach (DataRow row in researcherDetailsDataSet.Tables["researcher"].Rows)
-                {
-                    int id = (int)row["id"];
-
-                    if (ID == id)
-                    {
-                        Researcher r = null; // Default value in case of failure
-                        string type = row["type"].ToString();
-
-                        // If the researcher is a staff member
-                        if (type == "Staff")
-                        {
-                            // Creating a new Researcher object and initializing it with data from the row
-                            r = new Researcher
-                            {
-                                id = (int)row["id"],
-                                givenName = row["given_name"].ToString(),
-                                familyName = row["family_name"].ToString(),
-                                title = CastStringAsTitle(row["title"].ToString()),
-                                email = row["email"].ToString(),
-                                school = row["unit"].ToString(),
-                                imageURL = row["photo"].ToString(),
-                                campus = row["campus"].ToString(),
-                                utasStart = (DateTime)row["utas_start"],
-                                positionStart = (DateTime)row["current_start"],
-                                publications = FetchPublicationListFromDB(id);
-                            };
-                        }
-
-                        //if the researcher is a student
-                        if (type == "Student")
-                        {
-                            // Creating a new Researcher object and initializing it with data from the row
-                            r = new Researcher
-                            {
-                                id = (int)row["id"],
-                                givenName = row["given_name"].ToString(),
-                                familyName = row["family_name"].ToString(),
-                                title = CastStringAsTitle(row["title"].ToString()),
-                                email = row["email"].ToString(),
-                                school = row["unit"].ToString(),
-                                imageURL = row["photo"].ToString(),
-                                campus = row["campus"].ToString(),
-                                utasStart = (DateTime)row["utas_start"],
-                                positionStart = (DateTime)row["current_start"],
-                                publications = FetchPublicationListFromDB(id);
-                            };
-                        }
-                        researcher = r;
-                    }
-                }
-            }
-            finally
-            {
-                // Ensuring the database connection is closed after data retrieval
-                if (conn != null)
-                {
-                    conn.Close();
-                }
-            }
-            return researcher;
-
-        }
-*/
         // Converts a string representation of a title to the Title enum
         public Title CastStringAsTitle(string s) {
             Title t = Title.MR; // Default title
@@ -283,109 +292,51 @@ namespace KIT206_Assignment_01 {
         }
 
 
-        //fecthes publication list for a researcher
-        public List<Publication> FetchPublicationListFromDB(int ID)
-        {
-            // Initialize an empty list of researchers
+        public List<Publication> FetchPublicationListFromDB(int ID) {
+            // Initialize an empty list of publications
             List<Publication> publications = new List<Publication>();
-            try
-            {
-                // DataSet to hold the data fetched from the database
-                var publicationDataSet = new DataSet();
-                // Data adapter to manage data retrieval from the database
-                var publicationAdapter = new MySqlDataAdapter("select doi, title, year, authors from publication", conn);
-                // Filling the DataSet with data from the 'publication' table
-                publicationAdapter.Fill(publicationDataSet, "publication");
+
+            try {
+                // Query to find publications for a specific researcher
+                string query = $"SELECT publication.doi, publication.title, publication.ranking, publication.authors, publication.year, publication.type, publication.cite_as, publication.available FROM publication JOIN researcher_publication ON publication.doi = researcher_publication.doi WHERE researcher_publication.researcher_id = {ID}";
 
                 // DataSet to hold the data fetched from the database
-                var researcherPublicationDataSet = new DataSet();
+                var dataSet = new DataSet();
+
                 // Data adapter to manage data retrieval from the database
-                var researcherPublicationAdapter = new MySqlDataAdapter("select * from researcher_publication", conn);
-                // Filling the DataSet with data from the 'publication' table
-                researcherPublicationAdapter.Fill(researcherPublicationDataSet, "researcher_publication");
+                var adapter = new MySqlDataAdapter(query, conn);
 
-                foreach (DataRow row in researcherPublicationDataSet.Tables["researcher_publication"].Rows)
-                {
-                    int id = (int)row["id"];
-                    if (ID == id)
-                    {
-                        // Iterating through each row in the 'publication' table
-                        foreach (DataRow row1 in publicationDataSet.Tables["publication"].Rows)
-                        {
-                            Publication p = null; // Default value in case of failure
+                // Filling the DataSet with data
+                adapter.Fill(dataSet, "matchedPublications");
 
-                            p = new Publication
-                            {
-                                DOI = row["doi"].ToString(),
-                                title = row["title"].ToString(),
-                                author = row["authors"].ToString(),
-                                yearPublished = (int)row["year"]
-                            };
-                            publications.Add(p);
-                        }
-                    }
-                }   
+                // Iterating through each row in the matched publications
+                foreach (DataRow row in dataSet.Tables["matchedPublications"].Rows) {
+                    // Creating a new Publication object from the DataRow
+                    Publication p = new Publication {
+                        DOI = row["doi"].ToString(),
+                        title = row["title"].ToString(),
+                        author = row["authors"].ToString(),
+                        ranking = CastStringAsRanking(row["ranking"].ToString()),
+                        yearPublished = row["year"] != DBNull.Value ? Convert.ToInt32(row["year"]) : 0,
+                        type = CastStringAsPublicationType(row["type"].ToString()),
+                        citeLink = row["cite_as"].ToString(),
+                        availability = (DateTime)row["available"]
+                    };
+                    publications.Add(p);
+                }
             }
-            finally
-            {
+            catch (Exception ex) {
+                Console.WriteLine("Error fetching publication list: " + ex.Message);
+            }
+            finally {
                 // Ensuring the database connection is closed after data retrieval
-                if (conn != null)
-                {
+                if (conn != null) {
                     conn.Close();
                 }
             }
+
             return publications;
         }
-
-
-        // fetches a publication details for a publication
-        public Publication FetchPublicationDetailsFromDB(string doi)
-        {
-            // Initialize an empty publication class
-            Publication publication = new Publication();
-            try
-            {
-                // DataSet to hold the data fetched from the database
-                var publicationDetailsDataSet = new DataSet();
-                // Data adapter to manage data retrieval from the database
-                var publicationDetailsAdapter = new MySqlDataAdapter("select * from publication", conn);
-                // Filling the DataSet with data from the 'publication' table
-                publicationDetailsAdapter.Fill(publicationDetailsDataSet, "publication");
-
-                // Iterating through each row in the 'publication' table
-                foreach (DataRow row in publicationDetailsDataSet.Tables["publication"].Rows)
-                {
-                    Publication p = null; // Default value in case of failure
-                    string DOI = row["doi"].ToString();
-
-                    if (doi == DOI) 
-                    {
-                        p = new Publication
-                        {
-                            DOI = row["doi"].ToString(),
-                            title = row["title"].ToString(),
-                            author = row["authors"].ToString(),
-                            ranking = CastStringAsRanking(row["ranking"].ToString()),
-                            yearPublished = (int)row["year"],
-                            type = CastStringAsPublicationType(row["type"].ToString()),
-                            citeLink = row["cite_as"].ToString(),
-                            availability = (DateTime)row["availablie"]
-                        };
-                        publication = p;
-                    }
-                }
-            }
-            finally
-            {
-                // Ensuring the database connection is closed after data retrieval
-                if (conn != null)
-                {
-                    conn.Close();
-                }
-            }
-            return publication;
-        }
-
 
         // fetch position history of a researcher from database
         public List<Position> FetchPositionHistoryfromDB(int ID)
@@ -397,26 +348,23 @@ namespace KIT206_Assignment_01 {
                 // DataSet to hold the data fetched from the database
                 var positionDataSet = new DataSet();
                 // Data adapter to manage data retrieval from the database
-                var positionAdapter = new MySqlDataAdapter("select * from position", conn);
+                var positionAdapter = new MySqlDataAdapter("select * from position WHERE id = " + ID, conn);
                 // Filling the DataSet with data from the 'position' table
                 positionAdapter.Fill(positionDataSet, "position");
 
                 // Iterating through each row in the 'position' table
                 foreach (DataRow row in positionDataSet.Tables["position"].Rows)
                 {
-                    Position pos = null; // Default value in case of failure
-                    int id = (int)row["id"];
-
-                    if (id == ID) 
+                    Position pos = new Position
                     {
-                        pos = new Position
-                        {
-                            level = CastEmploymentAsEnumType(row["level"].ToString()),
-                            startDate = (DateTime)row["start"],
-                            endDate = (DateTime)row["end"]
-                        };
-                        positions.Add(pos);
-                    }
+                        level = CastEmploymentAsEnumType(row["level"].ToString()),
+                        startDate = (DateTime)row["start"]
+                    };
+
+                    //if end date is not null, add it to the position
+                    if(row["end"] != DBNull.Value){ pos.endDate = (DateTime)row["end"]; };
+
+                    positions.Add(pos);
                 }
             }
             finally
@@ -429,17 +377,7 @@ namespace KIT206_Assignment_01 {
             }
             return positions;
         }
-
-
-
-
-
-
-
-        
     }
-
-
 }
 
 

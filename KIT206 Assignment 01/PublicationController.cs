@@ -16,7 +16,6 @@ namespace KIT206_Assignment_01
         //private employmentFilter;
         private string yearFilter;
 
-
         // fetches and stores a list of publications from the database
         public void FetchPublicationList(GlobalDBAdaptor db)
         {
@@ -52,12 +51,6 @@ namespace KIT206_Assignment_01
             //TO DO: also needs to be sorted in alphabetical order of doi. 
 
         }
-
-
-
-
-        
-        
 
 
     }

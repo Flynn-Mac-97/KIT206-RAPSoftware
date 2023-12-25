@@ -5,7 +5,7 @@ namespace KIT206_Assignment_01
 {
     class Student : Researcher
     {
-        public String degree { get; set; }
+        public string degree { get; set; }
         public Staff supervisor { get; set; }
 
         public Student() {
@@ -13,7 +13,7 @@ namespace KIT206_Assignment_01
 
         }
 
-        public Student(Researcher r) 
+/*        public Student(Researcher r) 
         { 
             this.id = r.id;
             this.type = r.type;
@@ -29,7 +29,7 @@ namespace KIT206_Assignment_01
             this.currentStart = r.currentStart;
             this.publications = r.publications;
             this.positionHistory = r.positionHistory;
-        }
+        }*/
 
         public string supervisorName
         {

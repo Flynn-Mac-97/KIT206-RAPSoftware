@@ -40,10 +40,7 @@ namespace KIT206_Assignment_01 {
         public List<Student> Supervisions(List<Researcher> rlist) {
             foreach (Researcher r in rlist) {
                 if (r.type == ResearcherType.STUDENT) {
-                    Student s = new Student(r);
-                    if (s.supervisorID == this.id) {
-                        //this.slist.Add(s);
-                    }
+                    //Student s = new Student(r);
                 }
             }
             return new List<Student>();
@@ -60,19 +57,11 @@ namespace KIT206_Assignment_01 {
         public float ThreeYearAVG {
             get {
                 float count = 0;
-                DateTime today = DateTime.Today;
-                int year = today.Year;
-                int three_years_ago = year - 3;
-                Researcher r = new Researcher();
-                List<Publication> plist = r.publications;
-
-
-                foreach (Publication p in plist) {
-                    if (three_years_ago >= p.yearPublished || p.yearPublished != year) {
-                        count++;
-                    }
+                for (int i = 0; i <= 2; i++)
+                {
+                    count += this.PublicationsCountByYear((DateTime.Now.Year) - i);
                 }
-                return count / 3;
+                return (float)count / 3;
             }
         }
 
@@ -80,15 +69,7 @@ namespace KIT206_Assignment_01 {
         //a metric calculated using the average number of publications per year
         public int PublicationPerformance {
             get {
-                float performance = 0;
-                Researcher r = new Researcher();
-
-                float tenure = r.Tenure;
-                int pubCount = r.PublicationsCount;
-
-                performance = pubCount / tenure;
-
-                return (int)performance;
+                return (int)(this.PublicationsCount / this.Tenure);
             }
         }
 

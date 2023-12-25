@@ -21,8 +21,6 @@ namespace KIT206_Assignment_01
         public List<Publication> publications { get; set; }
         public List<Position> positionHistory { get; set; }
 
-
-
         public Researcher()
         {
         }
@@ -31,8 +29,44 @@ namespace KIT206_Assignment_01
         public int PublicationsCount
         {
 
-            get { return publications.Count; }
+            get { 
+                if(this.publications == null) {
+                    return 0;
+                }
+                else {
+                    return this.publications.Count;
+                }
+            }
+        }
+        //Count publications by year
+        public int PublicationsCountByYear(int year) {
+            int count = 0;
+            foreach (Publication p in publications) {
+                if (p.yearPublished == year) {
+                    count++;
+                }
+            }
+            return count;
+        }
 
+        //Get oldest publication year
+        public int OldestPublicationYear() {
+            int oldest = 0;
+            foreach (Publication p in publications) {
+                if (p.yearPublished < oldest) {
+                    oldest = p.yearPublished;
+                }
+            }
+            return oldest;
+        }
+
+        //Get list of counts of publications by year
+        public List<string> PublicationsCountByYear() {
+            List<string> counts = new List<string>();
+            for (int i = DateTime.Now.Year; i >= OldestPublicationYear(); i--) {
+                counts.Add(i+" : "+PublicationsCountByYear(i).ToString());
+            }
+            return counts;
         }
 
         // returns the tenure years

@@ -40,7 +40,7 @@ namespace KIT206_Assignment_01 {
 
         // Fetches and stores a list of researchers from the database
         public void FetchResearcherList(GlobalDBAdaptor db) {
-            this.researchers = db.FetchResearcherListFromDB();
+            this.researchers = db.FetchCompleteListFromDB();
         }
 
         // Prints all researchers' details to the console
