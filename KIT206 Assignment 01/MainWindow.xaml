@@ -138,18 +138,22 @@
                 <!--Buttons for selecting the performance levels-->
                 <StackPanel Grid.Row ="1">
                 <TextBlock Text = "Performance Level" FontSize="14" FontWeight="Bold" Height = "20" Width = "200" Margin = "5"/>
-                <StackPanel Orientation =" Horizontal" HorizontalAlignment="Center">
-                  <Button Content = "Poor" Click ="Poor" Height = "30" Width = "150"/>
-                  <Button Content = "Below Expectation"  Height = "30" Width = "150"/>
-                  <Button Content = "Meeting Minimum"  Height = "30" Width = "150"/>
-                  <Button Content = "Star Performer"  Height = "30" Width = "150"/>   
-                  </StackPanel>
+
+                  <ComboBox Width="150" Margin="5" SelectedIndex="0">
+                    <ComboBoxItem Content="ALL"/>
+                    <ComboBoxItem Content="Poor"/>
+                    <ComboBoxItem Content="Below Expectation"/>
+                    <ComboBoxItem Content="Meeting Minimum"/>
+                    <ComboBoxItem Content="Star Performer"/>
+                  </ComboBox>
+
                 </StackPanel>
 
-                <TextBlock x:Name="test" Margin="5,8,0,0" />
-                
-                <ListView/>
-                
+                <StackPanel Grid.Row ="2">
+
+                  
+
+               </StackPanel>
                 
 
                 
