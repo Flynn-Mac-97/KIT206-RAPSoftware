@@ -135,7 +135,7 @@
                   <Button HorizontalAlignment="Right" Content = "Copy Email"  Height = "30" Width = "150"/>
                   </StackPanel>
 
-                <!--Buttons for selecting the performance levels-->>
+                <!--Buttons for selecting the performance levels-->
                 <StackPanel Grid.Row ="1">
                 <TextBlock Text = "Performance Level" FontSize="14" FontWeight="Bold" Height = "20" Width = "200" Margin = "5"/>
                 <StackPanel Orientation =" Horizontal" HorizontalAlignment="Center">
