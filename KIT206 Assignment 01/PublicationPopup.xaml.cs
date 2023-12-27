@@ -20,35 +20,33 @@ namespace KIT206_Assignment_01 {
         public PublicationPopup(Publication p) {
             InitializeComponent();
 
-            //SetDetailsViewToPublication(p);
+            SetDetailsViewToPublication(p);
+        }
+
+        private void SetDetailsViewToPublication(Publication selectedPublication) {
+            PublicationDetails.Children.Clear();
+
+            //Generic details
+            AddTextBlockToStackPanel(PublicationDetails, selectedPublication.DOI, 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(PublicationDetails, selectedPublication.title.ToString().ToLower(), 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(PublicationDetails, selectedPublication.ranking.ToString(), 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(PublicationDetails, selectedPublication.type.ToString(), 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(PublicationDetails, selectedPublication.author, 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(PublicationDetails, selectedPublication.yearPublished.ToString(), 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(PublicationDetails, selectedPublication.citeLink, 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(PublicationDetails, selectedPublication.availability.ToString(), 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(PublicationDetails, selectedPublication.Age.ToString() + " years", 14, FontWeights.Normal);
+        }
+
+
+
+        //Helper function to add a textblock to a stackpanel with given font size, text etc
+        private void AddTextBlockToStackPanel(StackPanel sP, string text, int fontSize, FontWeight fontWeight) {
+            TextBlock tb = new TextBlock();
+            tb.Text = text;
+            tb.FontSize = fontSize;
+            tb.FontWeight = fontWeight;
+            sP.Children.Add(tb);
         }
     }
-
- /*
-    private void SetDetailsViewToPublication(Publication selectedPublication)
-    {
-        PublicationDetails.Children.Clear();
-
-        //Generic details
-        AddTextBlockToStackPanel(PublicationDetails, selectedPublication.DOI, 14, FontWeights.Normal);
-        AddTextBlockToStackPanel(PublicationDetails, selectedPublication.title.ToString().ToLower(), 14, FontWeights.Normal);
-        AddTextBlockToStackPanel(PublicationDetails, selectedPublication.ranking.ToString(), 14, FontWeights.Normal); 
-        AddTextBlockToStackPanel(PublicationDetails, selectedPublication.type.ToString(), 14, FontWeights.Normal);
-        AddTextBlockToStackPanel(PublicationDetails, selectedPublication.author, 14, FontWeights.Normal);
-        AddTextBlockToStackPanel(PublicationDetails, selectedPublication.yearPublished.ToString(), 14, FontWeights.Normal);
-        AddTextBlockToStackPanel(PublicationDetails, selectedPublication.citeLink, 14, FontWeights.Normal);
-        AddTextBlockToStackPanel(PublicationDetails, selectedPublication.availability.ToString(), 14, FontWeights.Normal);
-        AddTextBlockToStackPanel(PublicationDetails, selectedPublication.Age.ToString() + " years", 14, FontWeights.Normal);
-    }
-
-
-    
-    //Helper function to add a textblock to a stackpanel with given font size, text etc
-    private void AddTextBlockToStackPanel(StackPanel sP, string text, int fontSize, FontWeight fontWeight) {
-         TextBlock tb = new TextBlock();
-         tb.Text = text;
-         tb.FontSize = fontSize;
-         tb.FontWeight = fontWeight;
-         sP.Children.Add(tb);
-    }*/
 }

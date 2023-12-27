@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
+using System;
 
 namespace KIT206_Assignment_01 {
     /// <summary>
@@ -125,29 +126,64 @@ namespace KIT206_Assignment_01 {
 
         private void ReportsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Dont run if we arent on the tab
+            if(MainTabControl.SelectedIndex != 1) {
+                return;
+            }
+
             if (PerformanceComboBox.SelectedIndex >= 0)
             {
-                string selectedPerformance = PerformanceComboBox.SelectedItem.ToString();
+                string selectedPerformance = PerformanceComboBox.Text;
 
-                Report report = new Report();
-                List<Researcher> filteredResearchers = ResearchController.Instance.FilterbyPerformance(report.PerformanceLevel());
+                //Add list view item
+                ListViewItem item = new ListViewItem();
+                item.Content = selectedPerformance;
+
+                ListView view = ReportsListView;
+
+                //Just for testing etc...
+                //view.Items.Add(item);
+
+                //Report report = new Report(); DONT NEED TO CREATE A NEW REPORT ;)
+                List<Researcher> filteredResearchers = ResearchController.Instance.FilterbyPerformance(MapStringToPerformance(selectedPerformance));
+
+                //output count of filtered researchers
+                Console.WriteLine(filteredResearchers.Count);
 
                 // Display the filtered researchers
                 DisplayResearcherList(filteredResearchers);
+            }
+        }
 
+        //helper function to map the string selection of report combo box to the enum
+        private ResearcherPerformance MapStringToPerformance(string performance) {
+            ResearcherPerformance performanceEnum = ResearcherPerformance.BELOW_EXPECTATIONS;
+            /*< ComboBoxItem Content = "Poor" />
+            < ComboBoxItem Content = "Below Expectation" />
+            < ComboBoxItem Content = "Meeting Minimum" />
+            < ComboBoxItem Content = "Star Performer" />*/
+            switch (performance) {
+                case "Poor":
+                    performanceEnum = ResearcherPerformance.POOR;
+                    break;
+                case "Below Expectation":
+                    performanceEnum = ResearcherPerformance.BELOW_EXPECTATIONS;
+                    break;
+                case "Meeting Minimum":
+                    performanceEnum = ResearcherPerformance.MEETING_MINIMUM;
+                    break;
+                case "Star Performer":
+                    performanceEnum = ResearcherPerformance.STAR_PERFORMER;
+                    break;
             }
 
+            return performanceEnum;
         }
 
 
         private void DisplayResearcherList(List<Researcher> researchers)
         {
             ReportsListView.ItemsSource = researchers;
-
-            // To do: display researchers
-            SelectedResearcherDetails.Children.Clear();  
-
-
         }
 
 

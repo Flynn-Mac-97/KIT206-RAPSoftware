@@ -122,54 +122,53 @@
             <!-- Publications Tab -->
             <TabItem Header="Reports">
                 <!-- Content for Reports tab here -->
-              <Grid>
-                
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto"/>
-                  <RowDefinition Height="*"/>
-                  <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+                <Grid>
 
-                <!-- Copy Email button-->
-                <StackPanel Grid.Row ="0">
-                  <Button HorizontalAlignment="Right" Content = "Copy Email"  Height = "30" Width = "150"/>
-                  </StackPanel>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="81*"/>
+                        <RowDefinition Height="565*"/>
+                    </Grid.RowDefinitions>
 
-                <!--Buttons for selecting the performance levels-->
-                <StackPanel Grid.Row ="1">
-                <TextBlock Text = "Performance Level" FontSize="14" FontWeight="Bold" Height = "20" Width = "200" Margin = "5"/>
+                    <!-- Copy Email button-->
+                    <StackPanel Grid.Row ="0">
+                        <Button HorizontalAlignment="Right" Content = "Copy Email"  Height = "30" Width = "150"/>
+                    </StackPanel>
 
-                        <ComboBox x:Name="PerformanceComboBox" Width="150" Margin="5" SelectedIndex="0">
+                    <!--Buttons for selecting the performance levels-->
+                    <StackPanel Grid.Row ="1">
+                        <TextBlock Text = "Performance Level" FontSize="14" FontWeight="Bold" Height = "20" Width = "200" Margin = "5"/>
+
+                        <ComboBox x:Name="PerformanceComboBox" Width="150" Margin="5" SelectedIndex="0" SelectionChanged="ReportsListView_SelectionChanged">
                             <ComboBoxItem Content="Poor"/>
-                    <ComboBoxItem Content="Below Expectation"/>
-                    <ComboBoxItem Content="Meeting Minimum"/>
-                    <ComboBoxItem Content="Star Performer"/>
-                  </ComboBox>
+                            <ComboBoxItem Content="Below Expectation"/>
+                            <ComboBoxItem Content="Meeting Minimum"/>
+                            <ComboBoxItem Content="Star Performer"/>
+                        </ComboBox>
 
-                </StackPanel>
+                    </StackPanel>
                     <!-- ListView to display researchers' performance -->
-                        <ListView x:Name="ReportsListView" Grid.Row="2" Margin="5" SelectionChanged="ReportsListView_SelectionChanged" ItemsSource="{Binding}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                    <ListView Name="ReportsListView" Margin="0,81,0,0" Grid.RowSpan="2" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                        <TextBlock Text="{Binding givenName}" Grid.Column="0" Margin="5"/>
-                                        <TextBlock Text="{Binding familyName}" Grid.Column="1" Margin="5"/>
-                                        <TextBlock Text="{Binding performance}" Grid.Column="2" Margin="5"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-
-
+                                    <TextBlock Text="{Binding givenName}" Grid.Column="0" Margin="5"/>
+                                    <TextBlock Text="{Binding familyName}" Grid.Column="1" Margin="5"/>
+                                    <TextBlock Text="{Binding performance}" Grid.Column="2" Margin="5"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Grid>
 
-              
+
             </TabItem>
         </TabControl>
     </Grid>

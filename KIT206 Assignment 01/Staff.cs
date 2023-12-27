@@ -13,6 +13,8 @@ namespace KIT206_Assignment_01 {
         // empty list of students to store the list of students that this staff is supervising. 
         public List<Student> supervisions = new List<Student>();
 
+        //For now just set to POOR , but we will calculate when checking performance.
+        public ResearcherPerformance performance = ResearcherPerformance.POOR;
 
         public Staff() {
 
@@ -85,6 +87,64 @@ namespace KIT206_Assignment_01 {
 
                 return (int)performance;
             }
+        }
+
+        // calculates expected number of publications
+        public float ExpectedPublications {
+            get {
+                float expectedPublications = 0;
+
+                switch (this.level) {
+                    case EmploymentLevel.RESEARCH_ASSOCIATE:
+                        expectedPublications = 0.5f;
+                        break;
+                    case EmploymentLevel.LECTURER:
+                        expectedPublications = 1;
+                        break;
+                    case EmploymentLevel.ASSISTANT_PROFESSOR:
+                        expectedPublications = 2;
+                        break;
+                    case EmploymentLevel.ASSOCIATE_PROFESSOR:
+                        expectedPublications = 3.2f;
+                        break;
+                    case EmploymentLevel.PROFESSOR:
+                        expectedPublications = 4;
+                        break;
+                }
+
+                return expectedPublications;
+
+            }
+
+        }
+
+
+        // calculates performance measure
+        public float CalculatePerformance {
+            get {
+                float performance = (this.ThreeYearAVG / ExpectedPublications) * 100;
+
+                return performance;
+            }
+
+        }
+
+
+        // returns performance level based on the performance measure value
+        public ResearcherPerformance PerformanceLevel() {
+
+            float total = CalculatePerformance;
+
+            if (total <= 70)
+                this.performance = ResearcherPerformance.POOR;
+            else if (total > 70 && total < 110)
+                this.performance = ResearcherPerformance.BELOW_EXPECTATIONS;
+            else if (total >= 110 && total < 200)
+                this.performance = ResearcherPerformance.MEETING_MINIMUM;
+            else
+                this.performance = ResearcherPerformance.STAR_PERFORMER;
+            return this.performance;
+
         }
 
 

@@ -40,6 +40,7 @@ namespace KIT206_Assignment_01
         }
         //Count publications by year
         public int PublicationsCountByYear(int year) {
+            if (publications == null) return 0;
             int count = 0;
             foreach (Publication p in publications) {
                 if (p.yearPublished == year) {

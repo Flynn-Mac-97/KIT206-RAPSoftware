@@ -75,18 +75,18 @@ namespace KIT206_Assignment_01 {
         // filters a list of researcher by their performance level
         public List<Researcher> FilterbyPerformance(ResearcherPerformance p)
         {
-            Report rport = new Report();
+            //Report rport = new Report();
             List<Researcher> filteredResearchers = new List<Researcher>();
 
             foreach (Researcher r in researchers)
             {
-                ResearcherPerformance performanceLevel = rport.PerformanceLevel();
-
-                if (performanceLevel == p)
-                {
-                    filteredResearchers.Add(r);
+                if(r is Student) { continue; } // skip students (they dont have performance levels
+                //if they are staff then use their performance level.
+                else if (r is Staff staff) {
+                    if (staff.PerformanceLevel() == p) {
+                        filteredResearchers.Add(r);
+                    }
                 }
-
             }
 
             return filteredResearchers;
