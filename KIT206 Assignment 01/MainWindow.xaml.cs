@@ -76,7 +76,7 @@ namespace KIT206_Assignment_01 {
             }
 
             //Specific details
-            AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Commenced date:" + selectedResearcher.utasStart.Day, 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Commenced date: " + selectedResearcher.utasStart.Day, 14, FontWeights.Normal);
             AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Position Commenced: " + selectedResearcher.currentStart.Day, 14, FontWeights.Normal);
             AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Tenure: " + selectedResearcher.Tenure, 14, FontWeights.Normal);
             AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Total Publications: " + selectedResearcher.PublicationsCount, 14, FontWeights.Normal);

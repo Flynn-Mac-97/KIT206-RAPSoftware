@@ -46,10 +46,23 @@ namespace KIT206_Assignment_01
         // sorts publications in ascending order by publication year 
         public void SortByAscendingOrder()
         {
-            publications.Sort((p1, p2) => p1.yearPublished.CompareTo(p2.yearPublished));
-            //TO DO: also needs to be sorted in alphabetical order of doi. 
+            publications.Sort((p1, p2) =>
+            {
+                int year = p1.yearPublished.CompareTo(p2.yearPublished);
+
+                if (year == 0)
+                {
+                    return string.Compare(p1.DOI, p2.DOI, StringComparison.Ordinal);
+                }
+                else
+                {
+                    return year;
+                }
+
+            });
 
         }
+
 
 
     }
