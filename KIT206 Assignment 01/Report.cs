@@ -79,23 +79,6 @@ namespace KIT206_Assignment_01
 
         }
 
-
-        // filters a list of researcher by their performance level
-        public List<Researcher> FilterbyPerformance(ResearcherPerformance p)
-        {
-            List<Researcher> filteredResearchers = new List<Researcher>();
-
-            foreach (Researcher r in researchers)
-            {
-                ResearcherPerformance performanceLevel = PerformanceLevel();
-
-                if (performanceLevel == p)
-                    filteredResearchers.Add(r);
-            }
-
-            return filteredResearchers;
-
-        }
         
 
     }

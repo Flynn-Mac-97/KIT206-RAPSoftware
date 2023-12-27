@@ -139,27 +139,34 @@
                 <StackPanel Grid.Row ="1">
                 <TextBlock Text = "Performance Level" FontSize="14" FontWeight="Bold" Height = "20" Width = "200" Margin = "5"/>
 
-                  <ComboBox Width="150" Margin="5" SelectedIndex="0">
-                    <ComboBoxItem Content="ALL"/>
-                    <ComboBoxItem Content="Poor"/>
+                        <ComboBox x:Name="PerformanceComboBox" Width="150" Margin="5" SelectedIndex="0">
+                            <ComboBoxItem Content="Poor"/>
                     <ComboBoxItem Content="Below Expectation"/>
                     <ComboBoxItem Content="Meeting Minimum"/>
                     <ComboBoxItem Content="Star Performer"/>
                   </ComboBox>
 
                 </StackPanel>
+                    <!-- ListView to display researchers' performance -->
+                        <ListView x:Name="ReportsListView" Grid.Row="2" Margin="5" SelectionChanged="ReportsListView_SelectionChanged" ItemsSource="{Binding}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Row ="2">
+                                        <TextBlock Text="{Binding givenName}" Grid.Column="0" Margin="5"/>
+                                        <TextBlock Text="{Binding familyName}" Grid.Column="1" Margin="5"/>
+                                        <TextBlock Text="{Binding performance}" Grid.Column="2" Margin="5"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
 
-                  
 
-               </StackPanel>
-                
-
-                
-                
-                
-                
                 </Grid>
 
               

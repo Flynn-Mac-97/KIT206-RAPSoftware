@@ -71,5 +71,26 @@ namespace KIT206_Assignment_01 {
         public string[] FetchResearcherEmails(List<Researcher> r) {
             return researchers.Select(researcher => researcher.email).ToArray();
         }
+
+        // filters a list of researcher by their performance level
+        public List<Researcher> FilterbyPerformance(ResearcherPerformance p)
+        {
+            Report rport = new Report();
+            List<Researcher> filteredResearchers = new List<Researcher>();
+
+            foreach (Researcher r in researchers)
+            {
+                ResearcherPerformance performanceLevel = rport.PerformanceLevel();
+
+                if (performanceLevel == p)
+                {
+                    filteredResearchers.Add(r);
+                }
+
+            }
+
+            return filteredResearchers;
+        }
+
     }
 }

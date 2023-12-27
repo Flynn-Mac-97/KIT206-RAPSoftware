@@ -172,20 +172,22 @@ namespace KIT206_Assignment_01
 
         }
 
+
+
         //an override for researcher object to string;
         public override string ToString()
-        {
-            return (
-                $"{this.familyName}," +
-                $" {this.givenName}," +
-                $" {this.title}\n" +
-                $" Email: {this.email}\n" +
-                $" School: {this.unit}\n" +
-                $" Commenced at Position: {this.currentStart.Date.ToString()}\n" +
-                $" Commenced at Institute: {this.utasStart.Date.ToString()}\n" +
-                $" Tenure: {this.Tenure}," +
-                $" Q1: {this.Q1percentage}"
-                );
+            {
+                return (
+                    $"{this.familyName}," +
+                    $" {this.givenName}," +
+                    $" {this.title}\n" +
+                    $" Email: {this.email}\n" +
+                    $" School: {this.unit}\n" +
+                    $" Commenced at Position: {this.currentStart.Date.ToString()}\n" +
+                    $" Commenced at Institute: {this.utasStart.Date.ToString()}\n" +
+                    $" Tenure: {this.Tenure}," +
+                    $" Q1: {this.Q1percentage}"
+                    );
+            }
         }
     }
-}

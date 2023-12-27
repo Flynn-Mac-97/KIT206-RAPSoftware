@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.Generic;
 
 namespace KIT206_Assignment_01 {
     /// <summary>
@@ -120,6 +121,35 @@ namespace KIT206_Assignment_01 {
                 };
             }
         }
+
+
+        private void ReportsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (PerformanceComboBox.SelectedIndex >= 0)
+            {
+                string selectedPerformance = PerformanceComboBox.SelectedItem.ToString();
+
+                Report report = new Report();
+                List<Researcher> filteredResearchers = ResearchController.Instance.FilterbyPerformance(report.PerformanceLevel());
+
+                // Display the filtered researchers
+                DisplayResearcherList(filteredResearchers);
+
+            }
+
+        }
+
+
+        private void DisplayResearcherList(List<Researcher> researchers)
+        {
+            ReportsListView.ItemsSource = researchers;
+
+            // To do: display researchers
+            SelectedResearcherDetails.Children.Clear();  
+
+
+        }
+
 
         //Helper function to add a textblock to a stackpanel with given font size, text etc
         private void AddTextBlockToStackPanel(StackPanel sP, string text, int fontSize, FontWeight fontWeight) {
