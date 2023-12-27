@@ -79,22 +79,24 @@ namespace KIT206_Assignment_01 {
 
                 // Iterating through each row in the 'researcher' table
                 foreach (DataRow row in researcherDataSet.Tables["researcher"].Rows) {
-                    Researcher r = null; // Default value in case of failure
                     string type = row["type"].ToString();
                     // If the researcher is a staff member
                     if (type == "Staff") {
                         // Creating a new Researcher object and initializing it with data from the row
-                        r = NewStaffFromDataRow(row);
+                        Staff r = NewStaffFromDataRow(row);
+                        //added this to calc performance
+                        r.InitialiseStaffFundingPerformance();
+                        researchers.Add(r);
                     }
 
                     //if the researcher is a student
                     if (type == "Student") {
                         // Creating a new Researcher object and initializing it with data from the row
-                        r = NewStudentFromDataRow(row);
-                    }
+                        Student r = NewStudentFromDataRow(row);
 
-                    // Adding the new researcher to the list
-                    researchers.Add(r);
+                        // Adding the new researcher to the list
+                        researchers.Add(r);
+                    }
                 }
             }
             finally {
@@ -107,7 +109,7 @@ namespace KIT206_Assignment_01 {
         }
 
         //Creates a student researcher from a data row
-        private Researcher NewStudentFromDataRow(DataRow row) {
+        private Student NewStudentFromDataRow(DataRow row) {
             return new Student {
                 id = (int)row["id"],
                 type = ResearcherType.STUDENT,
@@ -129,7 +131,7 @@ namespace KIT206_Assignment_01 {
             };
         }
         //Creates a staff researcher from a data row
-        private Researcher NewStaffFromDataRow(DataRow row) {
+        private Staff NewStaffFromDataRow(DataRow row) {
             return new Staff {
                 id = (int)row["id"],
                 type = ResearcherType.STAFF,
@@ -147,6 +149,7 @@ namespace KIT206_Assignment_01 {
                 positionHistory = FetchPositionHistoryfromDB((int)row["id"]),
                 //staff specific
                 supervisions = new List<Student>(),
+
             };
         }
 

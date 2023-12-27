@@ -1,7 +1,9 @@
-﻿using System;
-
-namespace KIT206_Assignment_01
+﻿namespace KIT206_Assignment_01
 {
+    public static class Globals {
+        public const string XmlFilePath = @"../../Fundings_Rankings.xml";
+        // other global constants here if needed
+    }
     public enum ResearcherType
     {
         STAFF,
@@ -49,42 +51,4 @@ namespace KIT206_Assignment_01
         Q3,
         Q4
     }
-
-
-        //struct for employment level and a start and end date for position
-    /*public struct Position {
-        public EmploymentLevel level { get; set; }
-        public DateTime startDate { get; set; }
-        public DateTime endDate { get; set; }
-    }
-    /* WE DONT NEED THIS 
-    public struct Date
-    {
-        int year;
-        int month;
-        int day;
-
-        //Constructor which takes DD/MM/YYYY
-        public Date(int day, int month, int year)
-        {
-            this.year = year;
-            this.month = month;
-            this.day = day;
-        }
-        //date constructure that takes string and converts it to date
-        public Date(string date)
-        {
-            //convert string to dateTime
-            DateTime dateTime = Convert.ToDateTime(date);
-            this.year = dateTime.Year;
-            this.month = dateTime.Month;
-            this.day = dateTime.Day;
-        }
-        
-        public override string ToString()
-        {
-            return this.day + "/" + this.month + "/" + this.year;
-        }
-    }
-    */
 }

@@ -14,27 +14,10 @@ namespace KIT206_Assignment_01 {
         public List<Student> supervisions = new List<Student>();
 
         //For now just set to POOR , but we will calculate when checking performance.
-        public ResearcherPerformance performance = ResearcherPerformance.POOR;
+        public ResearcherPerformance performance { get; set; }
 
         public Staff() {
 
-        }
-
-        public Staff(Researcher r) {
-            this.id = r.id;
-            this.type = r.type;
-            this.givenName = r.givenName;
-            this.familyName = r.familyName;
-            this.title = r.title;
-            this.unit = r.unit;
-            this.campus = r.campus;
-            this.email = r.email;
-            this.photo = r.photo;
-            this.level = r.level;
-            this.utasStart = r.utasStart;
-            this.currentStart = r.currentStart;
-            this.publications = r.publications;
-            this.positionHistory = r.positionHistory;
         }
 
         //list of student that a staff is supervising
@@ -79,11 +62,11 @@ namespace KIT206_Assignment_01 {
         public int FundingPerformance {
             get {
                 float performance = 0;
-                Researcher r = new Researcher();
+                //Researcher r = new Researcher();
 
-                float tenure = r.Tenure;
+                float tenure = this.Tenure;
 
-                performance = FundingRecieved / tenure;
+                performance = GlobalXMLAdaptor.GetInstance(Globals.XmlFilePath).GetFundingForResearcher(this.id) / tenure;
 
                 return (int)performance;
             }
@@ -126,27 +109,22 @@ namespace KIT206_Assignment_01 {
 
                 return performance;
             }
-
         }
 
-
         // returns performance level based on the performance measure value
-        public ResearcherPerformance PerformanceLevel() {
+        public ResearcherPerformance InitialiseStaffFundingPerformance() {
 
             float total = CalculatePerformance;
 
             if (total <= 70)
-                this.performance = ResearcherPerformance.POOR;
+                return ResearcherPerformance.POOR;
             else if (total > 70 && total < 110)
-                this.performance = ResearcherPerformance.BELOW_EXPECTATIONS;
+                return ResearcherPerformance.BELOW_EXPECTATIONS;
             else if (total >= 110 && total < 200)
-                this.performance = ResearcherPerformance.MEETING_MINIMUM;
+                return ResearcherPerformance.MEETING_MINIMUM;
             else
-                this.performance = ResearcherPerformance.STAR_PERFORMER;
-            return this.performance;
-
+                return ResearcherPerformance.STAR_PERFORMER;
         }
-
 
         public override string ToString() {
             return (

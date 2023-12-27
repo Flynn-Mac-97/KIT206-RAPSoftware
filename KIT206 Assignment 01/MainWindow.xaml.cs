@@ -92,11 +92,11 @@ namespace KIT206_Assignment_01 {
                 //add blocks for staff
                 AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "3 year avg: " + staff.ThreeYearAVG, 14, FontWeights.Normal);
                 //funding
-                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Funding Recieved: " + staff.FundingRecieved, 14, FontWeights.Normal);
+                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Funding Recieved: " + GlobalXMLAdaptor.GetInstance(Globals.XmlFilePath).GetFundingForResearcher(staff.id), 14, FontWeights.Normal);
                 //publication performance
                 AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Publication Performance: " + staff.PublicationPerformance, 14, FontWeights.Normal);
                 //funding performance
-                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Funding Performance:" + staff.FundingPerformance, 14, FontWeights.Normal);
+                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Funding Performance:" + staff.performance, 14, FontWeights.Normal);
                 //supervisions
                 AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Supervisions: " + staff.supervisions, 14, FontWeights.Normal);
             }
@@ -131,61 +131,47 @@ namespace KIT206_Assignment_01 {
                 return;
             }
 
-            if (PerformanceComboBox.SelectedIndex >= 0)
-            {
-                string selectedPerformance = PerformanceComboBox.Text;
-
-                //Add list view item
-                ListViewItem item = new ListViewItem();
-                item.Content = selectedPerformance;
-
-                ListView view = ReportsListView;
-
-                //Just for testing etc...
-                //view.Items.Add(item);
-
-                //Report report = new Report(); DONT NEED TO CREATE A NEW REPORT ;)
-                List<Researcher> filteredResearchers = ResearchController.Instance.FilterbyPerformance(MapStringToPerformance(selectedPerformance));
-
-                //output count of filtered researchers
-                Console.WriteLine(filteredResearchers.Count);
-
-                // Display the filtered researchers
-                DisplayResearcherList(filteredResearchers);
+            // Use SelectedItem instead of Text
+            var selectedItem = PerformanceComboBox.SelectedItem;
+            if (selectedItem == null) {
+                return; // or handle the null case appropriately
             }
+
+            string selectedPerformance = selectedItem.ToString();
+
+            //Report report = new Report(); DONT NEED TO CREATE A NEW REPORT ;)
+            List<Staff> filteredResearchers = ResearchController.Instance.FilterbyPerformance(MapStringToPerformance(selectedPerformance));
+
+            // Display the filtered researchers
+            ReportsListView.ItemsSource = filteredResearchers;
         }
 
         //helper function to map the string selection of report combo box to the enum
         private ResearcherPerformance MapStringToPerformance(string performance) {
-            ResearcherPerformance performanceEnum = ResearcherPerformance.BELOW_EXPECTATIONS;
+            //Console.WriteLine(performance);
+            ResearcherPerformance performanceEnum = ResearcherPerformance.POOR;
             /*< ComboBoxItem Content = "Poor" />
             < ComboBoxItem Content = "Below Expectation" />
             < ComboBoxItem Content = "Meeting Minimum" />
             < ComboBoxItem Content = "Star Performer" />*/
-            switch (performance) {
-                case "Poor":
-                    performanceEnum = ResearcherPerformance.POOR;
-                    break;
-                case "Below Expectation":
-                    performanceEnum = ResearcherPerformance.BELOW_EXPECTATIONS;
-                    break;
-                case "Meeting Minimum":
-                    performanceEnum = ResearcherPerformance.MEETING_MINIMUM;
-                    break;
-                case "Star Performer":
-                    performanceEnum = ResearcherPerformance.STAR_PERFORMER;
-                    break;
+            if(performance.Contains("Poor")) {
+                performanceEnum = ResearcherPerformance.POOR;
+            }
+            else if(performance.Contains("Below Expectation")) {
+                performanceEnum = ResearcherPerformance.BELOW_EXPECTATIONS;
+            }
+            else if(performance.Contains("Meeting Minimum")) {
+                performanceEnum = ResearcherPerformance.MEETING_MINIMUM;
+            }
+            else if(performance.Contains("Star Performer")) {
+                performanceEnum = ResearcherPerformance.STAR_PERFORMER;
+            }
+            else {
+                Console.WriteLine("Error: Could not map performance string to enum");
             }
 
             return performanceEnum;
         }
-
-
-        private void DisplayResearcherList(List<Researcher> researchers)
-        {
-            ReportsListView.ItemsSource = researchers;
-        }
-
 
         //Helper function to add a textblock to a stackpanel with given font size, text etc
         private void AddTextBlockToStackPanel(StackPanel sP, string text, int fontSize, FontWeight fontWeight) {
