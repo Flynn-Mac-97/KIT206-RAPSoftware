@@ -11,7 +11,7 @@ namespace KIT206_Assignment_01
         public ResearcherPerformance performance { get; set; }
         public EmploymentLevel level { get; set; }
         private List<Researcher> researchers { get; set; }
-        private ResearchController researchController;
+       // private ResearchController researchController;
 
 
         // calculates expected number of publications

@@ -5,19 +5,66 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KIT206_Assignment_01"
         mc:Ignorable="d"
-        Title="PublicationPopup" Height="450" Width="450">
+        Title="PublicationPopup" Height="300" Width="450">
     <Grid>
         <Rectangle Fill="White" HorizontalAlignment="Left" Height="450" Stroke="Black" VerticalAlignment="Top" Width="450"/>
-    
-  
-  <StackPanel>
-    <TextBlock Text = "Publication Details" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Height = "20" Width = "200" Margin = "5"/>
-    
-    
-    
-    </StackPanel>
 
-</Grid>
+      <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
+      
+      <StackPanel Grid.Row = "0">
+        <TextBlock Text ="Publication Details" HorizontalAlignment="Center" FontSize ="16" FontWeight="Bold" />
+        </StackPanel>
+        
+        <StackPanel Grid.Row ="1">
+          <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+          
+          <StackPanel Grid.Column ="1">
+            <TextBlock Text ="DOI:" HorizontalAlignment="Left" FontSize ="14" FontWeight="Bold" />
+            <TextBlock Text ="Title:" HorizontalAlignment="Left" FontSize ="14" FontWeight="Bold" />
+            <TextBlock Text ="Ranking:" HorizontalAlignment="Left" FontSize ="14" FontWeight="Bold" />
+            <TextBlock Text ="Type:" HorizontalAlignment="Left" FontSize ="14" FontWeight="Bold" />
+            <TextBlock Text ="Authors:" HorizontalAlignment="Left" FontSize ="14" FontWeight="Bold" />
+            <TextBlock Text ="Year:" HorizontalAlignment="Left" FontSize ="14" FontWeight="Bold" />
+            <TextBlock Text ="Cite As:" HorizontalAlignment="Left" FontSize ="14" FontWeight="Bold" />
+            <TextBlock Text ="Available On:" HorizontalAlignment="Left" FontSize ="14" FontWeight="Bold" />
+            <TextBlock Text ="Age:" HorizontalAlignment="Left" FontSize ="14" FontWeight="Bold" />
+            </StackPanel>
+
+            <StackPanel Grid.Column ="2" Name ="PublicationDetails" IsEnabled="False">
+              <TextBlock Text ="1234_5" HorizontalAlignment="Left" FontSize ="14" />
+              <TextBlock Text ="Hello World" HorizontalAlignment="Left" FontSize ="14" />
+              <TextBlock Text ="Q1" HorizontalAlignment="Left" FontSize ="14" />
+              <TextBlock Text ="Other" HorizontalAlignment="Left" FontSize ="14" />
+              <TextBlock Text ="Albert Einstein" HorizontalAlignment="Left" FontSize ="14" />
+              <TextBlock Text ="1858" HorizontalAlignment="Left" FontSize ="14" />
+              <TextBlock Text ="http://hello" HorizontalAlignment="Left" FontSize ="14" />
+              <TextBlock Text ="23/4/1858" HorizontalAlignment="Left" FontSize ="14" />
+              <TextBlock Text ="200" HorizontalAlignment="Left" FontSize ="14" />
+              
+            </StackPanel>
+
+            
+            </Grid>
+          
+          </StackPanel>
+        
+        
+        </Grid>
+
+  
+
+
+
+      </Grid>
   
   
   

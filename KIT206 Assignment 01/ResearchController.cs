@@ -11,8 +11,8 @@ namespace KIT206_Assignment_01 {
         public List<Researcher> researchers = new List<Researcher>();
         // List of filtered researchers based on specific criteria
         public List<Researcher> filteredResearchers = new List<Researcher>();
-        private EmploymentLevel employmentFilter;
-        private string nameFilter;
+        //private EmploymentLevel employmentFilter;
+        //private string nameFilter;
 
         private GlobalDBAdaptor db;
 
