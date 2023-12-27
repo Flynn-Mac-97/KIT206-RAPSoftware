@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KIT206_Assignment_01"
         mc:Ignorable="d"
-        Title="PublicationPopup" Height="300" Width="450">
+        Title="PublicationPopup" Height="300" Width="500">
     <Grid>
-        <Rectangle Fill="White" HorizontalAlignment="Left" Height="450" Stroke="Black" VerticalAlignment="Top" Width="450"/>
 
+      <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Visible">
       <Grid>
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
@@ -16,7 +16,7 @@
       </Grid.RowDefinitions>
       
       <StackPanel Grid.Row = "0">
-        <TextBlock Text ="Publication Details" HorizontalAlignment="Center" FontSize ="16" FontWeight="Bold" />
+        <TextBlock Text ="Publication Details" HorizontalAlignment="Left" FontSize ="16" FontWeight="Bold" />
         </StackPanel>
         
         <StackPanel Grid.Row ="1">
@@ -60,8 +60,8 @@
         
         </Grid>
 
-  
 
+        </ScrollViewer>
 
 
       </Grid>

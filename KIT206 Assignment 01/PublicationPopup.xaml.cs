@@ -35,7 +35,7 @@ namespace KIT206_Assignment_01 {
             AddTextBlockToStackPanel(PublicationDetails, selectedPublication.yearPublished.ToString(), 14, FontWeights.Normal);
             AddTextBlockToStackPanel(PublicationDetails, selectedPublication.citeLink, 14, FontWeights.Normal);
             AddTextBlockToStackPanel(PublicationDetails, selectedPublication.availability.ToString(), 14, FontWeights.Normal);
-            AddTextBlockToStackPanel(PublicationDetails, selectedPublication.Age.ToString() + " years", 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(PublicationDetails, selectedPublication.Age.ToString() + " days", 14, FontWeights.Normal);
         }
 
 
