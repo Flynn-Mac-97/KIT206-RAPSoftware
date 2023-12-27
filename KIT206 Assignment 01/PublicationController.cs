@@ -14,13 +14,16 @@ namespace KIT206_Assignment_01
 
         // List of filtered publications based on specific criteria
         public List<Publication> filteredPublications = new List<Publication>();
+
+
+
         //private employmentFilter;
-        private string yearFilter;
+        //private string yearFilter;
 
         private PublicationController()
         {
-        }
 
+        }
 
 
         // fetches and stores a list of publications from the database
@@ -28,6 +31,7 @@ namespace KIT206_Assignment_01
         {
             this.publications = db.FetchPublicationListFromDB(id);
         }
+
 
 
         // filters publications by a selected range of publication year
