@@ -159,9 +159,10 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Text="{Binding givenName}" Grid.Column="0" Margin="5"/>
-                                    <TextBlock Text="{Binding familyName}" Grid.Column="1" Margin="5"/>
-                                    <TextBlock Text="{Binding performance}" Grid.Column="2" Margin="5"/>
+                                    
+                                    <TextBlock Text="{Binding CalculatePerformance, StringFormat='{}{0:N2}%'}" Grid.Column="0" Margin="5"/>
+                                    <TextBlock Text="{Binding givenName}" Grid.Column="1" Margin="5"/>
+                                    <TextBlock Text="{Binding familyName}" Grid.Column="2" Margin="5"/>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>

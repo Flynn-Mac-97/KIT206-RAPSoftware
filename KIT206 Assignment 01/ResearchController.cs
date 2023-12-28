@@ -80,7 +80,20 @@ namespace KIT206_Assignment_01 {
 
                 //if they are staff then use their performance level.
                 else if (r is Staff staff && staff.performance == p) {
-                    filteredStaff.Add(staff);
+
+                    if (p == ResearcherPerformance.POOR || p == ResearcherPerformance.BELOW_EXPECTATIONS)
+                    {
+        
+                        filteredStaff.Add(staff);
+                        filteredStaff.Sort((s1, s2) => s1.CalculatePerformance.CompareTo(s2.CalculatePerformance));
+                    }
+
+                    else
+                    {
+                        filteredStaff.Add(staff);
+                        filteredStaff.Sort((s1, s2) => s2.CalculatePerformance.CompareTo(s1.CalculatePerformance));
+
+                    }
 
                 }
             }
