@@ -15,10 +15,10 @@ namespace KIT206_Assignment_01 {
 
         //For now just set to POOR , but we will calculate when checking performance.
         public ResearcherPerformance performance { get; set; }
-
         public Staff() {
 
         }
+
 
         //list of student that a staff is supervising
         //go through the list of all researchers, find the students that have the same supervisorID as the staff
@@ -41,12 +41,13 @@ namespace KIT206_Assignment_01 {
         //calculates the total number of publications in the previous three whole calendar years and divided by three.
         public float ThreeYearAVG {
             get {
+
                 float count = 0;
                 for (int i = 0; i <= 2; i++)
                 {
                     count += this.PublicationsCountByYear((DateTime.Now.Year) - i);
                 }
-                return (float)count / 3;
+                return (float) count / 3 ;
             }
         }
 
@@ -105,7 +106,9 @@ namespace KIT206_Assignment_01 {
         // calculates performance measure
         public float CalculatePerformance {
             get {
-                float performance = (this.ThreeYearAVG / ExpectedPublications) * 100;
+                float performance = this.ThreeYearAVG / ExpectedPublications * 100;
+
+                //Console.WriteLine($"ThhreeYearAVG: {this.ThreeYearAVG}, ExpectedPublications: {ExpectedPublications}, Performance: {performance}");
 
                 return performance;
             }

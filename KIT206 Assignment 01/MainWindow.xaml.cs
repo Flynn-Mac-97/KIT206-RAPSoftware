@@ -173,13 +173,45 @@ namespace KIT206_Assignment_01 {
             return performanceEnum;
         }
 
+        // Click Copy Email button
+        private void CopyEmail_Click(object sender, RoutedEventArgs e)
+        {
+           
+            var selectedItem = PerformanceComboBox.SelectedItem;
+            if (selectedItem == null)
+            {
+                return;
+            }
+
+            string selectedPerformance = selectedItem.ToString();
+
+     
+            List<Staff> filteredResearcher = ResearchController.Instance.FilterbyPerformance(MapStringToPerformance(selectedPerformance));
+
+            // Gets email addresses for all staffs
+            string[] emails = ResearchController.Instance.FetchResearcherEmails(filteredResearcher);
+            
+
+            if (emails.Length > 0)
+            {
+                string copy = string.Join(Environment.NewLine, emails);
+
+                Clipboard.SetText(copy);
+                _ = MessageBox.Show("Copied to clipboard");
+
+            }
+
+
+        }
+
+
         //Helper function to add a textblock to a stackpanel with given font size, text etc
         private void AddTextBlockToStackPanel(StackPanel sP, string text, int fontSize, FontWeight fontWeight) {
-            TextBlock tb = new TextBlock();
-            tb.Text = text;
-            tb.FontSize = fontSize;
-            tb.FontWeight = fontWeight;
-            sP.Children.Add(tb);
+        TextBlock tb = new TextBlock();
+        tb.Text = text;
+        tb.FontSize = fontSize;
+        tb.FontWeight = fontWeight;
+        sP.Children.Add(tb);
         }
 
       

@@ -67,11 +67,6 @@ namespace KIT206_Assignment_01 {
                 .ToList();
         }
 
-        // Fetches and returns an array of email addresses from a list of researchers
-        public string[] FetchResearcherEmails(List<Researcher> r) {
-            return researchers.Select(researcher => researcher.email).ToArray();
-        }
-
         // filters a list of researcher by their performance level
         public List<Staff> FilterbyPerformance(ResearcherPerformance p)
         {
@@ -86,10 +81,20 @@ namespace KIT206_Assignment_01 {
                 //if they are staff then use their performance level.
                 else if (r is Staff staff && staff.performance == p) {
                     filteredStaff.Add(staff);
+
                 }
             }
 
             return filteredStaff;
+
+        }
+
+        // Fetches and returns an array of email addresses from a list of researchers
+        public string[] FetchResearcherEmails(List<Staff> s)
+        {
+            // fillters only staff from researchers
+            List<Researcher> filteredStaff = researchers.Where(researcher => s.Any(staff => staff == researcher)).ToList();
+            return filteredStaff.Select(researcher => researcher.email).ToArray();
         }
 
     }

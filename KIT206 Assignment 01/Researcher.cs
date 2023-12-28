@@ -65,7 +65,7 @@ namespace KIT206_Assignment_01
         public List<string> PublicationsCountByYear() {
             List<string> counts = new List<string>();
             for (int i = DateTime.Now.Year; i >= OldestPublicationYear(); i--) {
-                counts.Add(i+" : "+PublicationsCountByYear(i).ToString());
+                counts.Add(i + " : "+PublicationsCountByYear(i).ToString());
             }
             return counts;
         }
