@@ -25,35 +25,47 @@ namespace KIT206_Assignment_01 {
             conn = new MySqlConnection(connectionString);
         }
 
-        //Fetch specific researcher from database
-        //uses Dataset
+        //Fetch specific researcher from database.
+        //uses Dataset and fetches all the information relating to them.
         public Researcher FetchResearcherFromDB(int ID) {
-            if(ID == 0)return null; 
-            Researcher r = null; // Default value in case of failure
-            try {
-                // DataSet to hold the data fetched from the database
-                var researcherDataSet = new DataSet();
-                // Data adapter to manage data retrieval from the database
-                var researcherAdapter = new MySqlDataAdapter("select * from researcher where id = " + ID, conn);
-                // Filling the DataSet with data from the 'researcher' table
-                researcherAdapter.Fill(researcherDataSet, "researcher");
-                // If the query returned a row
-                if (researcherDataSet.Tables["researcher"].Rows.Count != 0) {
-                    DataRow row = researcherDataSet.Tables["researcher"].Rows[0];
-                    //Get the type of this researcher
-                    string type = row["type"].ToString();
-                    // If the researcher is a staff member
-                    if (type == "Staff") {
-                        // Creating a new Researcher object and initializing it with data from the row
-                        r = NewStaffFromDataRow(row);
-                    }
+            if(ID == 0)return null;
 
-                    //if the researcher is a student
-                    if (type == "Student") {
-                        // Creating a new Researcher object and initializing it with data from the row
-                        r = NewStudentFromDataRow(row);
-                    }
+            Researcher r = new Researcher();
+         
+            // DataSet to hold the data fetched from the database
+            var researcherDataSet = QueryDB("select * from researcher where id = " + ID, "researcher");
+
+            // If the query returned a row
+            if (researcherDataSet.Tables["researcher"].Rows.Count != 0) {
+                DataRow row = researcherDataSet.Tables["researcher"].Rows[0];
+                //Get the type of this researcher
+                string type = row["type"].ToString();
+                // If the researcher is a staff member
+                if (type == "Staff") {
+                    // Creating a new Researcher object and initializing it with data from the row
+                    r = NewStaffFromDataRow(row);
                 }
+
+                //if the researcher is a student
+                if (type == "Student") {
+                    // Creating a new Researcher object and initializing it with data from the row
+                    r = NewStudentFromDataRow(row);
+                }
+            }
+            return r;
+        }
+
+        //Query database and return a DataSet containing results.
+        public DataSet QueryDB(string query, string tableName) {
+            DataSet dataSet = new DataSet();
+            try {
+                // Data adapter to manage data retrieval from the database
+                var adapter = new MySqlDataAdapter(query, conn);
+                // Filling the DataSet with data
+                adapter.Fill(dataSet, tableName);
+            }
+            catch (Exception ex) {
+                Console.WriteLine("Error fetching "+ tableName + " list: " + ex.Message);
             }
             finally {
                 // Ensuring the database connection is closed after data retrieval
@@ -61,10 +73,30 @@ namespace KIT206_Assignment_01 {
                     conn.Close();
                 }
             }
-            return r;
+            return dataSet;
+        }   
+
+        //Fetches a smaller section of data from database relating to a researcher,
+        //Includes name, title and employment level to be displayed in the list view.
+        public List<ResearcherViewModel> FetchResearcherViewModelListFromDB() {
+            var researchers = new List<ResearcherViewModel>();
+            var researcherDataSet = QueryDB("select id, given_name, family_name, title, level from researcher", "researcher");
+
+            foreach (DataRow row in researcherDataSet.Tables["researcher"].Rows) {
+                researchers.Add(new ResearcherViewModel {
+                    ID = (int)row["id"],
+                    FamilyName = row["family_name"].ToString(),
+                    GivenName = row["given_name"].ToString(),
+                    Title = row["title"].ToString(),
+                    Level = CastEmploymentAsString(row["level"].ToString())
+                });
+            }
+
+            return researchers;
         }
 
-        // Fetches a list of researchers from the database
+        //NOT NEEDED ANYMORE SINCE WE DONT NEED TO LOAD A MASSIVE LIST...
+        /*// Fetches a list of researchers from the database
         //creates a comprehensive list of researchers
         public List<Researcher> FetchCompleteListFromDB() {
             // Initialize an empty list of researchers
@@ -106,7 +138,7 @@ namespace KIT206_Assignment_01 {
                 }
             }
             return researchers;
-        }
+        }*/
 
         //Creates a student researcher from a data row
         private Student NewStudentFromDataRow(DataRow row) {
@@ -149,7 +181,6 @@ namespace KIT206_Assignment_01 {
                 positionHistory = FetchPositionHistoryfromDB((int)row["id"]),
                 //staff specific
                 supervisions = new List<Student>(),
-
             };
         }
 
@@ -215,6 +246,24 @@ namespace KIT206_Assignment_01 {
             return t;
         }
 
+        //Convert employment type string to more friendly version
+        public string CastEmploymentAsString(string s) {
+            switch (s) {
+                // Matching string representation with the corresponding EmploymentLevel enum value
+                case "A":
+                    return "Research Associate";
+                case "B":
+                    return "Lecturer";
+                case "C":
+                    return "Assistant Professor";
+                case "D":
+                    return "Associate Professor";
+                case "E":
+                    return "Professor";
+                default:
+                    return "Student"; // Default value
+            }
+        }
 
         // Converts a string representation of employment level to the EmploymentLevel enum
         public EmploymentLevel CastEmploymentAsEnumType(string s) {

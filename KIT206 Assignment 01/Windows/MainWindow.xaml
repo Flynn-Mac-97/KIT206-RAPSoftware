@@ -21,17 +21,17 @@
                     <!-- Filter and Search Bar -->
                     <StackPanel Orientation="Horizontal" Grid.Row="0">
                         <!-- Dropdown Filter -->
-                        <ComboBox Width="150" Margin="5" SelectedIndex="0">
+                        <ComboBox Width="150" Margin="5" SelectedIndex="0" SelectionChanged="ResearcherListFilter_SelectionChanged">
                             <ComboBoxItem Content="ALL"/>
-                            <ComboBoxItem Content="A - Research Associate"/>
-                            <ComboBoxItem Content="B - Lecturer"/>
-                            <ComboBoxItem Content="C - Assistant Professor"/>
-                            <ComboBoxItem Content="D - Associate Professor"/>
-                            <ComboBoxItem Content="E - Professor"/>
-                            <ComboBoxItem Content="F - Student"/>
+                            <ComboBoxItem Content="Research Associate"/>
+                            <ComboBoxItem Content="Lecturer"/>
+                            <ComboBoxItem Content="Assistant Professor"/>
+                            <ComboBoxItem Content="Associate Professor"/>
+                            <ComboBoxItem Content="Professor"/>
+                            <ComboBoxItem Content="Student"/>
                         </ComboBox>
                         <!-- Search Bar -->
-                        <TextBox Width="200" Margin="5" Text="Search..."/>
+                        <TextBox Name="ResearcherListSearch" Width="200" Margin="5" Text="" TextChanged="ResearcherListSearch_TextChanged"/>
                     </StackPanel>
 
                     <!-- Split View for ListView and Details Panel -->
@@ -40,27 +40,18 @@
                             <ColumnDefinition x:Name="ListViewColumn" Width="515*"/>
                             <ColumnDefinition x:Name="DetailsViewColumn" Width="759*"/>
                         </Grid.ColumnDefinitions>
-
                         <!-- ListView -->
-                        <ListView x:Name="ResearchersListView" Grid.Column="0" Margin="5,5,5,5" SelectionChanged="ListViewItem_Selected" d:ItemsSource="{d:SampleData ItemCount=5}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <TextBlock Text="{Binding givenName}" Grid.Column="0" Margin="5"/>
-                                        <TextBlock Text="{Binding familyName}" Grid.Column="1" Margin="5"/>
-                                        <TextBlock Text="{Binding title}" Grid.Column="2" Margin="5"/>
-                                        <TextBlock Text="{Binding level}" Grid.Column="3" Margin="5"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
+                        <ListView Name="ResearcherListView" ItemsSource="{Binding ResearcherNames}" SelectionChanged="ResearcherListViewItem_Selected" d:ItemsSource="{d:SampleData ItemCount=5}" FontSize="16" Margin="5,5,5,5">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Family Name" Width="Auto" DisplayMemberBinding="{Binding FamilyName}" />
+                                    <GridViewColumn Header="Given Name" Width="Auto" DisplayMemberBinding="{Binding GivenName}" />
+                                    <GridViewColumn Header="Title" Width="Auto" DisplayMemberBinding="{Binding Title}" />
+                                    <GridViewColumn Header="Level" Width="Auto" DisplayMemberBinding="{Binding Level}" />
+                                </GridView>
+                            </ListView.View>
                         </ListView>
+
 
                         <!-- Details Panel -->
                         <Grid x:Name="DetailsPanel" Grid.Column="1">
@@ -132,7 +123,7 @@
 
                     <!-- Copy Email button-->
                     <StackPanel Grid.Row ="0">
-                        <Button Content = "Copy Email" Click="CopyEmail_Click" HorizontalAlignment="Right"  Height = "30" Width = "150"/>
+                        <!--<Button Content = "Copy Email" Click="CopyEmail_Click" HorizontalAlignment="Right"  Height = "30" Width = "150"/>-->
                     </StackPanel>
 
                     <!--Buttons for selecting the performance levels-->

@@ -19,35 +19,49 @@ namespace KIT206_Assignment_01 {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-            ResearchController researchController = ResearchController.Instance;
 
             ListViewColumn.Width = new GridLength(1, GridUnitType.Star);
             DetailsViewColumn.Width = new GridLength(0); // Collapsed
 
             // Set the ItemsSource of the ListView
-            ResearchersListView.ItemsSource = researchController.researchers;
+            ResearcherListView.ItemsSource = ResearchController.Instance.ResearcherNames;
         }
 
         //Selected the list item in main view
-        private void ListViewItem_Selected(object sender, SelectionChangedEventArgs e) {
-            if (ResearchersListView.SelectedItem is Researcher selectedResearcher) {
+        private void ResearcherListViewItem_Selected(object sender, SelectionChangedEventArgs e) {
+            if (ResearcherListView.SelectedItem is ResearcherViewModel selectedResearcher) {
 
                 // Adjust column widths
                 ListViewColumn.Width = new GridLength(1, GridUnitType.Star);
                 DetailsViewColumn.Width = new GridLength(2, GridUnitType.Star);
 
                 // Set the details view to the selected researcher
-                SetDetailsViewToResearcher(selectedResearcher);
+                SetDetailsViewToResearcher(ResearchController.Instance.LoadResearcher(selectedResearcher.ID));
             }
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (ResearchersListView.SelectedItem is Researcher selectedResearcher) {
-                
+        private void ResearcherListFilter_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            ComboBox comboBox = sender as ComboBox;
+            if (comboBox != null) {
+                ComboBoxItem selectedItem = comboBox.SelectedItem as ComboBoxItem;
+                if (selectedItem != null) {
+                    string selectedContent = selectedItem.Content.ToString();
+                    // Set the ItemsSource of the ListView
+                    if(selectedContent == "All") { 
+                        ResearcherListView.ItemsSource = ResearchController.Instance.ResearcherNames;
+                    }
+                    else {
+                        //ResearcherListView.ItemsSource = ResearchController.Instance.FilterResearcher("", "Student");
+                    }
+                }
             }
         }
+
         //Refresh ResearcherDetail
         private void SetDetailsViewToResearcher(Researcher selectedResearcher) {
+            //clear out the selected researcher
+            ResearchController.Instance.ClearSelectedResearcher();
+
             ResearcherImage.Source = new BitmapImage(new System.Uri(selectedResearcher.photo));
             //remove children on SelectedResearcherDetails
             SelectedResearcherDetails.Children.Clear();
@@ -173,10 +187,9 @@ namespace KIT206_Assignment_01 {
             return performanceEnum;
         }
 
-        // Click Copy Email button
+        /*// Click Copy Email button
         private void CopyEmail_Click(object sender, RoutedEventArgs e)
         {
-           
             var selectedItem = PerformanceComboBox.SelectedItem;
             if (selectedItem == null)
             {
@@ -189,6 +202,7 @@ namespace KIT206_Assignment_01 {
             List<Staff> filteredResearcher = ResearchController.Instance.FilterbyPerformance(MapStringToPerformance(selectedPerformance));
 
             // Gets email addresses for all staffs
+            
             string[] emails = ResearchController.Instance.FetchResearcherEmails(filteredResearcher);
             
 
@@ -200,10 +214,7 @@ namespace KIT206_Assignment_01 {
                 _ = MessageBox.Show("Copied to clipboard");
 
             }
-
-
-        }
-
+        }*/
 
         //Helper function to add a textblock to a stackpanel with given font size, text etc
         private void AddTextBlockToStackPanel(StackPanel sP, string text, int fontSize, FontWeight fontWeight) {
@@ -214,6 +225,9 @@ namespace KIT206_Assignment_01 {
         sP.Children.Add(tb);
         }
 
-      
+        //when search text is changed
+        private void ResearcherListSearch_TextChanged(object sender, TextChangedEventArgs e) {
+
+        }
     }
 }

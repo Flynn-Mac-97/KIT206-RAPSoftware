@@ -78,19 +78,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
+    <Compile Include="Windows\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="GlobalXMLAdaptor.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Position.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="PublicationPopup.xaml.cs">
+    <Compile Include="Windows\PublicationPopup.xaml.cs">
       <DependentUpon>PublicationPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Report.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="GlobalDBAdaptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -100,21 +98,22 @@
     <Compile Include="Researcher.cs" />
     <Compile Include="Staff.cs" />
     <Compile Include="Student.cs" />
+    <Compile Include="ViewModels\ResearcherListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="Windows\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PublicationPopup.xaml">
+    <Page Include="Windows\PublicationPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

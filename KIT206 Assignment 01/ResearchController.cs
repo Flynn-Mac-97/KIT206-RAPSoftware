@@ -6,21 +6,24 @@ namespace KIT206_Assignment_01 {
     // Defines the ResearchController class
     class ResearchController {
         private static ResearchController _instance;
-
-        // List of all researchers
-        public List<Researcher> researchers = new List<Researcher>();
         // List of filtered researchers based on specific criteria
-        public List<Researcher> filteredResearchers = new List<Researcher>();
-        //private EmploymentLevel employmentFilter;
-        //private string nameFilter;
+        public List<ResearcherViewModel> FilteredResearcherNames { get; set; }
 
+        //List of names and data relating to the researcherList
+        public List<ResearcherViewModel> ResearcherNames { get; set; }
+        
+        // The database adaptor
         private GlobalDBAdaptor db;
+
+        // The currently selected researcher
+        public Researcher SelectedResearcher { get; set; } = null;
 
         // Private constructor to prevent external instantiation
         private ResearchController() {
             db = new GlobalDBAdaptor();
-            //on initialisation, fetch the researcher data from DB
-            FetchResearcherList(db);
+
+            //fetch only the names of the researchers
+            this.ResearcherNames = db.FetchResearcherViewModelListFromDB();
         }
 
         // Public static property to access the instance
@@ -33,37 +36,38 @@ namespace KIT206_Assignment_01 {
             }
         }
 
+        //Clear the selected researcher
+        public void ClearSelectedResearcher() {
+            SelectedResearcher = null;
+        }
+
         // Unused method intended to fetch a specified number of dummy researchers for testing
         public void FetchDummyResearchers(int amount, GlobalDBAdaptor db) {
             //this.researchers = db.GenerateDummyResearchers(amount);
         }
 
-        // Fetches and stores a list of researchers from the database
-        public void FetchResearcherList(GlobalDBAdaptor db) {
-            this.researchers = db.FetchCompleteListFromDB();
-        }
-
         // Prints all researchers' details to the console
         public void PrintAllResearchers() {
-            researchers.ToList().ForEach(r => Console.WriteLine(r.ToString()));
+            ResearcherNames.ToList().ForEach(r => Console.WriteLine(r.ToString()));
         }
 
         // Prints all filtered researchers' details to the console
         public void PrintAllFilteredResearchers() {
-            filteredResearchers.ToList().ForEach(r => Console.WriteLine(r.ToString()));
+            FilteredResearcherNames.ToList().ForEach(r => Console.WriteLine(r.ToString()));
         }
 
         // Filters researchers based on a search string and an employment level, then updates the filteredResearchers list
-        public void FilterResearcher(string search, EmploymentLevel e) {
-            filteredResearchers = researchers
-                .Where(r => (r.familyName.Contains(search) || r.givenName.Contains(search) || search == ""))
+        public List<ResearcherViewModel> FilterResearcher(string search, string level) {
+
+            return ResearcherNames
+                .Where(r => (r.FamilyName.Contains(search) || r.GivenName.Contains(search) || search == ""))
                 .ToList();
         }
 
         // Filters researchers based solely on a name (either family or given name)
         public void FilterResearcherByName(string name) {
-            filteredResearchers = researchers
-                .Where(r => r.familyName.Contains(name) || r.givenName.Contains(name))
+            FilteredResearcherNames = ResearcherNames
+                .Where(r => r.FamilyName.Contains(name) || r.GivenName.Contains(name))
                 .ToList();
         }
 
@@ -74,7 +78,7 @@ namespace KIT206_Assignment_01 {
             //Report rport = new Report();
             List<Staff> filteredStaff = new List<Staff>();
 
-            foreach (Researcher r in researchers)
+            /*foreach (Researcher r in researchers)
             {
                 if(r is Student) { continue; } // skip students (they dont have performance levels
 
@@ -96,19 +100,23 @@ namespace KIT206_Assignment_01 {
                     }
 
                 }
-            }
+            }*/
 
             return filteredStaff;
 
         }
 
-        // Fetches and returns an array of email addresses from a list of researchers
+        /*// Fetches and returns an array of email addresses from a list of researchers
         public string[] FetchResearcherEmails(List<Staff> s)
         {
             // fillters only staff from researchers
             List<Researcher> filteredStaff = researchers.Where(researcher => s.Any(staff => staff == researcher)).ToList();
             return filteredStaff.Select(researcher => researcher.email).ToArray();
-        }
+        }*/
 
+        //Load a researcher
+        public Researcher LoadResearcher(int id) {
+            return db.FetchResearcherFromDB(id);
+        }
     }
 }
