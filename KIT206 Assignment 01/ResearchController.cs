@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace KIT206_Assignment_01 {
     // Defines the ResearchController class
     class ResearchController {
         private static ResearchController _instance;
+
         // List of filtered researchers based on specific criteria
-        public List<ResearcherViewModel> FilteredResearcherNames { get; set; }
+        public ObservableCollection<ResearcherViewModel> FilteredResearcherNames { get; set; } = new ObservableCollection<ResearcherViewModel>();
 
         //List of names and data relating to the researcherList
-        public List<ResearcherViewModel> ResearcherNames { get; set; }
+        public ObservableCollection<ResearcherViewModel> ResearcherNames { get; set; }
         
         // The database adaptor
         private GlobalDBAdaptor db;
 
         // The currently selected researcher
         public Researcher SelectedResearcher { get; set; } = null;
+
+        // List of staff for performance
+        public ObservableCollection<Staff> StaffPerformanceList { get; set; } = new ObservableCollection<Staff>();
+
+        //filtered staff performance list
+        public ObservableCollection<Staff> FilteredStaffPerformanceList { get; set; } = new ObservableCollection<Staff>();
 
         // Private constructor to prevent external instantiation
         private ResearchController() {
@@ -57,62 +66,70 @@ namespace KIT206_Assignment_01 {
         }
 
         // Filters researchers based on a search string and an employment level, then updates the filteredResearchers list
-        public List<ResearcherViewModel> FilterResearcher(string search, string level) {
-
-            return ResearcherNames
-                .Where(r => (r.FamilyName.Contains(search) || r.GivenName.Contains(search) || search == ""))
-                .ToList();
+        public void FilterResearcher(string search, string level) {
+            var filter = ResearcherNames.Where(r => r.FamilyName.Contains(search) || r.GivenName.Contains(search) || string.IsNullOrEmpty(search)).ToList();
+            filter = filter.Where(r => level == "ALL" || r.Level.Equals(level, StringComparison.OrdinalIgnoreCase)).ToList();
+            UpdateFilteredResearcherNames(filter);
         }
 
         // Filters researchers based solely on a name (either family or given name)
         public void FilterResearcherByName(string name) {
-            FilteredResearcherNames = ResearcherNames
-                .Where(r => r.FamilyName.Contains(name) || r.GivenName.Contains(name))
+            FilteredResearcherNames.Clear();
+            var filter = ResearcherNames
+                .Where(r => r.FamilyName.Contains(name) || r.GivenName.Contains(name) || string.IsNullOrEmpty(name))
                 .ToList();
+            UpdateFilteredResearcherNames(filter);
+        }
+
+        // Filters researchers based solely on an employment level
+        public void FilterResearcherByLevel(string level) {
+            FilteredResearcherNames.Clear();
+            var filter = ResearcherNames
+                .Where(r => level == "ALL" || r.Level.Equals(level, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+            UpdateFilteredResearcherNames(filter);
+        }
+
+        private void UpdateFilteredResearcherNames(List<ResearcherViewModel> filteredResults) {
+            FilteredResearcherNames.Clear();
+            foreach (var item in filteredResults) {
+                FilteredResearcherNames.Add(item);
+            }
         }
 
         // filters a list of researcher by their performance level
-        public List<Staff> FilterbyPerformance(ResearcherPerformance p)
+        public void FilterbyPerformance(ResearcherPerformance p)
         {
-            Console.WriteLine("Filtering by performance: " + p);
-            //Report rport = new Report();
-            List<Staff> filteredStaff = new List<Staff>();
+            //fetch the staff list if its empty
+            if(StaffPerformanceList.Count <= 0) StaffPerformanceList = db.FetchStaffListForPerformance();
 
-            /*foreach (Researcher r in researchers)
+            //clear the filtered list
+            FilteredStaffPerformanceList.Clear();
+
+            foreach (Staff r in StaffPerformanceList)
             {
-                if(r is Student) { continue; } // skip students (they dont have performance levels
-
                 //if they are staff then use their performance level.
-                else if (r is Staff staff && staff.performance == p) {
-
-                    if (p == ResearcherPerformance.POOR || p == ResearcherPerformance.BELOW_EXPECTATIONS)
-                    {
-        
-                        filteredStaff.Add(staff);
-                        filteredStaff.Sort((s1, s2) => s1.CalculatePerformance.CompareTo(s2.CalculatePerformance));
-                    }
-
-                    else
-                    {
-                        filteredStaff.Add(staff);
-                        filteredStaff.Sort((s1, s2) => s2.CalculatePerformance.CompareTo(s1.CalculatePerformance));
-
-                    }
-
+                if (r.GetPerformanceLevel() == p) {
+                    FilteredStaffPerformanceList.Add(r);
                 }
-            }*/
+            }
 
-            return filteredStaff;
-
+            //Depending on performance selection, sort the list
+            if (p == ResearcherPerformance.POOR || p == ResearcherPerformance.BELOW_EXPECTATIONS) {
+                //sort descending
+                FilteredStaffPerformanceList = new ObservableCollection<Staff>(FilteredStaffPerformanceList.OrderByDescending(r => r.performance));
+            }
+            else {
+                //sort ascending
+                FilteredStaffPerformanceList = new ObservableCollection<Staff>(FilteredStaffPerformanceList.OrderBy(r => r.performance));
+            }
         }
 
-        /*// Fetches and returns an array of email addresses from a list of researchers
-        public string[] FetchResearcherEmails(List<Staff> s)
-        {
-            // fillters only staff from researchers
-            List<Researcher> filteredStaff = researchers.Where(researcher => s.Any(staff => staff == researcher)).ToList();
-            return filteredStaff.Select(researcher => researcher.email).ToArray();
-        }*/
+        // Fetches and returns an array of email addresses from a list of researchers
+        public string[] FetchResearcherEmails() {
+            //returns a string list of emails from FilteredStaffPerformanceList
+            return FilteredStaffPerformanceList.Select(r => r.email).ToArray();
+        }
 
         //Load a researcher
         public Researcher LoadResearcher(int id) {

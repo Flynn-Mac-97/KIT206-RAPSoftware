@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using KIT206_Assignment_01;
 using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Relational;
+using System.Collections.ObjectModel;
 
 namespace KIT206_Assignment_01 {
     class GlobalDBAdaptor {
@@ -78,8 +79,8 @@ namespace KIT206_Assignment_01 {
 
         //Fetches a smaller section of data from database relating to a researcher,
         //Includes name, title and employment level to be displayed in the list view.
-        public List<ResearcherViewModel> FetchResearcherViewModelListFromDB() {
-            var researchers = new List<ResearcherViewModel>();
+        public ObservableCollection<ResearcherViewModel> FetchResearcherViewModelListFromDB() {
+            var researchers = new ObservableCollection<ResearcherViewModel>();
             var researcherDataSet = QueryDB("select id, given_name, family_name, title, level from researcher", "researcher");
 
             foreach (DataRow row in researcherDataSet.Tables["researcher"].Rows) {
@@ -95,10 +96,10 @@ namespace KIT206_Assignment_01 {
             return researchers;
         }
 
-        //NOT NEEDED ANYMORE SINCE WE DONT NEED TO LOAD A MASSIVE LIST...
-        /*// Fetches a list of researchers from the database
+        //NOT NEEDED AS WE DONT FETCH ALL DATA ANYMORE ;)
+        // Fetches a list of researchers from the database
         //creates a comprehensive list of researchers
-        public List<Researcher> FetchCompleteListFromDB() {
+        /*public List<Researcher> FetchCompleteListFromDB() {
             // Initialize an empty list of researchers
             List<Researcher> researchers = new List<Researcher>();
             try {
@@ -117,7 +118,7 @@ namespace KIT206_Assignment_01 {
                         // Creating a new Researcher object and initializing it with data from the row
                         Staff r = NewStaffFromDataRow(row);
                         //added this to calc performance
-                        r.InitialiseStaffFundingPerformance();
+                        r.GetPerformanceLevel();
                         researchers.Add(r);
                     }
 
@@ -180,35 +181,44 @@ namespace KIT206_Assignment_01 {
                 publications = FetchPublicationListFromDB((int)row["id"]),
                 positionHistory = FetchPositionHistoryfromDB((int)row["id"]),
                 //staff specific
-                supervisions = new List<Student>(),
+                supervisions = FetchSupervisionsFromDB((int)row["id"]),
             };
         }
+
+        //FetchStaff for performance report
+        public ObservableCollection<Staff> FetchStaffListForPerformance() {
+            var staff = new ObservableCollection<Staff>();
+            var staffDataSet = QueryDB("select id, email, level, given_name, family_name, utas_start from researcher where type = 'Staff'", "researcher");
+
+            foreach (DataRow row in staffDataSet.Tables["researcher"].Rows) {
+                staff.Add(new Staff {
+                    id = (int)row["id"],
+                    email = row["email"].ToString(),
+                    level = CastEmploymentAsEnumType(row["level"].ToString()),
+                    givenName = row["given_name"].ToString(),
+                    familyName = row["family_name"].ToString(),
+                    utasStart = (DateTime)row["utas_start"],
+                    publications = FetchPublicationListFromDB((int)row["id"]),
+                });
+            }
+
+            return staff;
+        }   
 
         //fetch list of students that a supervisor is supervising
         public List<Student> FetchSupervisionsFromDB(int ID) {
             // Initialize an empty list of students
             List<Student> students = new List<Student>();
-            try {
-                // DataSet to hold the data fetched from the database
-                var studentDataSet = new DataSet();
-                // Data adapter to manage data retrieval from the database
-                var studentAdapter = new MySqlDataAdapter("select * from researcher where supervisor_id = " + ID, conn);
-                // Filling the DataSet with data from the 'researcher' table
-                studentAdapter.Fill(studentDataSet, "researcher");
-
-                // Iterating through each row in the 'researcher' table
-                foreach (DataRow row in studentDataSet.Tables["researcher"].Rows) {
-                    // Creating a new Researcher object and initializing it with data from the row
-                    Student s = (Student)NewStudentFromDataRow(row);
-                    // Adding the new researcher to the list
-                    students.Add(s);
-                }
-            }
-            finally {
-                // Ensuring the database connection is closed after data retrieval
-                if (conn != null) {
-                    conn.Close();
-                }
+            var studentDataSet = QueryDB("select family_name, given_name from researcher where supervisor_id = " + ID, "researcher");
+            // Iterating through each row in the 'researcher' table
+            foreach (DataRow row in studentDataSet.Tables["researcher"].Rows) {
+                //create new student from data row
+                Student s = new Student {
+                    familyName = row["family_name"].ToString(),
+                    givenName = row["given_name"].ToString(),
+                };
+                // Adding the new student to the list
+                students.Add(s);
             }
             return students;
         }   

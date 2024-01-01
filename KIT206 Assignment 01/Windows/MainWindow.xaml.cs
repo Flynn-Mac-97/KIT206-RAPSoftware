@@ -24,7 +24,9 @@ namespace KIT206_Assignment_01 {
             DetailsViewColumn.Width = new GridLength(0); // Collapsed
 
             // Set the ItemsSource of the ListView
-            ResearcherListView.ItemsSource = ResearchController.Instance.ResearcherNames;
+            ResearcherListView.ItemsSource = ResearchController.Instance.FilteredResearcherNames;
+
+            ResearchController.Instance.FilterbyPerformance(ResearcherPerformance.POOR);
         }
 
         //Selected the list item in main view
@@ -46,15 +48,16 @@ namespace KIT206_Assignment_01 {
                 ComboBoxItem selectedItem = comboBox.SelectedItem as ComboBoxItem;
                 if (selectedItem != null) {
                     string selectedContent = selectedItem.Content.ToString();
-                    // Set the ItemsSource of the ListView
-                    if(selectedContent == "All") { 
-                        ResearcherListView.ItemsSource = ResearchController.Instance.ResearcherNames;
-                    }
-                    else {
-                        //ResearcherListView.ItemsSource = ResearchController.Instance.FilterResearcher("", "Student");
-                    }
+                    ResearchController.Instance.FilterResearcherByLevel(selectedContent);
                 }
             }
+        }
+
+        //when search text is changed
+        private void ResearcherListSearch_TextChanged(object sender, TextChangedEventArgs e) {
+            //get the text from the search box
+            string searchText = ResearcherListSearch.Text;
+            ResearchController.Instance.FilterResearcherByName(searchText);
         }
 
         //Refresh ResearcherDetail
@@ -92,27 +95,23 @@ namespace KIT206_Assignment_01 {
             }
 
             //Specific details
-            AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Commenced date: " + selectedResearcher.utasStart.Day, 14, FontWeights.Normal);
-            AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Position Commenced: " + selectedResearcher.currentStart.Day, 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Commenced date: " + selectedResearcher.utasStart, 14, FontWeights.Normal);
+            AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Position Commenced: " + selectedResearcher.currentStart, 14, FontWeights.Normal);
             AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Tenure: " + selectedResearcher.Tenure, 14, FontWeights.Normal);
             AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Total Publications: " + selectedResearcher.PublicationsCount, 14, FontWeights.Normal);
             AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Q1 Percentage: " + selectedResearcher.Q1percentage, 14, FontWeights.Normal);
 
             if (selectedResearcher is Student student) {
                 AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Degree: " + student.degree, 14, FontWeights.Normal);
-                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Supervisor: " + student.supervisor.familyName +", "+ student.supervisor.givenName, 14, FontWeights.Normal);
+                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Supervisor: " + student.supervisor.familyName +" "+ student.supervisor.givenName, 14, FontWeights.Normal);
             }
             else if(selectedResearcher is Staff staff) {
-                //add blocks for staff
                 AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "3 year avg: " + staff.ThreeYearAVG, 14, FontWeights.Normal);
-                //funding
                 AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Funding Recieved: " + GlobalXMLAdaptor.GetInstance(Globals.XmlFilePath).GetFundingForResearcher(staff.id), 14, FontWeights.Normal);
-                //publication performance
                 AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Publication Performance: " + staff.PublicationPerformance, 14, FontWeights.Normal);
-                //funding performance
-                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Funding Performance:" + staff.performance, 14, FontWeights.Normal);
-                //supervisions
-                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Supervisions: " + staff.supervisions, 14, FontWeights.Normal);
+                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Funding Performance:" + staff.GetPerformanceLevel(), 14, FontWeights.Normal);
+
+                if(staff.SupervisionCount > 0)AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Supervisions: " + staff.GetSupervisions(), 14, FontWeights.Normal);
             }
 
             //Publications list
@@ -153,11 +152,10 @@ namespace KIT206_Assignment_01 {
 
             string selectedPerformance = selectedItem.ToString();
 
-            //Report report = new Report(); DONT NEED TO CREATE A NEW REPORT ;)
-            List<Staff> filteredResearchers = ResearchController.Instance.FilterbyPerformance(MapStringToPerformance(selectedPerformance));
+            Console.WriteLine("Selected performance: " + selectedPerformance);
 
-            // Display the filtered researchers
-            ReportsListView.ItemsSource = filteredResearchers;
+            //Filter the stafflist by performance
+            ResearchController.Instance.FilterbyPerformance(MapStringToPerformance(selectedPerformance));
         }
 
         //helper function to map the string selection of report combo box to the enum
@@ -187,34 +185,28 @@ namespace KIT206_Assignment_01 {
             return performanceEnum;
         }
 
-        /*// Click Copy Email button
-        private void CopyEmail_Click(object sender, RoutedEventArgs e)
-        {
+        // Click Copy Email button
+        private void CopyEmail_Click(object sender, RoutedEventArgs e) {
             var selectedItem = PerformanceComboBox.SelectedItem;
-            if (selectedItem == null)
-            {
+            if (selectedItem == null) {
                 return;
             }
 
             string selectedPerformance = selectedItem.ToString();
 
-     
-            List<Staff> filteredResearcher = ResearchController.Instance.FilterbyPerformance(MapStringToPerformance(selectedPerformance));
-
             // Gets email addresses for all staffs
-            
-            string[] emails = ResearchController.Instance.FetchResearcherEmails(filteredResearcher);
-            
 
-            if (emails.Length > 0)
-            {
+            string[] emails = ResearchController.Instance.FetchResearcherEmails();
+
+
+            if (emails.Length > 0) {
                 string copy = string.Join(Environment.NewLine, emails);
 
                 Clipboard.SetText(copy);
                 _ = MessageBox.Show("Copied to clipboard");
 
             }
-        }*/
+        }
 
         //Helper function to add a textblock to a stackpanel with given font size, text etc
         private void AddTextBlockToStackPanel(StackPanel sP, string text, int fontSize, FontWeight fontWeight) {
@@ -225,9 +217,12 @@ namespace KIT206_Assignment_01 {
         sP.Children.Add(tb);
         }
 
-        //when search text is changed
-        private void ResearcherListSearch_TextChanged(object sender, TextChangedEventArgs e) {
-
+        private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            //if the index is tab 1
+            if(MainTabControl.SelectedIndex == 1) {
+                // Display the filtered researchers
+                ReportsListView.ItemsSource = ResearchController.Instance.FilteredStaffPerformanceList;
+            }
         }
     }
 }

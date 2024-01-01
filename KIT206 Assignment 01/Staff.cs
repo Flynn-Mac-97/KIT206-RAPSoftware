@@ -19,18 +19,6 @@ namespace KIT206_Assignment_01 {
 
         }
 
-
-        //list of student that a staff is supervising
-        //go through the list of all researchers, find the students that have the same supervisorID as the staff
-        public List<Student> Supervisions(List<Researcher> rlist) {
-            foreach (Researcher r in rlist) {
-                if (r.type == ResearcherType.STUDENT) {
-                    //Student s = new Student(r);
-                }
-            }
-            return new List<Student>();
-        }
-
         // count the total number of student that the staff is supervising
         public int SupervisionCount {
             get {
@@ -45,7 +33,8 @@ namespace KIT206_Assignment_01 {
                 float count = 0;
                 for (int i = 0; i <= 2; i++)
                 {
-                    count += this.PublicationsCountByYear((DateTime.Now.Year) - i);
+                    //offset to -3 since we are in 2024 now and latest of them are 2021
+                    count += this.PublicationsCountByYear(((DateTime.Now.Year)-3) - i);
                 }
                 return (float) count / 3 ;
             }
@@ -63,11 +52,8 @@ namespace KIT206_Assignment_01 {
         public int FundingPerformance {
             get {
                 float performance = 0;
-                //Researcher r = new Researcher();
 
-                float tenure = this.Tenure;
-
-                performance = GlobalXMLAdaptor.GetInstance(Globals.XmlFilePath).GetFundingForResearcher(this.id) / tenure;
+                performance = GlobalXMLAdaptor.GetInstance(Globals.XmlFilePath).GetFundingForResearcher(this.id) / this.Tenure;
 
                 return (int)performance;
             }
@@ -115,9 +101,9 @@ namespace KIT206_Assignment_01 {
         }
 
         // returns performance level based on the performance measure value
-        public ResearcherPerformance InitialiseStaffFundingPerformance() {
+        public ResearcherPerformance GetPerformanceLevel() {
 
-            float total = CalculatePerformance;
+            float total = this.CalculatePerformance;
 
             if (total <= 70)
                 return ResearcherPerformance.POOR;
@@ -137,6 +123,14 @@ namespace KIT206_Assignment_01 {
                 "\n Performance by Funding " + FundingPerformance +
                 "\n Supervisions " + SupervisionCount
                 );
+        }
+
+        public string GetSupervisions() {
+            string s = "\n";
+            foreach (Student st in supervisions) {
+                s += st.givenName +" "+ st.familyName + "\n";
+            }
+            return s;
         }
     }
 }
