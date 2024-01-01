@@ -99,8 +99,17 @@
                                             <TextBlock Text="Researcher Specific Data 1" FontSize="14"/>
                                         </StackPanel>
                                         <TextBlock Grid.Row="1" Text="Publications" FontWeight="Bold" FontSize="16" Margin="5,0,5,0" HorizontalAlignment="Left"/>
-                                        <StackPanel Grid.Row="2" Margin="5,5,5,5" Name="PublicationsList">
-                                            <ListViewItem Content="Article 1" HorizontalAlignment="Left" FontSize="14"/>
+                                        <StackPanel Grid.Row="2" Margin="5">
+                                            <ListView Name="PublicationsListView" ItemsSource="{Binding publications}" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="PublicationsListViewItem_Selected">
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel>
+                                                            <TextBlock Text="{Binding yearPublished}" FontSize="14" FontWeight="Bold"/>
+                                                            <TextBlock Text="{Binding title}" FontSize="14"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
                                         </StackPanel>
                                     </Grid>
                                 </Grid>
@@ -139,23 +148,15 @@
 
                     </StackPanel>
                     <!-- ListView to display researchers' performance -->
-                    <ListView Name="ReportsListView" Margin="0,81,0,0" Grid.RowSpan="2" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock Text="{Binding CalculatePerformance, StringFormat='{}{0:N2}%'}" Grid.Column="0" Margin="5"/>
-                                    <TextBlock Text="{Binding givenName}" Grid.Column="1" Margin="5"/>
-                                    <TextBlock Text="{Binding familyName}" Grid.Column="2" Margin="5"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
+                    <ListView Name="ReportsListView" Margin="0,81,0,0" Grid.RowSpan="2" Grid.Row="1">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Funding Performance" DisplayMemberBinding="{Binding FundingPerformance}" Width="Auto"/>
+                                <GridViewColumn Header="Performance (%)" DisplayMemberBinding="{Binding CalculatePerformance, StringFormat='{}{0:N2}%'}" Width="Auto"/>
+                                <GridViewColumn Header="Given Name" DisplayMemberBinding="{Binding givenName}" Width="Auto"/>
+                                <GridViewColumn Header="Family Name" DisplayMemberBinding="{Binding familyName}" Width="Auto"/>
+                            </GridView>
+                        </ListView.View>
                     </ListView>
                 </Grid>
             </TabItem>

@@ -59,6 +59,13 @@ namespace KIT206_Assignment_01 {
             }
         }
 
+        // returns the total funding recieved
+        public int FundingRecievedCount {
+            get {
+                return GlobalXMLAdaptor.GetInstance(Globals.XmlFilePath).GetFundingForResearcher(this.id);
+            }
+        }
+
         // calculates expected number of publications
         public float ExpectedPublications {
             get {
@@ -83,9 +90,7 @@ namespace KIT206_Assignment_01 {
                 }
 
                 return expectedPublications;
-
             }
-
         }
 
 
@@ -113,6 +118,22 @@ namespace KIT206_Assignment_01 {
                 return ResearcherPerformance.MEETING_MINIMUM;
             else
                 return ResearcherPerformance.STAR_PERFORMER;
+        }
+
+        //Return performance level as a string for display
+        public string GetPerformanceLevelString() {
+            switch (GetPerformanceLevel()) {
+                case ResearcherPerformance.POOR:
+                    return CalculatePerformance + ", Poor";
+                case ResearcherPerformance.BELOW_EXPECTATIONS:
+                    return CalculatePerformance + ", Below Expectations";
+                case ResearcherPerformance.MEETING_MINIMUM:
+                    return CalculatePerformance + ", Meeting Minimum";
+                case ResearcherPerformance.STAR_PERFORMER:
+                    return CalculatePerformance + ", Star Performer";
+                default:
+                    return "Error";
+            }
         }
 
         public override string ToString() {

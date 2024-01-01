@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Xml.Linq;
 
 namespace KIT206_Assignment_01 {
@@ -89,7 +90,7 @@ namespace KIT206_Assignment_01 {
                 .ToList();
             UpdateFilteredResearcherNames(filter);
         }
-
+        // Updates the filteredResearchers list 
         private void UpdateFilteredResearcherNames(List<ResearcherViewModel> filteredResults) {
             FilteredResearcherNames.Clear();
             foreach (var item in filteredResults) {
@@ -122,6 +123,53 @@ namespace KIT206_Assignment_01 {
             else {
                 //sort ascending
                 FilteredStaffPerformanceList = new ObservableCollection<Staff>(FilteredStaffPerformanceList.OrderBy(r => r.performance));
+            }
+        }
+
+        //Get universal text data for staff and student to display on the researcher details page
+        public string[] GenericResearcherDetails(Researcher selectedResearcher) {
+            //Generic details
+            return new string[]{ 
+                selectedResearcher.givenName + " " + selectedResearcher.familyName,
+                selectedResearcher.title.ToString().ToLower(),
+                selectedResearcher.unit,
+                selectedResearcher.campus.ToString().ToLower(),
+                selectedResearcher.email,
+                selectedResearcher.level.ToString().ToLower(),
+            };
+        }
+
+        //Get more specific text data for staff and student to display on the researcher details page
+        public string[] SpecificResearcherDetails(Researcher selectedResearcher) {
+            return new string[] { 
+                //Specific details
+                "Commenced date: " + selectedResearcher.utasStart.ToShortDateString(),
+                "Position Commenced: " + selectedResearcher.currentStart.ToShortDateString(),
+                "Tenure: " + selectedResearcher.Tenure,
+                "Total Publications: " + selectedResearcher.PublicationsCount,
+                "Q1 Percentage: " + selectedResearcher.Q1percentage,
+            };
+        }
+
+        //Return staff or student specific text data for staff and student to display on the researcher details page
+        public string[] StaffOrStudentSpecificDetails(Researcher selectedResearcher) {
+            if (selectedResearcher is Student student) {
+                return new string[] {
+                "Degree: " + student.degree,
+                "Supervisor: " + student.supervisor.familyName + " " + student.supervisor.givenName, 
+                };
+            }
+            else if (selectedResearcher is Staff staff) {
+                return new string[] {
+                    "3 year avg: " + staff.ThreeYearAVG,
+                    "Funding Recieved: " + GlobalXMLAdaptor.GetInstance(Globals.XmlFilePath).GetFundingForResearcher(staff.id),
+                    "Publication Performance: " + staff.PublicationPerformance,
+                    "Funding Performance: " + staff.GetPerformanceLevelString(),
+                    (staff.SupervisionCount > 0 ) ? "Supervisions: " + staff.SupervisionCount + " " + staff.GetSupervisions() : "",
+                };
+            }
+            else {
+                return new string[] { };
             }
         }
 

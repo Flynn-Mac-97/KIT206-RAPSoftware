@@ -64,27 +64,25 @@ namespace KIT206_Assignment_01 {
         private void SetDetailsViewToResearcher(Researcher selectedResearcher) {
             //clear out the selected researcher
             ResearchController.Instance.ClearSelectedResearcher();
-
             ResearcherImage.Source = new BitmapImage(new System.Uri(selectedResearcher.photo));
+
             //remove children on SelectedResearcherDetails
             SelectedResearcherDetails.Children.Clear();
-
-            //Remove the staff or student specific text blocks.
             SelectedResearcherSpecificDetails.Children.Clear();
-
             YearlyPublications.Children.Clear();
 
-            PublicationsList.Children.Clear();
+            PublicationsListView.ItemsSource = selectedResearcher.publications;
 
-            //Generic details
-            AddTextBlockToStackPanel(SelectedResearcherDetails, selectedResearcher.givenName + " " + selectedResearcher.familyName, 14, FontWeights.Normal);
-            AddTextBlockToStackPanel(SelectedResearcherDetails, selectedResearcher.title.ToString().ToLower(), 14, FontWeights.Normal);
-            AddTextBlockToStackPanel(SelectedResearcherDetails, selectedResearcher.unit, 14, FontWeights.Normal);
-            AddTextBlockToStackPanel(SelectedResearcherDetails, selectedResearcher.campus.ToString().ToLower(), 14, FontWeights.Normal);
-            AddTextBlockToStackPanel(SelectedResearcherDetails, selectedResearcher.email, 14, FontWeights.Normal);
-            AddTextBlockToStackPanel(SelectedResearcherDetails, selectedResearcher.level.ToString().ToLower(), 14, FontWeights.Normal);
+            //sort publications by year, same publications year sort alpabetically
+            PublicationsListView.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("yearPublished", System.ComponentModel.ListSortDirection.Descending));
 
-            //Add title to Yearly Publications
+            var thisResearcherDetails = ResearchController.Instance.GenericResearcherDetails(selectedResearcher);
+            var thisResearcherSpecificDetails = ResearchController.Instance.SpecificResearcherDetails(selectedResearcher);
+
+            AddTextBlocksToStackPanel(SelectedResearcherDetails, ResearchController.Instance.GenericResearcherDetails(selectedResearcher), 14, FontWeights.Normal);
+            AddTextBlocksToStackPanel(SelectedResearcherSpecificDetails, ResearchController.Instance.SpecificResearcherDetails(selectedResearcher), 14, FontWeights.Normal);
+            AddTextBlocksToStackPanel(SelectedResearcherSpecificDetails, ResearchController.Instance.StaffOrStudentSpecificDetails(selectedResearcher), 14, FontWeights.Normal);
+
             AddTextBlockToStackPanel(YearlyPublications, "Yearly Publications", 14, FontWeights.Bold);
 
             //Yearly count
@@ -93,69 +91,38 @@ namespace KIT206_Assignment_01 {
                     AddTextBlockToStackPanel(YearlyPublications, s, 14, FontWeights.Normal);
                 }
             }
-
-            //Specific details
-            AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Commenced date: " + selectedResearcher.utasStart, 14, FontWeights.Normal);
-            AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Position Commenced: " + selectedResearcher.currentStart, 14, FontWeights.Normal);
-            AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Tenure: " + selectedResearcher.Tenure, 14, FontWeights.Normal);
-            AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Total Publications: " + selectedResearcher.PublicationsCount, 14, FontWeights.Normal);
-            AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Q1 Percentage: " + selectedResearcher.Q1percentage, 14, FontWeights.Normal);
-
-            if (selectedResearcher is Student student) {
-                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Degree: " + student.degree, 14, FontWeights.Normal);
-                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Supervisor: " + student.supervisor.familyName +" "+ student.supervisor.givenName, 14, FontWeights.Normal);
-            }
-            else if(selectedResearcher is Staff staff) {
-                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "3 year avg: " + staff.ThreeYearAVG, 14, FontWeights.Normal);
-                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Funding Recieved: " + GlobalXMLAdaptor.GetInstance(Globals.XmlFilePath).GetFundingForResearcher(staff.id), 14, FontWeights.Normal);
-                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Publication Performance: " + staff.PublicationPerformance, 14, FontWeights.Normal);
-                AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Funding Performance:" + staff.GetPerformanceLevel(), 14, FontWeights.Normal);
-
-                if(staff.SupervisionCount > 0)AddTextBlockToStackPanel(SelectedResearcherSpecificDetails, "Supervisions: " + staff.GetSupervisions(), 14, FontWeights.Normal);
-            }
-
-            //Publications list
-            foreach(Publication p in selectedResearcher.publications) {
-                ListViewItem item = new ListViewItem();
-                item.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-                Button button = new Button {
-                    Content = p.ToSummaryString(),
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    FontSize = 14,
-                    FontWeight = FontWeights.Normal,
-                    Background = Brushes.Transparent,
-                    BorderBrush = Brushes.Transparent,
-                };
-                item.Content = button;
-                PublicationsList.Children.Add(item);
-
-                button.Click += (sender, e) => {
-                    PublicationPopup popup = new PublicationPopup(p);
-                    popup.Show();
-                };
-            }
         }
 
+        //select the list item in the publications list
+        private void PublicationsListViewItem_Selected(object sender, SelectionChangedEventArgs e) {
+            if (PublicationsListView.SelectedItem is Publication selectedPublication) {
+                PublicationPopup popup = new PublicationPopup(selectedPublication);
+                popup.Show();
+            }
+        }
 
         private void ReportsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //Dont run if we arent on the tab
-            if(MainTabControl.SelectedIndex != 1) {
-                return;
-            }
+            if(MainTabControl.SelectedIndex != 1)return;
 
             // Use SelectedItem instead of Text
             var selectedItem = PerformanceComboBox.SelectedItem;
-            if (selectedItem == null) {
-                return; // or handle the null case appropriately
-            }
+            if (selectedItem == null) return;
 
-            string selectedPerformance = selectedItem.ToString();
-
-            Console.WriteLine("Selected performance: " + selectedPerformance);
+            ResearcherPerformance performance = MapStringToPerformance(selectedItem.ToString());
 
             //Filter the stafflist by performance
-            ResearchController.Instance.FilterbyPerformance(MapStringToPerformance(selectedPerformance));
+            ResearchController.Instance.FilterbyPerformance(performance);
+
+            if(performance == ResearcherPerformance.POOR || performance == ResearcherPerformance.BELOW_EXPECTATIONS) {
+                //sort descending
+                ReportsListView.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("performance", System.ComponentModel.ListSortDirection.Descending));
+            }
+            else {
+                //sort ascending
+                ReportsListView.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("performance", System.ComponentModel.ListSortDirection.Ascending));
+            }
         }
 
         //helper function to map the string selection of report combo box to the enum
@@ -204,17 +171,23 @@ namespace KIT206_Assignment_01 {
 
                 Clipboard.SetText(copy);
                 _ = MessageBox.Show("Copied to clipboard");
-
             }
         }
 
         //Helper function to add a textblock to a stackpanel with given font size, text etc
         private void AddTextBlockToStackPanel(StackPanel sP, string text, int fontSize, FontWeight fontWeight) {
-        TextBlock tb = new TextBlock();
-        tb.Text = text;
-        tb.FontSize = fontSize;
-        tb.FontWeight = fontWeight;
-        sP.Children.Add(tb);
+            TextBlock tb = new TextBlock();
+            tb.Text = text;
+            tb.FontSize = fontSize;
+            tb.FontWeight = fontWeight;
+            sP.Children.Add(tb);
+        }
+
+        //Helper function that adds text blocks to a stack panel given an array of string.
+        private void AddTextBlocksToStackPanel(StackPanel sP, string[] text, int fontSize, FontWeight fontWeight) {
+            foreach(string s in text) {
+                AddTextBlockToStackPanel(sP, s, fontSize, fontWeight);
+            }
         }
 
         private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
