@@ -44,10 +44,12 @@
                         <ListView Name="ResearcherListView" ItemsSource="{Binding ResearcherNames}" SelectionChanged="ResearcherListViewItem_Selected" d:ItemsSource="{d:SampleData ItemCount=5}" FontSize="16" Margin="5,5,5,5">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Family Name" Width="Auto" DisplayMemberBinding="{Binding FamilyName}" />
-                                    <GridViewColumn Header="Given Name" Width="Auto" DisplayMemberBinding="{Binding GivenName}" />
-                                    <GridViewColumn Header="Title" Width="Auto" DisplayMemberBinding="{Binding Title}" />
-                                    <GridViewColumn Header="Level" Width="Auto" DisplayMemberBinding="{Binding Level}" />
+                                   <!-- <GridViewColumn Header="Family Name" Width="Auto" DisplayMemberBinding="{Binding FamilyName}" />-->
+                                    <!--<GridViewColumn Header="Given Name" Width="Auto" DisplayMemberBinding="{Binding GivenName}" />-->
+                                    <!--<GridViewColumn Header="Title" Width="Auto" DisplayMemberBinding="{Binding Title}" />-->
+                                    
+                                  <GridViewColumn Header="Researcher" Width="Auto" DisplayMemberBinding="{Binding Display}"/>
+                                  <GridViewColumn Header="Level" Width="Auto" DisplayMemberBinding="{Binding Level}" />
                                 </GridView>
                             </ListView.View>
                         </ListView>

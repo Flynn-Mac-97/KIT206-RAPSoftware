@@ -5,6 +5,7 @@ public class ResearcherViewModel {
     public string FamilyName { get; set; }
     public string GivenName { get; set; }
     public string Title { get; set; }
+    public string Display {  get; set; }
     public string Level { get; set; }
 
     //to string override for researcher view model

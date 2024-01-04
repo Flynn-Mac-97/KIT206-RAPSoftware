@@ -91,11 +91,17 @@ namespace KIT206_Assignment_01 {
                     FamilyName = row["family_name"].ToString(),
                     GivenName = row["given_name"].ToString(),
                     Title = row["title"].ToString(),
+                    Display = DisplayName(row["family_name"].ToString(), row["given_name"].ToString(), row["title"].ToString()),
                     Level = CastEmploymentAsString(row["level"].ToString())
                 });
             }
 
             return researchers;
+        }
+
+        public string DisplayName(string givenName, string familyName, string title)
+        {
+            return givenName + ", " + familyName + "(" + title + ")";
         }
 
         //NOT NEEDED AS WE DONT FETCH ALL DATA ANYMORE ;)
