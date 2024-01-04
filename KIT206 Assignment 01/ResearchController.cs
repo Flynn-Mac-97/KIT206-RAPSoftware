@@ -46,6 +46,21 @@ namespace KIT206_Assignment_01 {
             }
         }
 
+        //This is not needed anymore.
+        public void SortPublicationList(Researcher[] researchers) {
+            foreach (Researcher r in researchers) {
+                r.publications.Sort(
+                    delegate (Publication p1, Publication p2) {
+                        int compareYear = p2.yearPublished.CompareTo(p1.yearPublished);
+                        if (compareYear == 0) {
+                            return p1.title.CompareTo(p2.title);
+                        }
+                        return compareYear;
+                    }
+                );
+            }
+        }
+
         //Clear the selected researcher
         public void ClearSelectedResearcher() {
             SelectedResearcher = null;

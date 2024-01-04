@@ -34,7 +34,7 @@ namespace KIT206_Assignment_01 {
                 for (int i = 0; i <= 2; i++)
                 {
                     //offset to -3 since we are in 2024 now and latest of them are 2021
-                    count += this.PublicationsCountByYear(((DateTime.Now.Year)-3) - i);
+                    count += this.PublicationsCountByYear(((DateTime.Now.Year)-1) - i);
                 }
                 return (float) count / 3 ;
             }

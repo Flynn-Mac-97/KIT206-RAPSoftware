@@ -6,4 +6,10 @@ public class ResearcherViewModel {
     public string GivenName { get; set; }
     public string Title { get; set; }
     public string Level { get; set; }
+
+    //to string override for researcher view model
+    public override string ToString() {
+        //Return all the generic details of this researcher
+        return FamilyName + " " + GivenName + " " + Title + " " + Level;
+    }
 }

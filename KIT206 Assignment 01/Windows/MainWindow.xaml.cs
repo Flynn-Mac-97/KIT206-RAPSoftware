@@ -27,6 +27,10 @@ namespace KIT206_Assignment_01 {
             ResearcherListView.ItemsSource = ResearchController.Instance.FilteredResearcherNames;
 
             ResearchController.Instance.FilterbyPerformance(ResearcherPerformance.POOR);
+
+            //For my testing
+            FlynnsWhiteboxTesting test = new FlynnsWhiteboxTesting();
+            test.TestDetailsAreLoaded();
         }
 
         //Selected the list item in main view
@@ -70,6 +74,8 @@ namespace KIT206_Assignment_01 {
             SelectedResearcherDetails.Children.Clear();
             SelectedResearcherSpecificDetails.Children.Clear();
             YearlyPublications.Children.Clear();
+            Positions.Children.Clear();
+            PositionsList.Children.Clear();
 
             PublicationsListView.ItemsSource = selectedResearcher.publications;
 
@@ -89,6 +95,33 @@ namespace KIT206_Assignment_01 {
             foreach (string s in selectedResearcher.PublicationsCountByYear()) {
                 if(s.Contains(": 0") == false) {
                     AddTextBlockToStackPanel(YearlyPublications, s, 14, FontWeights.Normal);
+                }
+            }
+
+            //return early if its a student
+            if(selectedResearcher is Student) {
+                return;
+            }
+
+            //Position History Code
+            AddTextBlockToStackPanel(Positions, "Position History ", 16, FontWeights.Bold);
+            //Position History list
+            if (selectedResearcher.positionHistory.Count != 0) {
+                int count = 0;
+                foreach (Position p in selectedResearcher.positionHistory) {
+                    if (selectedResearcher.currentStart != p.startDate) {
+                        ListViewItem item = new ListViewItem {
+                            HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                            Content = p.ToSummaryString(),
+                            FontSize = 14,
+                            FontWeight = FontWeights.Normal
+                        };
+                        PositionsList.Children.Add(item);
+                        count++;
+                    }
+                }
+                if (count == 0) {
+                    AddTextBlockToStackPanel(PositionsList, "No Previous Position Available\n", 14, FontWeights.Normal);
                 }
             }
         }

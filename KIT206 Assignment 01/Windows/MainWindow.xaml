@@ -94,12 +94,19 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <StackPanel Grid.Row="0" Margin="5,5,5,5" IsEnabled="False" Name="SelectedResearcherSpecificDetails">
                                             <TextBlock Text="Researcher Specific Data 1" FontSize="14"/>
                                         </StackPanel>
-                                        <TextBlock Grid.Row="1" Text="Publications" FontWeight="Bold" FontSize="16" Margin="5,0,5,0" HorizontalAlignment="Left"/>
-                                        <StackPanel Grid.Row="2" Margin="5">
+                                        <!-- Position History List View -->
+                                        <StackPanel Grid.Row ="1" Name ="Positions"/>
+                                        <StackPanel Grid.Row="2" Name ="PositionsList"/>
+                                        <TextBlock/>
+                                        <ListViewItem/>
+                                        <TextBlock Grid.Row="3" Text="Publications" FontWeight="Bold" FontSize="16" Margin="5,0,5,0" HorizontalAlignment="Left"/>
+                                        <StackPanel Grid.Row="4" Margin="5">
                                             <ListView Name="PublicationsListView" ItemsSource="{Binding publications}" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="PublicationsListViewItem_Selected">
                                                 <ListView.ItemTemplate>
                                                     <DataTemplate>

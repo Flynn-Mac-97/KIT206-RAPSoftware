@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//ToSummaryString() function.
 
-namespace KIT206_Assignment_01
-{
+
+namespace KIT206_Assignment_01 {
     /*public enum EmploymentLevel {
         RESEARCH_ASSOCIATE,  //level A
         LECTURER,            //level B
@@ -16,24 +17,20 @@ namespace KIT206_Assignment_01
         STUDENT
     };*/
 
-    public class Position
-    {
+    public class Position {
         public EmploymentLevel level { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
 
 
-        public override string ToString()
-        {
+        public override string ToString() {
             return $"{this.level}," + $"{this.startDate}," + $"{this.endDate}";
-   
+
         }
 
-        public string Title()
-        {
+        public string Title() {
 
-            switch (level)
-            {
+            switch (level) {
                 case EmploymentLevel.RESEARCH_ASSOCIATE:
                     return "Research Associate";
                 case EmploymentLevel.LECTURER:
@@ -51,10 +48,8 @@ namespace KIT206_Assignment_01
 
         }
 
-        public string ToTitle(EmploymentLevel l)
-        {
-            switch (l)
-            {
+        public string ToTitle(EmploymentLevel l) {
+            switch (l) {
                 case EmploymentLevel.RESEARCH_ASSOCIATE:
                     return "Research Associate";
                 case EmploymentLevel.LECTURER:
@@ -69,6 +64,11 @@ namespace KIT206_Assignment_01
                     return "Student";
 
             }
+        }
+
+
+        public string ToSummaryString() {
+            return "Position: " + this.level.ToString().ToLower() + "\nStart Date: " + this.startDate.Date.ToString("dd/MM/yyyy") + "\nEnd Date: " + this.endDate.Date.ToString("dd/MM/yyyy") + "\n";
         }
 
 
