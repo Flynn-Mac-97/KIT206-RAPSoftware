@@ -175,11 +175,14 @@ namespace KIT206_Assignment_01 {
                 };
             }
             else if (selectedResearcher is Staff staff) {
+                Console.WriteLine(staff.ToString());
+                staff.FundingRecieved = GlobalXMLAdaptor.GetInstance(Globals.XmlFilePath).GetFundingForResearcher(staff.id);
                 return new string[] {
                     "3 year avg: " + staff.ThreeYearAVG,
-                    "Funding Recieved: " + GlobalXMLAdaptor.GetInstance(Globals.XmlFilePath).GetFundingForResearcher(staff.id),
+                    "Funding Recieved: " + staff.FundingRecieved,
                     "Publication Performance: " + staff.PublicationPerformance,
-                    "Funding Performance: " + staff.GetPerformanceLevelString(),
+                    "Funding Performance: " + staff.FundingPerformance,
+                    "Staff Performance : " + staff.GetPerformanceLevel(),
                     (staff.SupervisionCount > 0 ) ? "Supervisions: " + staff.SupervisionCount + " " + staff.GetSupervisions() : "",
                 };
             }

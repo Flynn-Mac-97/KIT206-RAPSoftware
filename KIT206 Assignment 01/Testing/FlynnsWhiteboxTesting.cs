@@ -59,6 +59,8 @@ namespace KIT206_Assignment_01 {
             TestTenureIsCorrect(studentFromDB);
             TestThreeYearAverageIsCorrect((Staff)staffFromDB);
             TestAndPrintStaffPerformance();
+            TestPublicationPerformance();
+            TestFundingPerformance(1000);
         }
 
         //Test Details of a researcher are correct
@@ -201,6 +203,7 @@ namespace KIT206_Assignment_01 {
             Console.WriteLine($" - Publication Performance (Publications/Tenure): {publicationPerformance.ToString()}");
         }
 
+        //Test and print staff performance based on predefined metrics.
         public void TestAndPrintStaffPerformance() {
             // Create staff members for different performance metrics
             var poorPerformanceStaff = CreateStaffWithPublicationsAndTenure(3, 10, EmploymentLevel.RESEARCH_ASSOCIATE); // Low publications relative to tenure
@@ -213,6 +216,74 @@ namespace KIT206_Assignment_01 {
             PrintPerformance("Below Expectations Staff", belowExpectationsStaff);
             PrintPerformance("Meeting Minimum Staff", meetingMinimumStaff);
             PrintPerformance("Star Performer Staff", starPerformerStaff);
+        }
+
+        //test if output is expected based on a set input, for publication performance
+        public void TestPublicationPerformance() {
+            // Arrange
+            var staff = new Staff {
+                utasStart = new DateTime(2016, 1, 1), // Commencement date
+                publications = new List<Publication>()
+            };
+
+            // Adding sample publications
+            AddPublications(staff, 2021, 4);
+            AddPublications(staff, 2022, 6);
+            AddPublications(staff, 2023, 8);
+
+            int totalYears = DateTime.Now.Year - staff.utasStart.Year;
+            int totalPublications = staff.publications.Count;
+            int expectedPerformance = totalPublications / totalYears;
+
+            // Act
+            int actualPerformance = staff.PublicationPerformance;
+
+            // Assert
+            Console.WriteLine("Expected Publication Performance: " + expectedPerformance);
+            Console.WriteLine("Actual Publication Performance: " + actualPerformance);
+
+            if (Math.Abs(expectedPerformance - actualPerformance) < 0.01) {
+                Console.WriteLine("Publication performance calculation is correct.");
+            }
+            else {
+                Console.WriteLine("Publication performance calculation is incorrect.");
+            }
+        }
+
+        //Test performance based on funding is giving correct results based on a set input
+        public void TestFundingPerformance(int funding) {
+            // Arrange
+            var staff = new Staff {
+                utasStart = new DateTime(2015, 1, 1), // Assuming commencement in 2015
+                FundingRecieved = funding,
+            };
+
+            // Simulate funding received over the years (this is an example, adjust as per your implementation)
+            int totalFunding = funding; // Total funding received
+            TimeSpan tenureSpan = DateTime.Now - staff.utasStart;
+
+            float totalTime = (float)tenureSpan.TotalDays / 365;
+            int expectedFundingPerformance = (int)(totalFunding / totalTime);
+
+            // Act
+            int actualFundingPerformance = staff.FundingPerformance; // Assuming this is the correct property/method
+
+            // Assert
+            Console.WriteLine("Expected Funding Performance: " + expectedFundingPerformance);
+            Console.WriteLine("Actual Funding Performance: " + actualFundingPerformance);
+
+            if (Math.Abs(expectedFundingPerformance - actualFundingPerformance) < 0.99) {
+                Console.WriteLine("Funding performance calculation is correct.");
+            }
+            else {
+                Console.WriteLine("Funding performance calculation is incorrect.");
+            }
+        }
+
+        private void AddPublications(Staff staff, int year, int numberOfPublications) {
+            for (int i = 0; i < numberOfPublications; i++) {
+                staff.publications.Add(new Publication { yearPublished = year });
+            }
         }
     }
 }

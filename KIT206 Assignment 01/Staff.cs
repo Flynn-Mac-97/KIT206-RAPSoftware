@@ -51,11 +51,10 @@ namespace KIT206_Assignment_01 {
         //a metric calculated using the total amount of funding received per year
         public int FundingPerformance {
             get {
-                float performance = 0;
-
-                performance = GlobalXMLAdaptor.GetInstance(Globals.XmlFilePath).GetFundingForResearcher(this.id) / this.Tenure;
-
-                return (int)performance;
+                return (int)(this.FundingRecieved / this.Tenure);
+            }
+            set {
+                this.FundingPerformance = value;
             }
         }
 

@@ -44,7 +44,9 @@ namespace KIT206_Assignment_01 {
                 // If the researcher is a staff member
                 if (type == "Staff") {
                     // Creating a new Researcher object and initializing it with data from the row
-                    r = NewStaffFromDataRow(row);
+                    var staff = NewStaffFromDataRow(row);
+
+                    r = staff;
                 }
 
                 //if the researcher is a student
@@ -199,6 +201,7 @@ namespace KIT206_Assignment_01 {
                     familyName = row["family_name"].ToString(),
                     utasStart = (DateTime)row["utas_start"],
                     publications = FetchPublicationListFromDB((int)row["id"]),
+                    FundingRecieved = GlobalXMLAdaptor.GetInstance(Globals.XmlFilePath).GetFundingForResearcher((int)row["id"]),
                 });
             }
 
