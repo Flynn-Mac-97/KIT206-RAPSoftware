@@ -81,6 +81,7 @@ namespace KIT206_Assignment_01 {
 
             //sort publications by year, same publications year sort alpabetically
             PublicationsListView.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("yearPublished", System.ComponentModel.ListSortDirection.Descending));
+            PublicationsListView.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("title", System.ComponentModel.ListSortDirection.Descending));
 
             var thisResearcherDetails = ResearchController.Instance.GenericResearcherDetails(selectedResearcher);
             var thisResearcherSpecificDetails = ResearchController.Instance.SpecificResearcherDetails(selectedResearcher);
