@@ -10,7 +10,7 @@ namespace KIT206_Assignment_01 {
         public void TestDetailsAreLoaded() {
             //find first researcher view model where level is "student"
             var student = ResearchController.Instance.ResearcherNames.First(r => r.Level == "Student");
-            var staff = ResearchController.Instance.ResearcherNames.First(r => r.Level == "Assistant Professor");
+            var staff = ResearchController.Instance.ResearcherNames.First(r => r.Level == "Associate Professor");
 
             //Load it fully from db.
             Researcher studentFromDB = ResearchController.Instance.LoadResearcher(student.ID);
@@ -105,7 +105,8 @@ namespace KIT206_Assignment_01 {
             TimeSpan tenureSpan = currentDate - r.utasStart;
 
             //Print tenureSpan
-            Console.WriteLine("Tenure span Calculated by : " + currentDate.ToShortDateString() + "-" + r.utasStart.ToShortDateString() +" = "+ tenureSpan.Days + " Days " + tenureSpan.Hours+" Hours " + tenureSpan.Minutes+" Minutes ");
+            Console.WriteLine("Tenure span Calculated by : " + currentDate.ToShortDateString() + "-" + r.utasStart.ToShortDateString() 
+                +" = "+ tenureSpan.Days + " Days " + tenureSpan.Hours+" Hours " + tenureSpan.Minutes+" Minutes ");
 
             //convert to years
             float tenureYears = (float)tenureSpan.TotalDays / 365;
@@ -227,9 +228,9 @@ namespace KIT206_Assignment_01 {
             };
 
             // Adding sample publications
-            AddPublications(staff, 2021, 4);
-            AddPublications(staff, 2022, 6);
-            AddPublications(staff, 2023, 8);
+            AddPublications(staff, 2021, 0);
+            AddPublications(staff, 2022, 0);
+            AddPublications(staff, 2023, 0);
 
             int totalYears = DateTime.Now.Year - staff.utasStart.Year;
             int totalPublications = staff.publications.Count;
@@ -254,19 +255,19 @@ namespace KIT206_Assignment_01 {
         public void TestFundingPerformance(int funding) {
             // Arrange
             var staff = new Staff {
-                utasStart = new DateTime(2015, 1, 1), // Assuming commencement in 2015
-                FundingRecieved = funding,
+                utasStart = new DateTime(2000, 1, 1), // Assuming commencement in 2015
+                FundingRecieved = 1,
             };
 
-            // Simulate funding received over the years (this is an example, adjust as per your implementation)
-            int totalFunding = funding; // Total funding received
+            // Simulate funding received over the years
+            int totalFunding = 1; // Total funding received
             TimeSpan tenureSpan = DateTime.Now - staff.utasStart;
 
             float totalTime = (float)tenureSpan.TotalDays / 365;
             int expectedFundingPerformance = (int)(totalFunding / totalTime);
 
             // Act
-            int actualFundingPerformance = staff.FundingPerformance; // Assuming this is the correct property/method
+            int actualFundingPerformance = staff.FundingPerformance;
 
             // Assert
             Console.WriteLine("Expected Funding Performance: " + expectedFundingPerformance);
